@@ -61,35 +61,15 @@
 
     <div id="page" data-region="mainpage" data-usertour="scroller" class="drawers drag-container bg-white">
         {{#slidercount}}
-            <div id="mooveslideshow" class="container-fluid">
-                <div id="carousel-indicators" class="carousel slide carousel-fade" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        {{#slides}}
-                            <li data-target="#carousel-indicators" data-slide-to="{{{ key }}}" {{#active}}class="active"{{/active}}></li>
-                        {{/slides}}
-                    </ol>
-                    <div class="carousel-inner">
-                        {{#slides}}
-                            <div class="carousel-item {{#active}}active{{/active}}">
-                                <img src="{{image}}" alt="{{slidertitle}}" class="w-100">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5 class="title">{{{title}}}</h5>
-                                    <div class="caption">
-                                        {{{caption}}}
-                                    </div>
-                                </div>
-                            </div>
-                        {{/slides}}
+            <div id="mooveslideshow" class="container-fluid" style="max-width: 100%;">
+                {{#slides}}
+                    <div class="row">
+                        <div class="col-12 px-0">
+                            <img src="{{image}}" alt="{{slidertitle}}" class="img-fluid">
+                        </div>
                     </div>
-                    <a class="carousel-control-prev" href="#carousel-indicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">{{#str}}previous{{/str}}</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carousel-indicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">{{#str}}next{{/str}}</span>
-                    </a>
-                </div>
+
+                {{/slides}}
             </div>
         {{/slidercount}}
 
@@ -181,13 +161,16 @@
                             <div class="card shadow">
                                 <div class="card-header" id="heading-{{{id}}}">
                                     <h2 class="mb-0">
-                                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse-{{{id}}}" aria-expanded="false" aria-controls="collapse-{{{id}}}">
+                                        <button class="btn btn-link btn-block text-left" type="button"
+                                                data-toggle="collapse" data-target="#collapse-{{{id}}}"
+                                                aria-expanded="false" aria-controls="collapse-{{{id}}}">
                                             {{{question}}}
                                         </button>
                                     </h2>
                                 </div>
 
-                                <div id="collapse-{{{id}}}" class="collapse" aria-labelledby="heading-{{{id}}}" data-parent="#accordionFaq">
+                                <div id="collapse-{{{id}}}" class="collapse" aria-labelledby="heading-{{{id}}}"
+                                     data-parent="#accordionFaq">
                                     <div class="card-body">
                                         {{{answer}}}
                                     </div>
@@ -207,9 +190,9 @@
 </body>
 </html>
 {{#js}}
-M.util.js_pending('theme_boost/loader');
-require(['theme_boost/loader', 'theme_boost/drawer'], function(Loader, Drawer) {
+    M.util.js_pending('theme_boost/loader');
+    require(['theme_boost/loader', 'theme_boost/drawer'], function(Loader, Drawer) {
     Drawer.init();
     M.util.js_complete('theme_boost/loader');
-});
+    });
 {{/js}}

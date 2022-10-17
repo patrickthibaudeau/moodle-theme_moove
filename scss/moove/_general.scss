@@ -1,5 +1,9 @@
 body {
     background-color: $background !important; /* stylelint-disable-line */
+    // used to align forms
+    .ml-2_6 {
+        margin-left: 2.7rem !important;
+    }
 }
 
 #page-header {

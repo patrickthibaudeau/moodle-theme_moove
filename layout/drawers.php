@@ -89,6 +89,8 @@ if ($PAGE->has_secondary_navigation()) {
     }
 }
 
+$extraclasses[] = 'has-secondarynavigation';
+
 $primary = new core\navigation\output\primary($PAGE);
 $renderer = $PAGE->get_renderer('core');
 $primarymenu = $primary->export_for_template($renderer);
@@ -98,6 +100,12 @@ $regionmainsettingsmenu = $buildregionmainsettings ? $OUTPUT->region_main_settin
 
 $header = $PAGE->activityheader;
 $headercontent = $header->export_for_template($renderer);
+
+$current_url = $_SERVER['REQUEST_URI'];
+$my_dashboard = '';
+if ($current_url === '/my/') {
+    $my_dashboard = 'my_dashboard';
+}
 
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
 $templatecontext = [
@@ -120,7 +128,8 @@ $templatecontext = [
     'overflow' => $overflow,
     'headercontent' => $headercontent,
     'addblockbutton' => $addblockbutton,
-    'enablecourseindex' => $themesettings->enablecourseindex
+    'enablecourseindex' => $themesettings->enablecourseindex,
+    'mydashboard' => $my_dashboard
 ];
 
 $templatecontext = array_merge($templatecontext, $themesettings->footer());

@@ -1,6 +1,7 @@
 #page-footer {
     margin: 0 -15px;
-    background-color: #282829;
+    background-color: #000000;
+
     color: #fff;
 
     a:not(.btn) {
@@ -22,6 +23,7 @@
 
     .footer-columns {
         padding: 15px;
+        height: 70px;
     }
 
     .logo {
@@ -158,9 +160,9 @@
     }
 
     .copyright {
-        background-color: $moodle-color;
+        background-color: #e31837;
         text-align: center;
-        min-height: inherit;
+        height: 156px;
         color: #fff;
         margin-bottom: 0;
 
@@ -173,8 +175,45 @@
         }
     }
 
+    .yorku-arrow {
+        position: relative;
+        height: 125px;
+        background: #e31837 url('[[pix:theme|arrow]]');
+        background-repeat: no-repeat !important;
+        margin-right: 15%;
+        top: 30px;
+        background-position: right 0px bottom -25px !important;
+
+    }
+
     .btn-footer-popover {
         bottom: 1rem;
+    }
+
+    .usertour {
+        margin-top: -25px;
+        text-align: center;
+        margin-left: 25px;
+    }
+
+    .tool_dataprivacy {
+        top: 50px;
+        text-align: center;
+    }
+
+    .york-footer-content {
+        margin-top: 35px;
+        text-align: left;
+    }
+
+    .list-unstyled {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .small {
+        font-size: 80%;
+        font-weight: 400;
     }
 }
 

@@ -115,6 +115,7 @@ if ($ADMIN->fulltree) {
 
     $fontsarr = [
         'Roboto' => 'Roboto',
+        'IBM Plex Sans' => 'IBM Plex Sans',
         'Poppins' => 'Poppins',
         'Montserrat' => 'Montserrat',
         'Open Sans' => 'Open Sans',
