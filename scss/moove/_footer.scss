@@ -215,6 +215,18 @@
         font-size: 80%;
         font-weight: 400;
     }
+    @media only screen and (max-width: 768px) {
+        .york-footer-content {
+            display: none;
+        }
+    }
+
+    @media only screen and (max-width: 578px) {
+        .tool_dataprivacy {
+            margin-top: 155px !important;
+            text-align: center;
+        }
+    }
 }
 
 @include media-breakpoint-down(sm) {
