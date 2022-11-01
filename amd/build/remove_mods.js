@@ -1,0 +1,1 @@
+define(["jquery","core/log"],function(e,i){"use strict";return i.debug("Remove mods initialised"),{init:function(){!function(){let i=e("#blocked_mods").val();e(".section-modchooser-link").click(function(){if(i){var n,t=i.split(",");setInterval(function(){for(n=0;n<t.length;n++)e('*[data-internal="'+t[n]+'"]').hide()},100),setTimeout(()=>{},1e4)}})}()}}});
