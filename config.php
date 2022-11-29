@@ -28,7 +28,7 @@ require_once(__DIR__ . '/lib.php');
 
 $THEME->name = 'moove';
 $THEME->sheets = [];
-$THEME->editor_sheets = ['editor'];
+$THEME->editor_sheets = ['bootstrap'];
 $THEME->editor_scss = ['editor'];
 $THEME->usefallback = false;
 $THEME->scss = function($theme) {
