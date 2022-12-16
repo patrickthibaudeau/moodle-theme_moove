@@ -1,0 +1,252 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+
+    @template theme_moove/navbar
+
+    This template renders the top navbar.
+
+    Example context (json):
+    {
+        "output": {
+            "should_display_navbar_logo": true,
+            "get_compact_logo_url": "http://placekitten.com/50/50",
+            "custom_menu": "<li>..</li>",
+            "page_heading_menu": "<li>..</li>",
+            "search_box": "<div><input type='text'></div>",
+            "navbar_plugin_output": "<div class='dropdown'>Messaging</div>",
+            "user_menu": "<div class='dropdown'>John Doe</div>"
+        },
+        "config": {
+            "wwwroot": "#",
+            "homeurl": "/my/"
+        },
+        "sitename": "Moodle Site",
+        "mobileprimarynav": [
+            {
+                "text": "Dashboard",
+                "url": "/my",
+                "isactive": true
+            },
+            {
+                "text": "Site home",
+                "url": "/",
+                "isactive": false
+            },
+            {
+                "text": "My courses",
+                "url": "/course",
+                "isactive": false
+            }
+        ]
+    }
+}}
+<nav class="navbar fixed-top navbar-light bg-white navbar-expand shadow" aria-label="{{#str}}sitemenubar, admin{{/str}}">
+
+    <button class="navbar-toggler aabtn d-block d-md-none px-1 my-1 border-0" data-toggler="drawers" data-action="toggle" data-target="theme_moove-drawers-primary">
+        <span class="navbar-toggler-icon"></span>
+        <span class="sr-only">{{#str}}sidepanel, core{{/str}}</span>
+    </button>
+
+    <a href="{{{ config.homeurl }}}" class="navbar-brand d-none d-md-flex align-items-center m-0 mr-4 p-0 aabtn">
+        {{# output.should_display_logo }}
+            <img src="{{output.get_logo}}" class="logo mr-1" alt="{{sitename}}">
+        {{/ output.should_display_logo }}
+        {{^ output.should_display_logo }}
+            {{{ sitename }}}
+        {{/ output.should_display_logo }}
+    </a>
+
+    {{#primarymoremenu}}
+        <div class="primary-navigation">
+            {{> core/moremenu}}
+        </div>
+    {{/primarymoremenu}}
+
+    <ul class="navbar-nav d-none d-md-flex my-1 px-1">
+        <!-- page_heading_menu -->
+        {{{ output.page_heading_menu }}}
+    </ul>
+
+    <div id="usernavigation" class="navbar-nav ml-auto">
+        <div class="navbarcallbacks">
+            {{{ output.get_navbar_callbacks_data }}}
+        </div>
+        {{# output.search_box }}
+            {{{ output.search_box }}}
+            <div class="divider border-left h-75 align-self-center mx-1"></div>
+        {{/output.search_box}}
+        {{#langmenu}}
+            {{> theme_moove/language_menu }}
+            <div class="divider border-left h-75 align-self-center mx-1"></div>
+        {{/langmenu}}
+        {{{ output.navbar_plugin_output }}}
+        <div class="d-flex align-items-stretch usermenu-container" data-region="usermenu">
+            {{#usermenu}}
+                {{> core/user_menu }}
+            {{/usermenu}}
+        </div>
+        {{{ output.edit_switch }}}
+    </div>
+</nav>
+
+{{#secondarymoremenu}}
+    <div class="secondary-navigation d-print-none moove">
+        <div id="course-management" class="moove-container-fluid">
+            <ul class="boxes">
+                <li>
+                    <div class="dropdown" title="Content">
+                        <div id="courseContent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <h2><i class="course-menu-icon fa fa-bookmark"></i></h2>
+                            <span class="course-menu-text">Content</span>
+                        </div>
+                        <div class="dropdown-menu" aria-labelledby="courseContent">
+                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/course/view.php?id=21845">Course home</a>
+                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/course/view.php?id=21845&amp;table_contents=1">Table of contents</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="dropdown" title="Resources">
+                        <div id="courseResources" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <h2><i class="fa fa-cogs"></i></h2>
+                            <span class="course-menu-text">Resources</span>
+                        </div>
+                        <div class="dropdown-menu" aria-labelledby="courseResources">
+                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/user/files.php" title="Glossary">Private files</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="dropdown" title="Communication">
+                        <div id="courseCommunication" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <h2><i class="fa fa-comments"></i></h2>
+                            <span class="course-menu-text">Communication</span>
+                        </div>
+                        <div class="dropdown-menu" aria-labelledby="courseCommunication">
+                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/mod/forum/index.php?id=21845" title="Forums">Forums</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="dropdown" title="Assessments">
+                        <div id="courseAssessments" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <h2><i class="fa fa-line-chart"></i></h2>
+                            <span class="course-menu-text">Assessments</span>
+                        </div>
+                        <div class="dropdown-menu" aria-labelledby="courseAssessments">
+                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/mod/assign/index.php?id=21845" title="Assignments">Assignments</a>
+                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/mod/quiz/index.php?id=21845" title="Quizzes">Quizzes</a>
+                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/grade/report/singleview/index.php?id=21845" title="Grades">Grades</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="dropdown" title="Professor(s)">
+                        <div id="courseTeacher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <h2><i class="fa fa-user-circle-o"></i></h2>
+                            <span class="course-menu-text">Professor(s)</span>
+                        </div>
+                        <div class="dropdown-menu teacher" aria-labelledby="courseTeacher">
+                            <div class="card">
+                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/1212078/user/icon/glendon/f1" class="card-img-top" alt="Image of Genevieve Daigle">
+                                <div class="card-block">
+                                    <h4 class="card-title">Genevieve Daigle</h4>
+                                    <p class="card-text">gdaigle@yorku.ca</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/3545/user/icon/glendon/f1" class="card-img-top" alt="Image of Henriette Gezundhajt">
+                                <div class="card-block">
+                                    <h4 class="card-title">Henriette Gezundhajt</h4>
+                                    <p class="card-text">gezundha@yorku.ca</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/4627/user/icon/glendon/f1" class="card-img-top" alt="Image of Suzanne Langlois">
+                                <div class="card-block">
+                                    <h4 class="card-title">Suzanne Langlois</h4>
+                                    <p class="card-text">slanglois@glendon.yorku.ca</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/5494/user/icon/glendon/f1" class="card-img-top" alt="Image of Marie Elaine Lebel">
+                                <div class="card-block">
+                                    <h4 class="card-title">Marie Elaine Lebel</h4>
+                                    <p class="card-text">melebel@yorku.ca</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/157234/user/icon/glendon/f1" class="card-img-top" alt="Image of Anna Rosner">
+                                <div class="card-block">
+                                    <h4 class="card-title">Anna Rosner</h4>
+                                    <p class="card-text">anna.rosner@rogers.com</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/1296/user/icon/glendon/f1" class="card-img-top" alt="Image of Usha A. Viswanathan">
+                                <div class="card-block">
+                                    <h4 class="card-title">Usha A. Viswanathan</h4>
+                                    <p class="card-text">uviswana@yorku.ca</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <!--Only show if the page has access to the course administration node-->
+                <li>
+                    <div class="dropdown" title="Settings">
+                        <div id="courseManagement" class="course-management-toggle">
+                            <h2><i class="fa fa-list-alt"></i></h2>
+                            <span class="course-menu-text">Settings</span>
+                        </div>
+                    </div>
+                </li>
+                <!--Gradebook for professors-->
+                <li>
+                    <a href="https://eclass.glendon.yorku.ca/grade/report/grader/index.php?id=21845">
+                        <h2><i class="fa fa-font"></i></h2>
+                        <span class="course-menu-text">Grades</span>
+                    </a>
+                </li>
+                <!--Only show if the page has access to the course administration node-->
+                <li>
+                    <a href="https://eclass.glendon.yorku.ca/course/view.php?id=21845&amp;sesskey=tB0SHM9d7q&amp;edit=on" "="" title="Turn editing on">
+                    <div id="turnEditingOn">
+                        <h2><i class="fa fa-pencil-square-o"></i></h2>
+                        <span class="course-menu-text">Turn editing on</span>
+                    </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://eclass.glendon.yorku.ca/theme/glendon/ajax.php?action=change_visibility&amp;id=21845&amp;visible=0" "="" title="Hide course">
+                    <div id="activateCourse">
+                        <h2><i class="fa fa-eye"></i></h2>
+                        <span class="course-menu-text">Hide course</span>
+                    </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{{/secondarymoremenu}}
+{{^secondarymoremenu}}
+    <div class="york-red-seperator secondary-navigation d-print-none moove">
+    </div>
+{{/secondarymoremenu}}
+
+{{> theme_moove/primary-drawer-mobile }}
