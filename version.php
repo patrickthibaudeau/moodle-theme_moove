@@ -33,15 +33,15 @@ $plugin->component = 'theme_moove';
 $plugin->version = 2022121600;
 
 // This is the named version.
-$plugin->release = '4.0.7';
+$plugin->release = '4.1.1';
 
 // This is a stable release.
 $plugin->maturity = MATURITY_STABLE;
 
 // This is the version of Moodle this plugin requires.
-$plugin->requires = 2022041200;
+$plugin->requires = 2022112800;
 
 // This is a list of plugins, this plugin depends on (and their versions).
 $plugin->dependencies = [
-    'theme_boost' => 2022041900
+    'theme_boost' => 2022112800
 ];
