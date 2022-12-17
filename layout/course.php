@@ -29,6 +29,7 @@ require_once($CFG->dirroot . '/course/lib.php');
 
 // Add block button in editing mode.
 $addblockbutton = $OUTPUT->addblockbutton();
+$PAGE->requires->js_call_amd('theme_moove/visibility', 'init');
 
 user_preference_allow_ajax_update('drawer-open-nav', PARAM_ALPHA);
 user_preference_allow_ajax_update('drawer-open-index', PARAM_BOOL);
@@ -146,6 +147,7 @@ $templatecontext = [
     'edit_settings' => $edit_settings,
     'edit_grades' => $edit_grades,
     'view_reports' => $view_reports,
+    'visibility' => $PAGE->course->visible
 ];
 
 $templatecontext = array_merge($templatecontext, $themesettings->footer());

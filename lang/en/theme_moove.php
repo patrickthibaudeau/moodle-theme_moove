@@ -25,6 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Moove';
+$string['change_course_visibility'] = 'Change course visibility';
+$string['change_course_visibility_help'] = 'Are you sure you want to change the course visibility?';
 $string['configtitle'] = 'Moove';
 $string['choosereadme'] = 'Moove is a modern highly-customisable theme. This theme is intended to be used directly, or as a parent theme when creating new themes utilising Bootstrap 4.';
 
@@ -38,6 +40,7 @@ $string['prev_activity'] = 'Previous activity';
 $string['next_activity'] = 'Next activity';
 $string['donthaveanaccount'] = 'Don\'t have an account?';
 $string['signinwith'] = 'Sign in with';
+$string['yes'] = 'Yes';
 
 // General settings tab.
 $string['generalsettings'] = 'General';

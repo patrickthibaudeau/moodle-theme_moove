@@ -63,6 +63,8 @@ class course_navbar extends external_api
      */
     public static function visibility($courseid, $visibility)
     {
+        global $CFG;
+        include_once($CFG->dirroot . '/course/lib.php');
 
         $params = self::validate_parameters(
             self::visibility_parameters(),
@@ -70,15 +72,18 @@ class course_navbar extends external_api
                 'courseid' => $courseid,
                 'visibility' => $visibility
             ]);
+
+        $visible = 1;
         if ($visibility == 1) {
             $visible = 0;
-        } else {
-            $visible = 1;
         }
 
         course_change_visibility($courseid, $visible);
 
-        return $visible;
+        $data = [
+            'visibility' => $visible
+        ];
+        return $data;
     }
 
 
