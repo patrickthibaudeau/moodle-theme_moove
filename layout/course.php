@@ -73,6 +73,21 @@ if (!$courseindex) {
     $courseindexopen = false;
 }
 
+$edit_settings = false;
+if (has_capability('moodle/course:update', $PAGE->context)) {
+    $edit_settings = true;
+}
+
+$edit_grades = false;
+if (has_capability('moodle/grade:edit', $PAGE->context)) {
+    $edit_grades = true;
+}
+
+$view_reports = false;
+if (has_capability('moodle/site:viewreports', $PAGE->context)) {
+    $view_reports = true;
+}
+
 $forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
 
 $secondarynavigation = false;
@@ -108,6 +123,7 @@ $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
     'sidepreblocks' => $blockshtml,
+    'courseid' => $PAGE->course->id,
     'hasblocks' => $hasblocks,
     'bodyattributes' => $bodyattributes,
     'courseindexopen' => $courseindexopen,
@@ -126,7 +142,10 @@ $templatecontext = [
     'addblockbutton' => $addblockbutton,
     'enablecourseindex' => $themesettings->enablecourseindex,
     'addcontentblockbutton' => $addcontentblockbutton,
-    'contentblocks' => $contentblocks
+    'contentblocks' => $contentblocks,
+    'edit_settings' => $edit_settings,
+    'edit_grades' => $edit_grades,
+    'view_reports' => $view_reports,
 ];
 
 $templatecontext = array_merge($templatecontext, $themesettings->footer());

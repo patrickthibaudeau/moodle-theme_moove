@@ -88,65 +88,85 @@
 }
 
 #course-management {
-    position: relative;
-    /*background-color: #C10828;*/ /*Montreal Canadians Red*/
-    /*background-color: #222D32; Dark*/
-    background-color: #ff851b; /*Orange*/
-    width: 100%;
+  position: relative;
+  /*background-color: #C10828;*/
+  /*Montreal Canadians Red*/
+  /*background-color: #222D32; Dark*/
+  background-color: #ff851b; /*Orange*/
+  width: 100%;
+
+  .boxes li {
+    cursor: pointer;
+    display: inline;
+    float: left;
+    width: 10%;
+    height: 70px;
+    padding: 5px;
+    text-align: center;
+    line-height: 0.7em;
+    vertical-align: middle;
+    font-size: 1.1em;
+    color: #fff;
+
+    &:hover {
+      background-color: #af0d1a;
+    }
+
+    /*        &:hover a {
+                color: #222D32;
+            }*/
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+
+  ul {
+    margin-bottom: 0px;
+  }
+
+  .course-menu-text {
+    font-size: 0.8em;
+  }
+
+  .course-menu-icon {
+    font-size: 0.8em;
+  }
+
+  .dropdown-menu {
+    top: 6px !important;
+    left: -5px !important;
+    background-color: #E31837;
+    border-color: #810001;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    -moz-border-radius-topleft: 0px;
+    -moz-border-radius-topright: 0px;
+    -webkit-border-top-left-radius: 0px;
+    -webkit-border-top-right-radius: 0px;
+    width: 20%;
+  }
+
+  .dropdown-item {
+    padding: 10px !important;
+    color: #FFFFFF !important;
+  }
+
+  .dropdown-menu.teacher {
+    width: 20rem !important;
+  }
+
+  @media(max-width: 1279px) {
     .boxes li {
-        cursor: pointer;
-        display: inline;
-        float: left;
-        width: 10%;
-        height: 90px;
-        padding: 12px;
-        text-align: center;
-        line-height: 1.1em;
-        vertical-align: middle;
-        font-size: 1.1em;
-        color: #fff;
-        &:hover {
-            background-color: #af0d1a;
-        }
-
-        /*        &:hover a {
-                    color: #222D32;
-                }*/
-
-        a {
-            color: #fff;
-            text-decoration: none;
-        }
+      height: 50px;
     }
-
     .course-menu-text {
-        font-size: 0.5em;
+      display: none;
     }
-
-    .dropdown-menu{
-        border-color: #afafaf;
-        border-radius: 5px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        width: 20%;
-    }
-
-    .dropdown-item {
-        color: #0068A4 !important;
-    }
-
-    .dropdown-menu.teacher{
-        width: 20rem !important;
-    }
-
-    @media(max-width: 1279px) {
-        .boxes li {
-            height: 50px;
-        }
-        .course-menu-text {
-            display: none;
-        }
-    }
+  }
 }
 
 @include media-breakpoint-down(md) {

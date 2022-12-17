@@ -53,5 +53,13 @@ $functions = array(
         'description' => 'Get the user theme settings.',
         'type' => 'read',
         'ajax' => true
+    ),
+    'theme_moove_coursevisibility' => array(
+        'classname' => 'theme_moove\api\course_navbar',
+        'classpath' => 'theme_moove/classes/api/course_navbar',
+        'methodname' => 'visibility',
+        'description' => 'Change course visibility',
+        'type' => 'write',
+        'ajax' => true
     )
 );

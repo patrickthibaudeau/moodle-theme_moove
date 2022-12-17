@@ -55,9 +55,11 @@
         ]
     }
 }}
-<nav class="navbar fixed-top navbar-light bg-white navbar-expand shadow" aria-label="{{#str}}sitemenubar, admin{{/str}}">
+<nav class="navbar fixed-top navbar-light bg-white navbar-expand shadow"
+     aria-label="{{#str}}sitemenubar, admin{{/str}}">
 
-    <button class="navbar-toggler aabtn d-block d-md-none px-1 my-1 border-0" data-toggler="drawers" data-action="toggle" data-target="theme_moove-drawers-primary">
+    <button class="navbar-toggler aabtn d-block d-md-none px-1 my-1 border-0" data-toggler="drawers"
+            data-action="toggle" data-target="theme_moove-drawers-primary">
         <span class="navbar-toggler-icon"></span>
         <span class="sr-only">{{#str}}sidepanel, core{{/str}}</span>
     </button>
@@ -115,90 +117,119 @@
                             <span class="course-menu-text">Content</span>
                         </div>
                         <div class="dropdown-menu" aria-labelledby="courseContent">
-                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/course/view.php?id=21845">Course home</a>
-                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/course/view.php?id=21845&amp;table_contents=1">Table of contents</a>
+                            <a class="dropdown-item" href="{{config.wwwroot}}/course/view.php?id={{courseid}}">Course
+                            home</a>
+                            <a class="dropdown-item" href="{{config.wwwroot}}/course/view.php?id={{courseid}}5&amp;table_contents=1">Table
+                            of contents</a>
                         </div>
+                    </div>
+                </li>
+                {{#edit_settings}}
+                    <li>
+                        <div title="Course settings">
+                            <a href="{{config.wwwroot}}/course/edit.php?id={{courseid}}" title="Course settings">
+                            <div id="courseSettings">
+                                <h2><i class="course-menu-icon fa fa-sliders"></i></h2>
+                                <span class="course-menu-text">Course settings</span>
+                            </div>
+                            </a>
+                        </div>
+                    </li>
+                {{/edit_settings}}
+                <li>
+                    <div title="Participants">
+                        <a href="{{config.wwwroot}}/user/index.php?id={{courseid}}" title="Participants">
+                        <div id="participants">
+                            <h2><i class="course-menu-icon fa fa-users"></i></h2>
+                            <span class="course-menu-text">Participants</span>
+                        </div>
+                        </a>
                     </div>
                 </li>
                 <li>
-                    <div class="dropdown" title="Resources">
-                        <div id="courseResources" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <h2><i class="fa fa-cogs"></i></h2>
-                            <span class="course-menu-text">Resources</span>
+                    <div class="dropdown" title="Assignments">
+                        <div id="courseAssignments" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <h2><i class="course-menu-icon fa fa-file-text"></i></h2>
+                            <span class="course-menu-text">Assignments</span>
                         </div>
-                        <div class="dropdown-menu" aria-labelledby="courseResources">
-                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/user/files.php" title="Glossary">Private files</a>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="dropdown" title="Communication">
-                        <div id="courseCommunication" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <h2><i class="fa fa-comments"></i></h2>
-                            <span class="course-menu-text">Communication</span>
-                        </div>
-                        <div class="dropdown-menu" aria-labelledby="courseCommunication">
-                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/mod/forum/index.php?id=21845" title="Forums">Forums</a>
+                        <div class="dropdown-menu" aria-labelledby="courseAssignments">
+                            <a class="dropdown-item"
+                               href="https://eclass.glendon.yorku.ca/mod/assign/index.php?id=21845" title="Assignments">Assignments</a>
+                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/mod/quiz/index.php?id=21845"
+                               title="Quizzes">Quizzes</a>
+                            <a class="dropdown-item"
+                               href="https://eclass.glendon.yorku.ca/grade/report/singleview/index.php?id=21845"
+                               title="Grades">Grades</a>
                         </div>
                     </div>
                 </li>
-                <li>
-                    <div class="dropdown" title="Assessments">
-                        <div id="courseAssessments" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <h2><i class="fa fa-line-chart"></i></h2>
-                            <span class="course-menu-text">Assessments</span>
-                        </div>
-                        <div class="dropdown-menu" aria-labelledby="courseAssessments">
-                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/mod/assign/index.php?id=21845" title="Assignments">Assignments</a>
-                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/mod/quiz/index.php?id=21845" title="Quizzes">Quizzes</a>
-                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/grade/report/singleview/index.php?id=21845" title="Grades">Grades</a>
-                        </div>
-                    </div>
-                </li>
+                {{#edit_grades}}
+                    <li>
+                        <a href="{{config.wwwroot}}/grade/report/grader/index.php?id={{courseid}}">
+                            <h2><i class="course-menu-icon fa fa-font"></i></h2>
+                            <span class="course-menu-text">Grades</span>
+                        </a>
+                    </li>
+                {{/edit_grades}}
+                {{^edit_grades}}
+                    <li>
+                        <a href="{{config.wwwroot}}/grade/report/user/index.php?id={{courseid}}">
+                        <h2><i class="course-menu-icon fa fa-font"></i></h2>
+                        <span class="course-menu-text">Grades</span>
+                        </a>
+                    </li>
+                {{/edit_grades}}
+
                 <li>
                     <div class="dropdown" title="Professor(s)">
                         <div id="courseTeacher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <h2><i class="fa fa-user-circle-o"></i></h2>
+                            <h2><i class="course-menu-icon fa fa-user-circle-o"></i></h2>
                             <span class="course-menu-text">Professor(s)</span>
                         </div>
                         <div class="dropdown-menu teacher" aria-labelledby="courseTeacher">
                             <div class="card">
-                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/1212078/user/icon/glendon/f1" class="card-img-top" alt="Image of Genevieve Daigle">
+                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/1212078/user/icon/glendon/f1"
+                                     class="card-img-top" alt="Image of Genevieve Daigle">
                                 <div class="card-block">
                                     <h4 class="card-title">Genevieve Daigle</h4>
                                     <p class="card-text">gdaigle@yorku.ca</p>
                                 </div>
                             </div>
                             <div class="card">
-                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/3545/user/icon/glendon/f1" class="card-img-top" alt="Image of Henriette Gezundhajt">
+                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/3545/user/icon/glendon/f1"
+                                     class="card-img-top" alt="Image of Henriette Gezundhajt">
                                 <div class="card-block">
                                     <h4 class="card-title">Henriette Gezundhajt</h4>
                                     <p class="card-text">gezundha@yorku.ca</p>
                                 </div>
                             </div>
                             <div class="card">
-                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/4627/user/icon/glendon/f1" class="card-img-top" alt="Image of Suzanne Langlois">
+                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/4627/user/icon/glendon/f1"
+                                     class="card-img-top" alt="Image of Suzanne Langlois">
                                 <div class="card-block">
                                     <h4 class="card-title">Suzanne Langlois</h4>
                                     <p class="card-text">slanglois@glendon.yorku.ca</p>
                                 </div>
                             </div>
                             <div class="card">
-                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/5494/user/icon/glendon/f1" class="card-img-top" alt="Image of Marie Elaine Lebel">
+                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/5494/user/icon/glendon/f1"
+                                     class="card-img-top" alt="Image of Marie Elaine Lebel">
                                 <div class="card-block">
                                     <h4 class="card-title">Marie Elaine Lebel</h4>
                                     <p class="card-text">melebel@yorku.ca</p>
                                 </div>
                             </div>
                             <div class="card">
-                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/157234/user/icon/glendon/f1" class="card-img-top" alt="Image of Anna Rosner">
+                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/157234/user/icon/glendon/f1"
+                                     class="card-img-top" alt="Image of Anna Rosner">
                                 <div class="card-block">
                                     <h4 class="card-title">Anna Rosner</h4>
                                     <p class="card-text">anna.rosner@rogers.com</p>
                                 </div>
                             </div>
                             <div class="card">
-                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/1296/user/icon/glendon/f1" class="card-img-top" alt="Image of Usha A. Viswanathan">
+                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/1296/user/icon/glendon/f1"
+                                     class="card-img-top" alt="Image of Usha A. Viswanathan">
                                 <div class="card-block">
                                     <h4 class="card-title">Usha A. Viswanathan</h4>
                                     <p class="card-text">uviswana@yorku.ca</p>
@@ -211,31 +242,28 @@
                 <li>
                     <div class="dropdown" title="Settings">
                         <div id="courseManagement" class="course-management-toggle">
-                            <h2><i class="fa fa-list-alt"></i></h2>
+                            <h2><i class="course-menu-icon fa fa-list-alt"></i></h2>
                             <span class="course-menu-text">Settings</span>
                         </div>
                     </div>
                 </li>
                 <!--Gradebook for professors-->
-                <li>
-                    <a href="https://eclass.glendon.yorku.ca/grade/report/grader/index.php?id=21845">
-                        <h2><i class="fa fa-font"></i></h2>
-                        <span class="course-menu-text">Grades</span>
-                    </a>
-                </li>
+
                 <!--Only show if the page has access to the course administration node-->
                 <li>
-                    <a href="https://eclass.glendon.yorku.ca/course/view.php?id=21845&amp;sesskey=tB0SHM9d7q&amp;edit=on" "="" title="Turn editing on">
+                    <a href="https://eclass.glendon.yorku.ca/course/view.php?id=21845&amp;sesskey=tB0SHM9d7q&amp;edit=on"
+                    "="" title="Turn editing on">
                     <div id="turnEditingOn">
-                        <h2><i class="fa fa-pencil-square-o"></i></h2>
+                        <h2><i class="course-menu-icon fa fa-pencil-square-o"></i></h2>
                         <span class="course-menu-text">Turn editing on</span>
                     </div>
                     </a>
                 </li>
                 <li>
-                    <a href="https://eclass.glendon.yorku.ca/theme/glendon/ajax.php?action=change_visibility&amp;id=21845&amp;visible=0" "="" title="Hide course">
+                    <a id="theme-moove-course-visibility" href="#" data-courseid="{{courseid}}" data-visibility="{{visibility}}"
+                       title="Hide course">
                     <div id="activateCourse">
-                        <h2><i class="fa fa-eye"></i></h2>
+                        <h2><i class="course-menu-icon fa {{#visibility}}fa-eye{{/visibility}}{{^visibility}}fa-eye-slash{{/visibility}}"></i></h2>
                         <span class="course-menu-text">Hide course</span>
                     </div>
                     </a>
