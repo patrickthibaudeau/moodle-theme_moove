@@ -103,12 +103,19 @@ $secondarynavigation = false;
 $overflow = '';
 if ($PAGE->has_secondary_navigation()) {
     $secondary = $PAGE->secondarynav;
-
+    raise_memory_limit(MEMORY_UNLIMITED);
+    print_object($secondary->get_tabs_array());
+    raise_memory_limit(MEMORY_STANDARD);
     if ($secondary->get_children_key_list()) {
         $tablistnav = $PAGE->has_tablist_secondary_navigation();
         $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
         $secondarynavigation = $moremenu->export_for_template($OUTPUT);
         $extraclasses[] = 'has-secondarynavigation';
+    }
+
+    // For course_navbar
+    if ($secondary->get_children_key_list()) {
+        $more_menu = theme_moove_get_more_menu($secondary->get_children_key_list(), $PAGE);
     }
 
     $overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
@@ -158,7 +165,8 @@ $templatecontext = [
     'visibility' => $PAGE->course->visible,
     'is_menutab_format' => $is_menutab_format,
     'teachers' => $teachers,
-    'course_mods' => get_current_course_mods()
+    'course_mods' => get_current_course_mods(),
+    'more_menu' => $more_menu
 ];
 
 $templatecontext = array_merge($templatecontext, $themesettings->footer());

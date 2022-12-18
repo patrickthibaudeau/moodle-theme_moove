@@ -245,3 +245,51 @@ function get_current_course_mods()
 
     return $mod_names;
 }
+
+function theme_moove_get_more_menu($items,$page)
+{
+    global $CFG;
+    print_object($items);
+    $more_menu = [];
+    $i = 0;
+    for ($x = 5; $x < count($items); $x++) {
+
+        switch ($items[$x]) {
+            case 'questionbank':
+                $more_menu[$i]['name'] = get_string('questionbank', 'core_question');
+                $more_menu[$i]['url'] = $CFG->wwwroot . "/question/edit.php?courseid=" . $page->course->id;
+                break;
+            case 'contentbank':
+                $more_menu[$i]['name'] = get_string($items[$x], 'core');
+                $more_menu[$i]['url'] = $CFG->wwwroot . "/contentbank/index.php?courseid=" . $page->course->id;
+                break;
+            case 'coursecompletion':
+                $more_menu[$i]['name'] = get_string($items[$x], 'core');
+                $more_menu[$i]['url'] = $CFG->wwwroot . "/course/completion.php?id=" . $page->course->id;
+                break;
+            case 'badgesview':
+                $more_menu[$i]['name'] = get_string('badges', 'core');
+                $more_menu[$i]['url'] = $CFG->wwwroot . "/badges/view.php?type=2&id=" . $page->course->id;
+                break;
+            case 'competencies':
+                $more_menu[$i]['name'] = get_string('competencies', 'core_competency');
+                $more_menu[$i]['url'] = $CFG->wwwroot . "/admin/tool/lp/coursecompetencies.php?courseid=" . $page->course->id;
+                break;
+            case 'filtermanagement':
+                $more_menu[$i]['name'] = get_string('filters', 'core');
+                $more_menu[$i]['url'] = $CFG->wwwroot . "/filter/manage.php?contextid=" . $page->context->id;
+                break;
+            case '13':
+            case '14':
+                $more_menu[$i]['name'] = get_string('accessibilityreport', 'tool_brickfield');
+                $more_menu[$i]['url'] = $CFG->wwwroot . "/admin/tool/brickfield/index.php?courseid=" . $page->course->id;
+                break;
+            case 'coursereuse':
+                $more_menu[$i]['name'] = get_string($items[$x], 'core');
+                $more_menu[$i]['url'] = $CFG->wwwroot . "/backup/import.php?id=" . $page->course->id;
+                break;
+        }
+        $i++;
+    }
+    return $more_menu;
+}

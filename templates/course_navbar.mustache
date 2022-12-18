@@ -207,9 +207,16 @@
                 <!--Only show if the page has access to the course administration node-->
                 <li>
                     <div class="dropdown" title="Settings">
-                        <div id="courseManagement" class="course-management-toggle">
+                        <div id="courseManagement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <h2><i class="course-menu-icon fa fa-list-alt"></i></h2>
-                            <span class="course-menu-text">Settings</span>
+                            <span class="course-menu-text">{{#str}}more, core{{/str}}</span>
+                        </div>
+                        <div class="dropdown-menu" aria-labelledby="courseAssignments">
+                            {{#more_menu}}
+                                <a class="dropdown-item"
+                                   href="{{url}}"
+                                title="{{name}}">{{name}}</a>
+                            {{/more_menu}}
                         </div>
                     </div>
                 </li>

@@ -26,9 +26,11 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/behat/lib.php');
 require_once($CFG->dirroot . '/course/lib.php');
+require_once($CFG->dirroot . '/theme/moove/lib.php');
 
 // Add block button in editing mode.
 $addblockbutton = $OUTPUT->addblockbutton();
+$PAGE->requires->js_call_amd('theme_moove/visibility', 'init');
 
 user_preference_allow_ajax_update('drawer-open-nav', PARAM_ALPHA);
 user_preference_allow_ajax_update('drawer-open-index', PARAM_BOOL);
@@ -44,6 +46,13 @@ if (isloggedin()) {
 
 if (defined('BEHAT_SITE_RUNNING')) {
     $blockdraweropen = true;
+}
+$teachers = theme_moove_get_teachers();
+
+// Is course format menutab?
+$is_menutab_format = false;
+if ($PAGE->course->format == 'menutab') {
+    $is_menutab_format = true;
 }
 
 $extraclasses = ['uses-drawers'];
@@ -71,6 +80,21 @@ if (!$courseindex) {
 
 $forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
 
+$edit_settings = false;
+if (has_capability('moodle/course:update', $PAGE->context)) {
+    $edit_settings = true;
+}
+
+$edit_grades = false;
+if (has_capability('moodle/grade:edit', $PAGE->context)) {
+    $edit_grades = true;
+}
+
+$view_reports = false;
+if (has_capability('moodle/site:viewreports', $PAGE->context)) {
+    $view_reports = true;
+}
+
 $secondarynavigation = false;
 $overflow = '';
 if ($PAGE->has_secondary_navigation()) {
@@ -81,6 +105,11 @@ if ($PAGE->has_secondary_navigation()) {
         $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
         $secondarynavigation = $moremenu->export_for_template($OUTPUT);
         $extraclasses[] = 'has-secondarynavigation';
+    }
+
+    // For course_navbar
+    if ($secondary->get_children_key_list()) {
+        $more_menu = theme_moove_get_more_menu($secondary->get_children_key_list(), $PAGE);
     }
 
     $overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
@@ -129,7 +158,16 @@ $templatecontext = [
     'headercontent' => $headercontent,
     'addblockbutton' => $addblockbutton,
     'enablecourseindex' => $themesettings->enablecourseindex,
-    'mydashboard' => $my_dashboard
+    'mydashboard' => $my_dashboard,
+    'edit_settings' => $edit_settings,
+    'edit_grades' => $edit_grades,
+    'view_reports' => $view_reports,
+    'visibility' => $PAGE->course->visible,
+    'is_menutab_format' => $is_menutab_format,
+    'teachers' => $teachers,
+    'course_mods' => get_current_course_mods(),
+    'more_menu' => $more_menu,
+    'courseid' => $PAGE->course->id,
 ];
 
 $templatecontext = array_merge($templatecontext, $themesettings->footer());
