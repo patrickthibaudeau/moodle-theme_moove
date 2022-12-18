@@ -95,8 +95,16 @@ if (has_capability('moodle/site:viewreports', $PAGE->context)) {
     $view_reports = true;
 }
 
+$is_site_course = false;
+if ($PAGE->course->id == 1) {
+    $is_site_course = true;
+}
+
 $secondarynavigation = false;
 $overflow = '';
+$main_menu = '';
+$more_menu = '';
+$has_more_menu = false;
 if ($PAGE->has_secondary_navigation()) {
     $secondary = $PAGE->secondarynav;
 
@@ -108,8 +116,15 @@ if ($PAGE->has_secondary_navigation()) {
     }
 
     // For course_navbar
-    if ($secondary->get_children_key_list()) {
-        $more_menu = theme_moove_get_more_menu($secondary->get_children_key_list(), $PAGE);
+    if (!$is_site_course) {
+        if ($secondary->get_children_key_list()) {
+            $menus = theme_moove_build_secondary_menu($secondary->get_tabs_array());
+            $main_menu = $menus->menu;
+            $more_menu = $menus->more;
+            if ($more_menu) {
+                $has_more_menu = true;
+            }
+        }
     }
 
     $overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
@@ -166,8 +181,11 @@ $templatecontext = [
     'is_menutab_format' => $is_menutab_format,
     'teachers' => $teachers,
     'course_mods' => get_current_course_mods(),
+    'main_menu' => $main_menu,
     'more_menu' => $more_menu,
     'courseid' => $PAGE->course->id,
+    'is_site_course' => $is_site_course,
+    'has_more_menu' => $has_more_menu
 ];
 
 $templatecontext = array_merge($templatecontext, $themesettings->footer());

@@ -246,50 +246,42 @@ function get_current_course_mods()
     return $mod_names;
 }
 
-function theme_moove_get_more_menu($items,$page)
+/**
+ * Build secondary menu
+ * @param $items array Taken from $secondary->get_tabs_array()
+ * @return stdClass
+ */
+function theme_moove_build_secondary_menu($items)
 {
-    global $CFG;
-    print_object($items);
-    $more_menu = [];
-    $i = 0;
-    for ($x = 5; $x < count($items); $x++) {
+    global $CFG, $COURSE;
 
-        switch ($items[$x]) {
-            case 'questionbank':
-                $more_menu[$i]['name'] = get_string('questionbank', 'core_question');
-                $more_menu[$i]['url'] = $CFG->wwwroot . "/question/edit.php?courseid=" . $page->course->id;
-                break;
-            case 'contentbank':
-                $more_menu[$i]['name'] = get_string($items[$x], 'core');
-                $more_menu[$i]['url'] = $CFG->wwwroot . "/contentbank/index.php?courseid=" . $page->course->id;
-                break;
-            case 'coursecompletion':
-                $more_menu[$i]['name'] = get_string($items[$x], 'core');
-                $more_menu[$i]['url'] = $CFG->wwwroot . "/course/completion.php?id=" . $page->course->id;
-                break;
-            case 'badgesview':
-                $more_menu[$i]['name'] = get_string('badges', 'core');
-                $more_menu[$i]['url'] = $CFG->wwwroot . "/badges/view.php?type=2&id=" . $page->course->id;
-                break;
-            case 'competencies':
-                $more_menu[$i]['name'] = get_string('competencies', 'core_competency');
-                $more_menu[$i]['url'] = $CFG->wwwroot . "/admin/tool/lp/coursecompetencies.php?courseid=" . $page->course->id;
-                break;
-            case 'filtermanagement':
-                $more_menu[$i]['name'] = get_string('filters', 'core');
-                $more_menu[$i]['url'] = $CFG->wwwroot . "/filter/manage.php?contextid=" . $page->context->id;
-                break;
-            case '13':
-            case '14':
-                $more_menu[$i]['name'] = get_string('accessibilityreport', 'tool_brickfield');
-                $more_menu[$i]['url'] = $CFG->wwwroot . "/admin/tool/brickfield/index.php?courseid=" . $page->course->id;
-                break;
-            case 'coursereuse':
-                $more_menu[$i]['name'] = get_string($items[$x], 'core');
-                $more_menu[$i]['url'] = $CFG->wwwroot . "/backup/import.php?id=" . $page->course->id;
-                break;
-        }
+    // Put tab items into one variable
+    $tabs = $items[0][0];
+    // Menus is the obkect that will be returned
+    $menus = new stdClass();
+    // Build primary menu
+    $menu = [];
+    $i = 0;
+    for ($a = 0; $a < 5; $a++) {
+        $menu[$i]['id'] = $tabs[$a]->id;
+        $menu[$i]['name'] = $tabs[$a]->title;
+        $menu[$i]['url'] = str_replace('&amp;', '&',$tabs[$a]->link->out());
+        $menu[$i]['format'] = $COURSE->format;
         $i++;
     }
-    return $more_menu;
+    // Build more menu
+    $more_menu = [];
+    $m = 0;
+    // Start at 5 because more menu begins at element 5
+    for ($b = 5; $b < count($tabs); $b++) {
+        $more_menu[$m]['id'] = $tabs[$b]->id;
+        $more_menu[$m]['name'] = $tabs[$b]->title;
+        $more_menu[$m]['url'] = str_replace('&amp;', '&',$tabs[$b]->link->out());
+        $m++;
+    }
+    // Add both arrays into menus object
+    $menus->menu = $menu;
+    $menus->more = $more_menu;
+
+    return $menus;
 }
