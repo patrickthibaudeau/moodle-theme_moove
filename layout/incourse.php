@@ -119,6 +119,8 @@ if ($PAGE->has_secondary_navigation()) {
         if ($more_menu) {
             $has_more_menu = true;
         }
+//        print_object($main_menu);
+//        die;
     }
 
     $overflowdata = $PAGE->secondarynav->get_overflow_menu_data();

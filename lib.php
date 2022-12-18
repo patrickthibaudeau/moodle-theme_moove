@@ -264,11 +264,15 @@ function theme_moove_build_secondary_menu($items)
     $menu = [];
     $i = 0;
     for ($a = 0; $a < 5; $a++) {
-        $menu[$i]['id'] = $tabs[$a]->id;
-        $menu[$i]['name'] = $tabs[$a]->title;
-        $menu[$i]['url'] = str_replace('&amp;', '&',$tabs[$a]->link->out());
-        $menu[$i]['format'] = $COURSE->format;
-        $i++;
+        // Do not add course home because it is added on all pages.
+        if ($tabs[$a]->id != 'coursehome') {
+            $menu[$i]['id'] = $tabs[$a]->id;
+            $menu[$i]['name'] = $tabs[$a]->title;
+            $menu[$i]['url'] = str_replace('&amp;', '&',$tabs[$a]->link->out());
+            $menu[$i]['format'] = $COURSE->format;
+            $menu[$i]['icon'] = theme_moove_get_menu_icon($tabs[$a]->id);
+            $i++;
+        }
     }
     // Build more menu
     $more_menu = [];
@@ -285,4 +289,42 @@ function theme_moove_build_secondary_menu($items)
     $menus->more = $more_menu;
 
     return $menus;
+}
+
+function theme_moove_get_menu_icon($type) {
+    $icon = 'fa fa-circle-o';
+    switch ($type) {
+        case 'coursehome':
+            $icon = 'fa fa-bookmark';
+            break;
+        case 'editsettings':
+        case 'modedit':
+            $icon = 'fa fa-sliders';
+            break;
+        case 'participants':
+            $icon = 'fa fa-users';
+            break;
+        case 'grades':
+        case 'advgrading':
+            $icon = 'fa fa-font';
+            break;
+        case 'coursereports':
+            $icon = 'fa fa-bar-chart';
+            break;
+        case 'filtermanage':
+            $icon = 'fa fa-filter';
+            break;
+        case 'roleoverride':
+        case 'mod_assign_useroverrides':
+            $icon = 'fa fa-check-square-o';
+            break;
+        case 'backup':
+            $icon = 'fa fa-download';
+            break;
+        default:
+            $icon = 'fa fa-circle-o';
+            break;
+    }
+
+    return $icon;
 }

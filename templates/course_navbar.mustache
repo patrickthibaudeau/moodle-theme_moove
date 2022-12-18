@@ -140,28 +140,18 @@
                         </div>
                     {{/is_menutab_format}}
                 </li>
-                {{#edit_settings}}
+                {{#main_menu}}
                     <li>
-                        <div title="Course settings">
-                            <a href="{{config.wwwroot}}/course/edit.php?id={{courseid}}" title="Course settings">
-                            <div id="courseSettings">
-                                <h2><i class="course-menu-icon fa fa-sliders"></i></h2>
-                                <span class="course-menu-text">{{#str}}settings, core{{/str}}</span>
+                        <div title="{{name}}">
+                            <a href="{{url}}" title="Course settings">
+                            <div>
+                                <h2><i class="course-menu-icon {{icon}}"></i></h2>
+                                <span class="course-menu-text">{{name}}</span>
                             </div>
                             </a>
                         </div>
                     </li>
-                {{/edit_settings}}
-                <li>
-                    <div title="Participants">
-                        <a href="{{config.wwwroot}}/user/index.php?id={{courseid}}" title="Participants">
-                        <div id="participants">
-                            <h2><i class="course-menu-icon fa fa-users"></i></h2>
-                            <span class="course-menu-text">{{#str}}participants, core{{/str}}</span>
-                        </div>
-                        </a>
-                    </div>
-                </li>
+                {{/main_menu}}
                 <li>
                     <div class="dropdown" title="Assignments">
                         <div id="courseAssignments" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -177,23 +167,6 @@
                         </div>
                     </div>
                 </li>
-                {{#edit_grades}}
-                    <li>
-                        <a href="{{config.wwwroot}}/grade/report/grader/index.php?id={{courseid}}">
-                        <h2><i class="course-menu-icon fa fa-font"></i></h2>
-                        <span class="course-menu-text">{{#str}}grades, core{{/str}}</span>
-                        </a>
-                    </li>
-                {{/edit_grades}}
-                {{^edit_grades}}
-                    <li>
-                        <a href="{{config.wwwroot}}/grade/report/user/index.php?id={{courseid}}">
-                        <h2><i class="course-menu-icon fa fa-font"></i></h2>
-                        <span class="course-menu-text">{{#str}}grades, core{{/str}}</span>
-                        </a>
-                    </li>
-                {{/edit_grades}}
-
                 <li>
                     <div class="dropdown" title="Professor(s)">
                         <div id="courseTeacher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
