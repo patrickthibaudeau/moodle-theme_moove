@@ -200,6 +200,7 @@ function theme_moove_get_teachers()
         $teachers[$i]->fullname = fullname($u);
         $teachers[$i]->email = $u->email;
         $teachers[$i]->image = $moodle_url->out();
+        $i++;
     }
     return $teachers;
 }
