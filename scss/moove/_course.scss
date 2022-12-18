@@ -159,6 +159,15 @@
     width: 20rem !important;
   }
 
+  .theme_moove_bg {
+    background-color: #E31837;
+    color: #ffffff;
+
+    &:hover {
+      background-color: #af0d1a;
+    }
+  }
+
   @media(max-width: 1279px) {
     .boxes li {
       height: 50px;

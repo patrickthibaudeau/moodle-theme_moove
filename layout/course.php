@@ -157,7 +157,8 @@ $templatecontext = [
     'view_reports' => $view_reports,
     'visibility' => $PAGE->course->visible,
     'is_menutab_format' => $is_menutab_format,
-    'teachers' => $teachers
+    'teachers' => $teachers,
+    'course_mods' => get_current_course_mods()
 ];
 
 $templatecontext = array_merge($templatecontext, $themesettings->footer());

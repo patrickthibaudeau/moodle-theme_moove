@@ -28,7 +28,8 @@
  * @param theme_config $theme The theme config object.
  * @return string
  */
-function theme_moove_get_main_scss_content($theme) {
+function theme_moove_get_main_scss_content($theme)
+{
     global $CFG;
 
     $scss = '';
@@ -63,7 +64,8 @@ function theme_moove_get_main_scss_content($theme) {
  * @param theme_config $theme The theme config object.
  * @return string
  */
-function theme_moove_get_extra_scss($theme) {
+function theme_moove_get_extra_scss($theme)
+{
     $content = '';
 
     // Sets the login background image.
@@ -84,7 +86,8 @@ function theme_moove_get_extra_scss($theme) {
  * @param theme_config $theme The theme config object.
  * @return string
  */
-function theme_moove_get_pre_scss($theme) {
+function theme_moove_get_pre_scss($theme)
+{
     $scss = '';
     $configurable = [
         // Config key => [variableName, ...].
@@ -99,13 +102,13 @@ function theme_moove_get_pre_scss($theme) {
         if (empty($value)) {
             continue;
         }
-        array_map(function($target) use (&$scss, $value) {
+        array_map(function ($target) use (&$scss, $value) {
             if ($target == 'fontsite') {
-                $scss .= '$' . $target . ': "' . $value . '", sans-serif !default' .";\n";
+                $scss .= '$' . $target . ': "' . $value . '", sans-serif !default' . ";\n";
             } else {
                 $scss .= '$' . $target . ': ' . $value . ";\n";
             }
-        }, (array) $targets);
+        }, (array)$targets);
     }
 
     // Prepend pre-scss.
@@ -121,7 +124,8 @@ function theme_moove_get_pre_scss($theme) {
  *
  * @return string compiled css
  */
-function theme_moove_get_precompiled_css() {
+function theme_moove_get_precompiled_css()
+{
     global $CFG;
 
     return file_get_contents($CFG->dirroot . '/theme/moove/style/moodle.css');
@@ -139,7 +143,8 @@ function theme_moove_get_precompiled_css() {
  * @param array $options
  * @return mixed
  */
-function theme_moove_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
+function theme_moove_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array())
+{
     $theme = theme_config::load('moove');
 
     if ($context->contextlevel == CONTEXT_SYSTEM &&
@@ -175,15 +180,16 @@ function theme_moove_pluginfile($course, $cm, $context, $filearea, $args, $force
     send_file_not_found();
 }
 
-function theme_moove_get_teachers() {
+function theme_moove_get_teachers()
+{
     global $CFG, $DB, $PAGE, $OUTPUT;
     require_once($CFG->libdir . '/accesslib.php');
-    require_once($CFG->libdir.'/filelib.php');
+    require_once($CFG->libdir . '/filelib.php');
 
     $role = $DB->get_record('role', ['shortname' => 'editingteacher']);
     $users = get_role_users($role->id, $PAGE->context);
 
-    $teachers= [];
+    $teachers = [];
     $i = 0;
     foreach ($users as $u) {
         $user = $DB->get_record('user', ['id' => $u->id]);
@@ -198,6 +204,44 @@ function theme_moove_get_teachers() {
     return $teachers;
 }
 
-function get_user_picture_path() {
+function get_current_course_mods()
+{
+    global $CFG, $DB, $COURSE;
 
+    $context = context_course::instance($COURSE->id);
+    $contextArray = convert_to_array($context);
+    $course_id = $COURSE->id;
+
+    $cmods = get_course_mods($course_id);
+    $mod_names = [];
+    $i = 0;
+    $assign = 0;
+    foreach ($cmods as $m) {
+        if ($m->modname != 'label') {
+            // For a reason I can't understand, array_search does not detect assign
+            // this is a work around
+            if ($assign == 0 || $m->modname != 'assign') {
+                if ($i == 0) {
+                    $mod_names[$i]['name'] = $m->modname;
+                    $mod_names[$i]['fullname'] = get_string('pluginname', "mod_" . $m->modname);
+                    $mod_names[$i]['courseid'] = $m->course;
+                    $i++;
+                } else {
+                    if (!array_search($m->modname, array_column($mod_names, 'name'))) {
+                        $mod_names[$i]['name'] = $m->modname;
+                        $mod_names[$i]['fullname'] = get_string('pluginname', "mod_" . $m->modname);
+                        $mod_names[$i]['courseid'] = $m->course;
+                        $i++;
+                    }
+                }
+            }
+
+            if ($m->modname == 'assign') {
+                $assign = 1;
+            }
+        }
+    }
+
+
+    return $mod_names;
 }

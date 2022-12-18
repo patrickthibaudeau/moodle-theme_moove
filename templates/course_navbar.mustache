@@ -152,16 +152,14 @@
                     <div class="dropdown" title="Assignments">
                         <div id="courseAssignments" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <h2><i class="course-menu-icon fa fa-file-text"></i></h2>
-                            <span class="course-menu-text">{{#str}}assignments, theme_moove{{/str}}</span>
+                            <span class="course-menu-text">{{#str}}activities, core{{/str}}</span>
                         </div>
                         <div class="dropdown-menu" aria-labelledby="courseAssignments">
-                            <a class="dropdown-item"
-                               href="https://eclass.glendon.yorku.ca/mod/assign/index.php?id=21845" title="Assignments">Assignments</a>
-                            <a class="dropdown-item" href="https://eclass.glendon.yorku.ca/mod/quiz/index.php?id=21845"
-                               title="Quizzes">Quizzes</a>
-                            <a class="dropdown-item"
-                               href="https://eclass.glendon.yorku.ca/grade/report/singleview/index.php?id=21845"
-                               title="Grades">Grades</a>
+                            {{#course_mods}}
+                                <a class="dropdown-item"
+                                   href="{{config.wwwroot}}/mod/{{name}}/index.php?id={{courseid}}"
+                                title="{{fullname}}">{{fullname}}</a>
+                            {{/course_mods}}
                         </div>
                     </div>
                 </li>
@@ -190,17 +188,18 @@
                         </div>
                         <div class="dropdown-menu teacher" aria-labelledby="courseTeacher">
                             {{#teachers}}
-                            <div class="card" style="padding: 10px;">
-                                <div class="row no-gutters">
-                                <div class="col-md-4 d-flex align-content-center">
-                                    <img src="{{image}}"
-                                         class="userpicture" alt="{{#str}}image_of, theme_moove, {{fullname}}{{/str}}">
-                                </div>
-                                    <div class="col-md-8">
-                                        <p class="card-text">{{fullname}} {{email}}</p>
+                                <div class="card theme_moove_bg" style="padding: 10px;">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-4 d-flex justify-content-center align-items-center">
+                                            <img src="{{image}}"
+                                                 class="userpicture"
+                                                 alt="{{#str}}image_of, theme_moove, {{fullname}}{{/str}}">
+                                        </div>
+                                        <div class="col-md-8 d-flex justify-content-center align-items-center ">
+                                            <p class="card-text ">{{fullname}}<br>{{email}}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             {{/teachers}}
                         </div>
                     </div>
@@ -215,15 +214,15 @@
                     </div>
                 </li>
                 <!--Only show if the page has access to the course administration node-->
-<!--                <li>-->
-<!--                    <a href="{{config.wwwroot}}/course/view.php?id={{courseid}}&sesskey={{sesskey}}&edit=on"-->
-<!--                    title="Turn editing on">-->
-<!--                    <div id="turnEditingOn">-->
-<!--                        <h2><i class="course-menu-icon fa fa-pencil-square-o"></i></h2>-->
-<!--                        <span class="course-menu-text">Edit mode on</span>-->
-<!--                    </div>-->
-<!--                    </a>-->
-<!--                </li>-->
+                <!--                <li>-->
+                <!--                    <a href="{{config.wwwroot}}/course/view.php?id={{courseid}}&sesskey={{sesskey}}&edit=on"-->
+                <!--                    title="Turn editing on">-->
+                <!--                    <div id="turnEditingOn">-->
+                <!--                        <h2><i class="course-menu-icon fa fa-pencil-square-o"></i></h2>-->
+                <!--                        <span class="course-menu-text">Edit mode on</span>-->
+                <!--                    </div>-->
+                <!--                    </a>-->
+                <!--                </li>-->
                 <li>
                     <a id="theme-moove-course-visibility" href="#" data-courseid="{{courseid}}"
                        data-visibility="{{visibility}}"
