@@ -185,7 +185,7 @@ $templatecontext = [
     'more_menu' => $more_menu,
     'courseid' => $PAGE->course->id,
     'is_site_course' => $is_site_course,
-    'has_more_menu' => $has_more_menu
+    'has_more_menu' => $has_more_menu,
 ];
 
 $templatecontext = array_merge($templatecontext, $themesettings->footer());

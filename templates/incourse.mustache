@@ -59,7 +59,12 @@
 
     {{{ output.standard_top_of_body_html }}}
 
-    {{> theme_moove/course_navbar }}
+    {{#is_site_course}}
+        {{> theme_moove/navbar }}
+    {{/is_site_course}}
+    {{^is_site_course}}
+        {{> theme_moove/course_navbar }}
+    {{/is_site_course}}
 
     {{#courseindex}}
         {{< theme_boost/drawer }}

@@ -110,134 +110,143 @@
     <div class="secondary-navigation d-print-none moove">
         <div id="course-management" class="moove-container-fluid">
             <ul class="boxes">
-                <li>
-                    {{#is_menutab_format}}
-                        <div class="dropdown" title="Content">
-                            <div id="courseContent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <h2><i class="course-menu-icon fa fa-bookmark"></i></h2>
-                                <span class="course-menu-text">{{#str}}content, theme_moove{{/str}}</span>
-                            </div>
-                            <div class="dropdown-menu" aria-labelledby="courseContent">
-                                <a class="dropdown-item" href="{{config.wwwroot}}/course/view.php?id={{courseid}}">
-                                {{#str}}course_home, theme_moove{{/str}}</a>
-                                {{#is_menutab_format}}
-                                    <a class="dropdown-item" href="{{config.wwwroot}}/course/view.php?id={{courseid}}
-                                    &amp;table_contents=1">
-                                    {{#str}}table_of_contents, theme_moove{{/str}}</a>
-                                {{/is_menutab_format}}
-                            </div>
-                        </div>
-                    {{/is_menutab_format}}
-                    {{^is_menutab_format}}
-                        <div title="{{#str}}course, core{{/str}}">
-                            <a href="{{config.wwwroot}}/course/view.php?id={{courseid}}" title="{{#str}}
-                            course, core{{/str}}">
-                            <div id="courseSettings">
-                                <h2><i class="course-menu-icon fa fa-bookmark"></i></h2>
-                                <span class="course-menu-text">{{#str}}course, core{{/str}}</span>
-                            </div>
-                            </a>
-                        </div>
-                    {{/is_menutab_format}}
-                </li>
-                {{#main_menu}}
+<!--                For home page, only print the red second navigation bar to maintain York U brand-->
+                {{^courseid}}
+                    <li></li>
+                {{/courseid}}
+                {{#courseid}}
                     <li>
-                        <div title="{{name}}">
-                            <a href="{{url}}" title="Course settings">
-                            <div>
-                                <h2><i class="course-menu-icon {{icon}}"></i></h2>
-                                <span class="course-menu-text">{{name}}</span>
-                            </div>
-                            </a>
-                        </div>
-                    </li>
-                {{/main_menu}}
-                <li>
-                    <div class="dropdown" title="Assignments">
-                        <div id="courseAssignments" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <h2><i class="course-menu-icon fa fa-file-text"></i></h2>
-                            <span class="course-menu-text">{{#str}}activities, core{{/str}}</span>
-                        </div>
-                        <div class="dropdown-menu" aria-labelledby="courseAssignments">
-                            {{#course_mods}}
-                                <a class="dropdown-item"
-                                   href="{{config.wwwroot}}/mod/{{name}}/index.php?id={{courseid}}"
-                                title="{{fullname}}">{{fullname}}</a>
-                            {{/course_mods}}
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="dropdown" title="Professor(s)">
-                        <div id="courseTeacher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <h2><i class="course-menu-icon fa fa-user-circle-o"></i></h2>
-                            <span class="course-menu-text">{{#str}}teachers, core{{/str}}</span>
-                        </div>
-                        <div class="dropdown-menu teacher" aria-labelledby="courseTeacher">
-                            {{#teachers}}
-                                <div class="card theme_moove_bg" style="padding: 10px;">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-4 d-flex justify-content-center align-items-center">
-                                            <img src="{{image}}"
-                                                 class="userpicture"
-                                                 alt="{{#str}}image_of, theme_moove, {{fullname}}{{/str}}">
-                                        </div>
-                                        <div class="col-md-8 d-flex justify-content-center align-items-center ">
-                                            <p class="card-text ">{{fullname}}<br>{{email}}</p>
-                                        </div>
-                                    </div>
+                        {{#is_menutab_format}}
+                            <div class="dropdown" title="Content">
+                                <div id="courseContent" data-toggle="dropdown" aria-haspopup="true"
+                                     aria-expanded="false">
+                                    <h2><i class="course-menu-icon fa fa-bookmark"></i></h2>
+                                    <span class="course-menu-text">{{#str}}content, theme_moove{{/str}}</span>
                                 </div>
-                            {{/teachers}}
-                        </div>
-                    </div>
-                </li>
-                <!--Only show if there are more items-->
-                {{#has_more_menu}}
+                                <div class="dropdown-menu" aria-labelledby="courseContent">
+                                    <a class="dropdown-item" href="{{config.wwwroot}}/course/view.php?id={{courseid}}">
+                                    {{#str}}course_home, theme_moove{{/str}}</a>
+                                    {{#is_menutab_format}}
+                                        <a class="dropdown-item"
+                                           href="{{config.wwwroot}}/course/view.php?id={{courseid}}
+                                        &amp;table_contents=1">
+                                        {{#str}}table_of_contents, theme_moove{{/str}}</a>
+                                    {{/is_menutab_format}}
+                                </div>
+                            </div>
+                        {{/is_menutab_format}}
+                        {{^is_menutab_format}}
+                            <div title="{{#str}}course, core{{/str}}">
+                                <a href="{{config.wwwroot}}/course/view.php?id={{courseid}}" title="{{#str}}
+                                course, core{{/str}}">
+                                <div id="courseSettings">
+                                    <h2><i class="course-menu-icon fa fa-bookmark"></i></h2>
+                                    <span class="course-menu-text">{{#str}}course, core{{/str}}</span>
+                                </div>
+                                </a>
+                            </div>
+                        {{/is_menutab_format}}
+                    </li>
+                    {{#main_menu}}
+                        <li>
+                            <div title="{{name}}">
+                                <a href="{{url}}" title="Course settings">
+                                    <div>
+                                        <h2><i class="course-menu-icon {{icon}}"></i></h2>
+                                        <span class="course-menu-text">{{name}}</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                    {{/main_menu}}
                     <li>
-                        <div class="dropdown" title="Settings">
-                            <div id="courseManagement" data-toggle="dropdown" aria-haspopup="true"
+                        <div class="dropdown" title="Assignments">
+                            <div id="courseAssignments" data-toggle="dropdown" aria-haspopup="true"
                                  aria-expanded="false">
-                                <h2><i class="course-menu-icon fa fa-list-alt"></i></h2>
-                                <span class="course-menu-text">{{#str}}more, core{{/str}}</span>
+                                <h2><i class="course-menu-icon fa fa-file-text"></i></h2>
+                                <span class="course-menu-text">{{#str}}activities, core{{/str}}</span>
                             </div>
                             <div class="dropdown-menu" aria-labelledby="courseAssignments">
-                                {{#more_menu}}
+                                {{#course_mods}}
                                     <a class="dropdown-item"
-                                       href="{{url}}"
-                                       title="{{name}}">{{name}}</a>
-                                {{/more_menu}}
+                                       href="{{config.wwwroot}}/mod/{{name}}/index.php?id={{courseid}}"
+                                    title="{{fullname}}">{{fullname}}</a>
+                                {{/course_mods}}
                             </div>
                         </div>
                     </li>
-                {{/has_more_menu}}
-                <!--Only show if the page has access to the course administration node-->
-                <!--                <li>-->
-                <!--                    <a href="{{config.wwwroot}}/course/view.php?id={{courseid}}&sesskey={{sesskey}}&edit=on"-->
-                <!--                    title="Turn editing on">-->
-                <!--                    <div id="turnEditingOn">-->
-                <!--                        <h2><i class="course-menu-icon fa fa-pencil-square-o"></i></h2>-->
-                <!--                        <span class="course-menu-text">Edit mode on</span>-->
-                <!--                    </div>-->
-                <!--                    </a>-->
-                <!--                </li>-->
-<!--                Only show if is teacher-->
-                {{#edit_settings}}
                     <li>
-                        <a id="theme-moove-course-visibility" href="#" data-courseid="{{courseid}}"
-                           data-visibility="{{visibility}}"
-                           title="Hide course">
-                            <div id="activateCourse">
-                                <h2>
-                                    <i class="course-menu-icon fa {{#visibility}}fa-eye{{/visibility}}{{^visibility}}fa-eye-slash{{/visibility}}"></i>
-                                </h2>
-                                <span class="course-menu-text">
-                                {{#visibility}}{{#str}}show_course, theme_moove{{/str}}{{/visibility}}
-                                    {{^visibility}}{{#str}}hide_course, theme_moove{{/str}}{{/visibility}}
-                            </span>
+                        <div class="dropdown" title="Professor(s)">
+                            <div id="courseTeacher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <h2><i class="course-menu-icon fa fa-user-circle-o"></i></h2>
+                                <span class="course-menu-text">{{#str}}teachers, core{{/str}}</span>
                             </div>
-                        </a>
+                            <div class="dropdown-menu teacher" aria-labelledby="courseTeacher">
+                                {{#teachers}}
+                                    <div class="card theme_moove_bg" style="padding: 10px;">
+                                        <div class="row no-gutters">
+                                            <div class="col-md-4 d-flex justify-content-center align-items-center">
+                                                <img src="{{image}}"
+                                                     class="userpicture"
+                                                     alt="{{#str}}image_of, theme_moove, {{fullname}}{{/str}}">
+                                            </div>
+                                            <div class="col-md-8 d-flex justify-content-center align-items-center ">
+                                                <p class="card-text ">{{fullname}}<br>{{email}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{/teachers}}
+                            </div>
+                        </div>
                     </li>
-                {{/edit_settings}}
+                    <!--Only show if there are more items-->
+                    {{#has_more_menu}}
+                        <li>
+                            <div class="dropdown" title="Settings">
+                                <div id="courseManagement" data-toggle="dropdown" aria-haspopup="true"
+                                     aria-expanded="false">
+                                    <h2><i class="course-menu-icon fa fa-list-alt"></i></h2>
+                                    <span class="course-menu-text">{{#str}}more, core{{/str}}</span>
+                                </div>
+                                <div class="dropdown-menu" aria-labelledby="courseAssignments">
+                                    {{#more_menu}}
+                                        <a class="dropdown-item"
+                                           href="{{url}}"
+                                           title="{{name}}">{{name}}</a>
+                                    {{/more_menu}}
+                                </div>
+                            </div>
+                        </li>
+                    {{/has_more_menu}}
+                    <!--Only show if the page has access to the course administration node-->
+                    <!--                <li>-->
+                    <!--                    <a href="{{config.wwwroot}}/course/view.php?id={{courseid}}&sesskey={{sesskey}}&edit=on"-->
+                    <!--                    title="Turn editing on">-->
+                    <!--                    <div id="turnEditingOn">-->
+                    <!--                        <h2><i class="course-menu-icon fa fa-pencil-square-o"></i></h2>-->
+                    <!--                        <span class="course-menu-text">Edit mode on</span>-->
+                    <!--                    </div>-->
+                    <!--                    </a>-->
+                    <!--                </li>-->
+                    <!--                Only show if is teacher-->
+                    {{#edit_settings}}
+                        <li>
+                            <a id="theme-moove-course-visibility" href="#" data-courseid="{{courseid}}"
+                               data-visibility="{{visibility}}"
+                               title="Hide course">
+                                <div id="activateCourse">
+                                    <h2>
+                                        <i class="course-menu-icon fa {{#visibility}}fa-eye{{/visibility}}{{^visibility}}fa-eye-slash{{/visibility}}"></i>
+                                    </h2>
+                                    <span class="course-menu-text">
+                                {{#visibility}}{{#str}}show_course, theme_moove{{/str}}{{/visibility}}
+                                        {{^visibility}}{{#str}}hide_course, theme_moove{{/str}}{{/visibility}}
+                            </span>
+                                </div>
+                            </a>
+                        </li>
+                    {{/edit_settings}}
+                {{/courseid}}
             </ul>
         </div>
     </div>

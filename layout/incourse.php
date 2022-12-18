@@ -94,6 +94,11 @@ if (has_capability('moodle/site:viewreports', $PAGE->context)) {
     $view_reports = true;
 }
 
+$is_site_course = false;
+if ($PAGE->course->id == 1) {
+    $is_site_course = true;
+}
+
 $forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
 
 $secondarynavigation = false;
@@ -170,7 +175,8 @@ $templatecontext = [
     'main_menu' => $main_menu,
     'more_menu' => $more_menu,
     'courseid' => $PAGE->course->id,
-    'has_more_menu' => $has_more_menu
+    'has_more_menu' => $has_more_menu,
+    'is_site_course' => $is_site_course
 ];
 
 $templatecontext = array_merge($templatecontext, $themesettings->footer());
