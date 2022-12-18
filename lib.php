@@ -174,3 +174,30 @@ function theme_moove_pluginfile($course, $cm, $context, $filearea, $args, $force
 
     send_file_not_found();
 }
+
+function theme_moove_get_teachers() {
+    global $CFG, $DB, $PAGE, $OUTPUT;
+    require_once($CFG->libdir . '/accesslib.php');
+    require_once($CFG->libdir.'/filelib.php');
+
+    $role = $DB->get_record('role', ['shortname' => 'editingteacher']);
+    $users = get_role_users($role->id, $PAGE->context);
+
+    $teachers= [];
+    $i = 0;
+    foreach ($users as $u) {
+        $user = $DB->get_record('user', ['id' => $u->id]);
+        $user_picture = new user_picture($user);
+        $moodle_url = $user_picture->get_url($PAGE);
+
+        $teachers[$i] = new stdClass();
+        $teachers[$i]->fullname = fullname($u);
+        $teachers[$i]->email = $u->email;
+        $teachers[$i]->image = $moodle_url->out();
+    }
+    return $teachers;
+}
+
+function get_user_picture_path() {
+
+}

@@ -114,13 +114,15 @@
                     <div class="dropdown" title="Content">
                         <div id="courseContent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <h2><i class="course-menu-icon fa fa-bookmark"></i></h2>
-                            <span class="course-menu-text">Content</span>
+                            <span class="course-menu-text">{{#str}}content, theme_moove{{/str}}</span>
                         </div>
                         <div class="dropdown-menu" aria-labelledby="courseContent">
-                            <a class="dropdown-item" href="{{config.wwwroot}}/course/view.php?id={{courseid}}">Course
-                            home</a>
-                            <a class="dropdown-item" href="{{config.wwwroot}}/course/view.php?id={{courseid}}&amp;table_contents=1">Table
-                            of contents</a>
+                            <a class="dropdown-item" href="{{config.wwwroot}}/course/view.php?id={{courseid}}">
+                            {{#str}}course_home, theme_moove{{/str}}</a>
+                            {{#is_menutab_format}}
+                                <a class="dropdown-item" href="{{config.wwwroot}}/course/view.php?id={{courseid}}&amp;table_contents=1">
+                                {{#str}}table_of_contents, theme_moove{{/str}}</a>
+                            {{/is_menutab_format}}
                         </div>
                     </div>
                 </li>
@@ -130,7 +132,7 @@
                             <a href="{{config.wwwroot}}/course/edit.php?id={{courseid}}" title="Course settings">
                             <div id="courseSettings">
                                 <h2><i class="course-menu-icon fa fa-sliders"></i></h2>
-                                <span class="course-menu-text">Course settings</span>
+                                <span class="course-menu-text">{{#str}}settings, core{{/str}}</span>
                             </div>
                             </a>
                         </div>
@@ -141,7 +143,7 @@
                         <a href="{{config.wwwroot}}/user/index.php?id={{courseid}}" title="Participants">
                         <div id="participants">
                             <h2><i class="course-menu-icon fa fa-users"></i></h2>
-                            <span class="course-menu-text">Participants</span>
+                            <span class="course-menu-text">{{#str}}participants, core{{/str}}</span>
                         </div>
                         </a>
                     </div>
@@ -150,7 +152,7 @@
                     <div class="dropdown" title="Assignments">
                         <div id="courseAssignments" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <h2><i class="course-menu-icon fa fa-file-text"></i></h2>
-                            <span class="course-menu-text">Assignments</span>
+                            <span class="course-menu-text">{{#str}}assignments, theme_moove{{/str}}</span>
                         </div>
                         <div class="dropdown-menu" aria-labelledby="courseAssignments">
                             <a class="dropdown-item"
@@ -166,8 +168,8 @@
                 {{#edit_grades}}
                     <li>
                         <a href="{{config.wwwroot}}/grade/report/grader/index.php?id={{courseid}}">
-                            <h2><i class="course-menu-icon fa fa-font"></i></h2>
-                            <span class="course-menu-text">Grades</span>
+                        <h2><i class="course-menu-icon fa fa-font"></i></h2>
+                        <span class="course-menu-text">{{#str}}grades, core{{/str}}</span>
                         </a>
                     </li>
                 {{/edit_grades}}
@@ -175,7 +177,7 @@
                     <li>
                         <a href="{{config.wwwroot}}/grade/report/user/index.php?id={{courseid}}">
                         <h2><i class="course-menu-icon fa fa-font"></i></h2>
-                        <span class="course-menu-text">Grades</span>
+                        <span class="course-menu-text">{{#str}}grades, core{{/str}}</span>
                         </a>
                     </li>
                 {{/edit_grades}}
@@ -184,57 +186,22 @@
                     <div class="dropdown" title="Professor(s)">
                         <div id="courseTeacher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <h2><i class="course-menu-icon fa fa-user-circle-o"></i></h2>
-                            <span class="course-menu-text">Professor(s)</span>
+                            <span class="course-menu-text">{{#str}}teachers, core{{/str}}</span>
                         </div>
                         <div class="dropdown-menu teacher" aria-labelledby="courseTeacher">
-                            <div class="card">
-                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/1212078/user/icon/glendon/f1"
-                                     class="card-img-top" alt="Image of Genevieve Daigle">
-                                <div class="card-block">
-                                    <h4 class="card-title">Genevieve Daigle</h4>
-                                    <p class="card-text">gdaigle@yorku.ca</p>
+                            {{#teachers}}
+                            <div class="card" style="padding: 10px;">
+                                <div class="row no-gutters">
+                                <div class="col-md-4 d-flex align-content-center">
+                                    <img src="{{image}}"
+                                         class="userpicture" alt="{{#str}}image_of, theme_moove, {{fullname}}{{/str}}">
+                                </div>
+                                    <div class="col-md-8">
+                                        <p class="card-text">{{fullname}} {{email}}</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card">
-                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/3545/user/icon/glendon/f1"
-                                     class="card-img-top" alt="Image of Henriette Gezundhajt">
-                                <div class="card-block">
-                                    <h4 class="card-title">Henriette Gezundhajt</h4>
-                                    <p class="card-text">gezundha@yorku.ca</p>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/4627/user/icon/glendon/f1"
-                                     class="card-img-top" alt="Image of Suzanne Langlois">
-                                <div class="card-block">
-                                    <h4 class="card-title">Suzanne Langlois</h4>
-                                    <p class="card-text">slanglois@glendon.yorku.ca</p>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/5494/user/icon/glendon/f1"
-                                     class="card-img-top" alt="Image of Marie Elaine Lebel">
-                                <div class="card-block">
-                                    <h4 class="card-title">Marie Elaine Lebel</h4>
-                                    <p class="card-text">melebel@yorku.ca</p>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/157234/user/icon/glendon/f1"
-                                     class="card-img-top" alt="Image of Anna Rosner">
-                                <div class="card-block">
-                                    <h4 class="card-title">Anna Rosner</h4>
-                                    <p class="card-text">anna.rosner@rogers.com</p>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <img src="https://eclass.glendon.yorku.ca/pluginfile.php/1296/user/icon/glendon/f1"
-                                     class="card-img-top" alt="Image of Usha A. Viswanathan">
-                                <div class="card-block">
-                                    <h4 class="card-title">Usha A. Viswanathan</h4>
-                                    <p class="card-text">uviswana@yorku.ca</p>
-                                </div>
-                            </div>
+                            {{/teachers}}
                         </div>
                     </div>
                 </li>
@@ -247,25 +214,29 @@
                         </div>
                     </div>
                 </li>
-                <!--Gradebook for professors-->
-
                 <!--Only show if the page has access to the course administration node-->
+<!--                <li>-->
+<!--                    <a href="{{config.wwwroot}}/course/view.php?id={{courseid}}&sesskey={{sesskey}}&edit=on"-->
+<!--                    title="Turn editing on">-->
+<!--                    <div id="turnEditingOn">-->
+<!--                        <h2><i class="course-menu-icon fa fa-pencil-square-o"></i></h2>-->
+<!--                        <span class="course-menu-text">Edit mode on</span>-->
+<!--                    </div>-->
+<!--                    </a>-->
+<!--                </li>-->
                 <li>
-                    <a href="{{config.wwwroot}}/course/view.php?id={{courseid}}&sesskey={{sesskey}}&edit=on"
-                    title="Turn editing on">
-                    <div id="turnEditingOn">
-                        <h2><i class="course-menu-icon fa fa-pencil-square-o"></i></h2>
-                        <span class="course-menu-text">Edit mode on</span>
-                    </div>
-                    </a>
-                </li>
-                <li>
-                    <a id="theme-moove-course-visibility" href="#" data-courseid="{{courseid}}" data-visibility="{{visibility}}"
+                    <a id="theme-moove-course-visibility" href="#" data-courseid="{{courseid}}"
+                       data-visibility="{{visibility}}"
                        title="Hide course">
-                    <div id="activateCourse">
-                        <h2><i class="course-menu-icon fa {{#visibility}}fa-eye{{/visibility}}{{^visibility}}fa-eye-slash{{/visibility}}"></i></h2>
-                        <span class="course-menu-text">Hide course</span>
-                    </div>
+                        <div id="activateCourse">
+                            <h2>
+                                <i class="course-menu-icon fa {{#visibility}}fa-eye{{/visibility}}{{^visibility}}fa-eye-slash{{/visibility}}"></i>
+                            </h2>
+                            <span class="course-menu-text">
+                                {{#visibility}}{{#str}}show_course, theme_moove{{/str}}{{/visibility}}
+                                {{^visibility}}{{#str}}hide_course, theme_moove{{/str}}{{/visibility}}
+                            </span>
+                        </div>
                     </a>
                 </li>
             </ul>

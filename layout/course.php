@@ -26,6 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/behat/lib.php');
 require_once($CFG->dirroot . '/course/lib.php');
+require_once($CFG->dirroot . '/theme/moove/lib.php');
 
 // Add block button in editing mode.
 $addblockbutton = $OUTPUT->addblockbutton();
@@ -45,6 +46,13 @@ if (isloggedin()) {
 
 if (defined('BEHAT_SITE_RUNNING')) {
     $blockdraweropen = true;
+}
+$teachers = theme_moove_get_teachers();
+
+// Is course format menutab?
+$is_menutab_format = false;
+if ($PAGE->course->format == 'menutab') {
+    $is_menutab_format = true;
 }
 
 $extraclasses = ['uses-drawers'];
@@ -147,7 +155,9 @@ $templatecontext = [
     'edit_settings' => $edit_settings,
     'edit_grades' => $edit_grades,
     'view_reports' => $view_reports,
-    'visibility' => $PAGE->course->visible
+    'visibility' => $PAGE->course->visible,
+    'is_menutab_format' => $is_menutab_format,
+    'teachers' => $teachers
 ];
 
 $templatecontext = array_merge($templatecontext, $themesettings->footer());

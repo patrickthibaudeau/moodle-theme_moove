@@ -23,24 +23,34 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
-$string['pluginname'] = 'Moove';
+$string['access'] = 'Access';
+$string['assignments'] = 'Assignments';
 $string['change_course_visibility'] = 'Change course visibility';
 $string['change_course_visibility_help'] = 'Are you sure you want to change the course visibility?';
 $string['configtitle'] = 'Moove';
+$string['content'] = 'Content';
+$string['course_home'] = 'Course home';
+$string['course_settings'] = 'Course settings';
+$string['table_of_contents'] = 'Table of contents';
 $string['choosereadme'] = 'Moove is a modern highly-customisable theme. This theme is intended to be used directly, or as a parent theme when creating new themes utilising Bootstrap 4.';
 
 $string['currentinparentheses'] = '(current)';
+$string['image_of'] = 'Image of ';
 $string['region-side-pre'] = 'Right';
 $string['prev_section'] = 'Previous section';
 $string['next_section'] = 'Next section';
 $string['themedevelopedby'] = 'This theme was developed by';
-$string['access'] = 'Access';
+$string['pluginname'] = 'Moove';
 $string['prev_activity'] = 'Previous activity';
 $string['next_activity'] = 'Next activity';
 $string['donthaveanaccount'] = 'Don\'t have an account?';
 $string['signinwith'] = 'Sign in with';
 $string['yes'] = 'Yes';
+$string['hide_course'] = 'Course disabled';
+$string['show_course'] = 'Course open';
+$string['available'] = 'Available';
+$string['disabled'] = 'Disabled';
+
 
 // General settings tab.
 $string['generalsettings'] = 'General';
