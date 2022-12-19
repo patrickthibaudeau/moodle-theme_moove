@@ -115,38 +115,6 @@
                     <li></li>
                 {{/courseid}}
                 {{#courseid}}
-                    <li>
-                        {{#is_menutab_format}}
-                            <div class="dropdown" title="Content">
-                                <div id="courseContent" data-toggle="dropdown" aria-haspopup="true"
-                                     aria-expanded="false">
-                                    <h2><i class="course-menu-icon fa fa-bookmark"></i></h2>
-                                    <span class="course-menu-text">{{#str}}content, theme_moove{{/str}}</span>
-                                </div>
-                                <div class="dropdown-menu" aria-labelledby="courseContent">
-                                    <a class="dropdown-item" href="{{config.wwwroot}}/course/view.php?id={{courseid}}">
-                                    {{#str}}course_home, theme_moove{{/str}}</a>
-                                    {{#is_menutab_format}}
-                                        <a class="dropdown-item"
-                                           href="{{config.wwwroot}}/course/view.php?id={{courseid}}
-                                        &amp;table_contents=1">
-                                        {{#str}}table_of_contents, theme_moove{{/str}}</a>
-                                    {{/is_menutab_format}}
-                                </div>
-                            </div>
-                        {{/is_menutab_format}}
-                        {{^is_menutab_format}}
-                            <div title="{{#str}}course, core{{/str}}">
-                                <a href="{{config.wwwroot}}/course/view.php?id={{courseid}}" title="{{#str}}
-                                course, core{{/str}}">
-                                <div id="courseSettings">
-                                    <h2><i class="course-menu-icon fa fa-bookmark"></i></h2>
-                                    <span class="course-menu-text">{{#str}}course, core{{/str}}</span>
-                                </div>
-                                </a>
-                            </div>
-                        {{/is_menutab_format}}
-                    </li>
                     {{#main_menu}}
                         <li>
                             <div title="{{name}}">
