@@ -100,6 +100,11 @@ if ($PAGE->course->id == 1) {
     $is_site_course = true;
 }
 
+$is_mycourses_page = false;
+if ($PAGE->pagelayout == 'mycourses' || $PAGE->pagelayout == 'mydashboard') {
+    $is_mycourses_page = true;
+}
+
 $secondarynavigation = false;
 $overflow = '';
 $main_menu = '';
@@ -178,6 +183,7 @@ $templatecontext = [
     'edit_grades' => $edit_grades,
     'view_reports' => $view_reports,
     'visibility' => $PAGE->course->visible,
+    'courseid' => $PAGE->course->id,
     'is_menutab_format' => $is_menutab_format,
     'teachers' => $teachers,
     'course_mods' => get_current_course_mods(),
@@ -186,6 +192,7 @@ $templatecontext = [
     'courseid' => $PAGE->course->id,
     'is_site_course' => $is_site_course,
     'has_more_menu' => $has_more_menu,
+    'is_mycourses_page' => $is_mycourses_page
 ];
 
 $templatecontext = array_merge($templatecontext, $themesettings->footer());

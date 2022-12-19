@@ -24,7 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+global $USER;
+
 require_once($CFG->libdir . '/behat/lib.php');
+require_once($CFG->libdir . '/accesslib.php');
 require_once($CFG->dirroot . '/course/lib.php');
 require_once($CFG->dirroot . '/theme/moove/lib.php');
 
@@ -169,6 +172,7 @@ $templatecontext = [
     'edit_grades' => $edit_grades,
     'view_reports' => $view_reports,
     'visibility' => $PAGE->course->visible,
+    'courseid' => $PAGE->course->id,
     'is_menutab_format' => $is_menutab_format,
     'teachers' => $teachers,
     'course_mods' => get_current_course_mods(),

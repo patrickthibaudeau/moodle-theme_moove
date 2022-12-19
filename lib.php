@@ -265,13 +265,15 @@ function theme_moove_build_secondary_menu($items)
     $i = 0;
     for ($a = 0; $a < 5; $a++) {
         // Do not add course home because it is added on all pages.
-        if ($tabs[$a]->id != 'coursehome') {
-            $menu[$i]['id'] = $tabs[$a]->id;
-            $menu[$i]['name'] = $tabs[$a]->title;
-            $menu[$i]['url'] = str_replace('&amp;', '&',$tabs[$a]->link->out());
-            $menu[$i]['format'] = $COURSE->format;
-            $menu[$i]['icon'] = theme_moove_get_menu_icon($tabs[$a]->id);
-            $i++;
+        if (isset($tabs[$a]->id)) {
+            if ($tabs[$a]->id != 'coursehome') {
+                $menu[$i]['id'] = $tabs[$a]->id;
+                $menu[$i]['name'] = $tabs[$a]->title;
+                $menu[$i]['url'] = str_replace('&amp;', '&', $tabs[$a]->link->out());
+                $menu[$i]['format'] = $COURSE->format;
+                $menu[$i]['icon'] = theme_moove_get_menu_icon($tabs[$a]->id);
+                $i++;
+            }
         }
     }
     // Build more menu
@@ -281,7 +283,7 @@ function theme_moove_build_secondary_menu($items)
     for ($b = 5; $b < count($tabs); $b++) {
         $more_menu[$m]['id'] = $tabs[$b]->id;
         $more_menu[$m]['name'] = $tabs[$b]->title;
-        $more_menu[$m]['url'] = str_replace('&amp;', '&',$tabs[$b]->link->out());
+        $more_menu[$m]['url'] = str_replace('&amp;', '&', $tabs[$b]->link->out());
         $m++;
     }
     // Add both arrays into menus object
@@ -291,7 +293,8 @@ function theme_moove_build_secondary_menu($items)
     return $menus;
 }
 
-function theme_moove_get_menu_icon($type) {
+function theme_moove_get_menu_icon($type)
+{
     $icon = 'fa fa-circle-o';
     switch ($type) {
         case 'coursehome':
@@ -320,6 +323,9 @@ function theme_moove_get_menu_icon($type) {
             break;
         case 'backup':
             $icon = 'fa fa-download';
+            break;
+        case 'competencies':
+            $icon = 'fa fa-lightbulb-o';
             break;
         default:
             $icon = 'fa fa-circle-o';
