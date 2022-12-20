@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 $string['access'] = 'Access';
 $string['assignments'] = 'Assignments';
-$string['change_course_visibility'] = 'Change course visibility';
-$string['change_course_visibility_help'] = 'Are you sure you want to change the course visibility?';
+$string['change_course_visibility'] = 'Modifier la visibilité du cours';
+$string['change_course_visibility_help'] = 'Voulez-vous vraiment modifier la visibilité du cours ?';
 $string['configtitle'] = 'Moove';
 $string['content'] = 'Content';
 $string['course_home'] = 'Course home';
