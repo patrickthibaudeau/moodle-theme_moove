@@ -46,8 +46,8 @@ $string['next_activity'] = 'Next activity';
 $string['donthaveanaccount'] = 'Don\'t have an account?';
 $string['signinwith'] = 'Sign in with';
 $string['yes'] = 'Yes';
-$string['hide_course'] = 'Course disabled';
-$string['show_course'] = 'Cours désactivé';
+$string['hide_course'] = 'Cours désactivé';
+$string['show_course'] = 'Cours displonible';
 $string['available'] = 'Available';
 $string['disabled'] = 'Disabled';
 
