@@ -50,6 +50,8 @@ $string['hide_course'] = 'Course disabled';
 $string['show_course'] = 'Course open';
 $string['available'] = 'Available';
 $string['disabled'] = 'Disabled';
+$string['send_email'] = 'Send email';
+$string['view_profile'] = 'View profile';
 
 
 // General settings tab.

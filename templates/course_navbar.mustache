@@ -110,7 +110,7 @@
     <div class="secondary-navigation d-print-none moove">
         <div id="course-management" class="moove-container-fluid">
             <ul class="boxes">
-<!--                For home page, only print the red second navigation bar to maintain York U brand-->
+                <!--                For home page, only print the red second navigation bar to maintain York U brand-->
                 {{^courseid}}
                     <li></li>
                 {{/courseid}}
@@ -143,30 +143,41 @@
                             </div>
                         </div>
                     </li>
-                    <li>
-                        <div class="dropdown" title="Professor(s)">
-                            <div id="courseTeacher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <h2><i class="course-menu-icon fa fa-user-circle-o"></i></h2>
-                                <span class="course-menu-text">{{#str}}teachers, core{{/str}}</span>
-                            </div>
-                            <div class="dropdown-menu teacher" aria-labelledby="courseTeacher">
-                                {{#teachers}}
-                                    <div class="card theme_moove_bg" style="padding: 10px;">
-                                        <div class="row no-gutters">
-                                            <div class="col-md-4 d-flex justify-content-center align-items-center">
-                                                <img src="{{image}}"
-                                                     class="userpicture"
-                                                     alt="{{#str}}image_of, theme_moove, {{fullname}}{{/str}}">
-                                            </div>
-                                            <div class="col-md-8 d-flex justify-content-center align-items-center ">
-                                                <p class="card-text ">{{fullname}}<br>{{email}}</p>
+                    <!--                Only show students-->
+                    {{^edit_settings}}
+                        <li>
+                            <div class="dropdown" title="Professor(s)">
+                                <div id="courseTeacher" data-toggle="dropdown" aria-haspopup="true"
+                                     aria-expanded="false">
+                                    <h2><i class="course-menu-icon fa fa-user-circle-o"></i></h2>
+                                    <span class="course-menu-text">{{#str}}teachers, core{{/str}}</span>
+                                </div>
+                                <div class="dropdown-menu teacher" aria-labelledby="courseTeacher">
+                                    {{#teachers}}
+                                        <div class="card theme_moove_bg" style="padding: 10px;">
+                                            <div class="row no-gutters">
+                                                <div class="col-md-4 d-flex justify-content-center align-items-center">
+                                                    <img src="{{image}}"
+                                                         class="userpicture"
+                                                         alt="{{#str}}image_of, theme_moove, {{fullname}}{{/str}}">
+                                                </div>
+                                                <div class="col-md-8 d-flex justify-content-start align-items-center ">
+                                                    <div class="card-text">
+                                                        <a href="{{config.wwwroot}}/user/view.php?id={{id}}&course={{courseid}}"
+                                                        title="{{#str}}view_profile, theme_moove{{/str}}"
+                                                        target="_blank"
+                                                        >{{fullname}}</a>
+                                                        <br><br>
+                                                        <a href="mailto:{{email}}" title="{{#str}}send_email, theme_moove{{/str}}">{{email}}</a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                {{/teachers}}
+                                    {{/teachers}}
+                                </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
+                    {{/edit_settings}}
                     <!--Only show if there are more items-->
                     {{#has_more_menu}}
                         <li>
