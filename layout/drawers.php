@@ -105,6 +105,11 @@ if ($PAGE->pagelayout == 'mycourses' || $PAGE->pagelayout == 'mydashboard') {
     $is_mycourses_page = true;
 }
 
+$is_staff = false;
+if (substr($USER->idnumber,0,1) == 1) {
+    $is_staff = true;
+}
+
 $secondarynavigation = false;
 $overflow = '';
 $main_menu = '';
@@ -192,7 +197,8 @@ $templatecontext = [
     'courseid' => $PAGE->course->id,
     'is_site_course' => $is_site_course,
     'has_more_menu' => $has_more_menu,
-    'is_mycourses_page' => $is_mycourses_page
+    'is_mycourses_page' => $is_mycourses_page,
+    'is_staff' => $is_staff
 ];
 
 $templatecontext = array_merge($templatecontext, $themesettings->footer());

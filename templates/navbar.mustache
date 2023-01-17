@@ -113,6 +113,23 @@
 {{/secondarymoremenu}}
 {{^secondarymoremenu}}
     <div class="york-red-seperator secondary-navigation d-print-none moove">
+        {{#is_mycourses_page}}
+            {{#is_staff}}
+                <div id="course-management" class="moove-container-fluid">
+                    <ul class="boxes">
+                        <li style="height: 60px; padding:15px">
+                            <div title="Playground">
+                                <a href="{{config.wwwroot}}/local/sandbox/index.php" title="{{#str}}createsandbox, local_sandbox{{/str}}">
+                                    <div>
+                                        <span class="course-menu-text">{{#str}}createsandbox, local_sandbox{{/str}}</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            {{/is_staff}}
+        {{/is_mycourses_page}}
     </div>
 {{/secondarymoremenu}}
 
