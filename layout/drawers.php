@@ -110,6 +110,11 @@ if (substr($USER->idnumber,0,1) == 1) {
     $is_staff = true;
 }
 
+//Does the sandbox plugin exist
+$sandbox_installed = false;
+if (is_dir($CFG->dirroot . '/local/sandbox')) {
+    $sandbox_installed = true;
+}
 $secondarynavigation = false;
 $overflow = '';
 $main_menu = '';
@@ -198,7 +203,8 @@ $templatecontext = [
     'is_site_course' => $is_site_course,
     'has_more_menu' => $has_more_menu,
     'is_mycourses_page' => $is_mycourses_page,
-    'is_staff' => $is_staff
+    'is_staff' => $is_staff,
+    'sandbox_installed' => $sandbox_installed
 ];
 
 $templatecontext = array_merge($templatecontext, $themesettings->footer());
