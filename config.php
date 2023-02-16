@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/lib.php');
 
 $THEME->name = 'moove';
-$THEME->sheets = [];
+$THEME->sheets = ['custom'];
 $THEME->editor_sheets = ['bootstrap'];
 $THEME->editor_scss = ['editor'];
 $THEME->usefallback = false;
