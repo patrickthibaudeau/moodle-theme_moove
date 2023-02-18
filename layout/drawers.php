@@ -165,7 +165,6 @@ $my_dashboard = '';
 if ($current_url === '/my/') {
     $my_dashboard = 'my_dashboard';
 }
-
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
