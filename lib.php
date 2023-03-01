@@ -257,37 +257,51 @@ function theme_moove_build_secondary_menu($items)
 {
     global $CFG, $COURSE;
 
+    $context = context_course::instance($COURSE->id);
     // Put tab items into one variable
     $tabs = $items[0][0];
     // Menus is the obkect that will be returned
     $menus = new stdClass();
     // Build primary menu
     $menu = [];
-    $i = 0;
-    for ($a = 0; $a < 5; $a++) {
-        // Do not add course home because it is added on all pages.
-        if (isset($tabs[$a]->id)) {
+    // only show if user is a teacher
+    if (has_capability('moodle/grade:edit',$context)) {
+        $i = 0;
+        for ($a = 0; $a < 5; $a++) {
+            // Do not add course home because it is added on all pages.
+            if (isset($tabs[$a]->id)) {
                 $menu[$i]['id'] = $tabs[$a]->id;
                 $menu[$i]['name'] = $tabs[$a]->title;
                 $menu[$i]['url'] = str_replace('&amp;', '&', $tabs[$a]->link->out());
                 $menu[$i]['format'] = $COURSE->format;
                 $menu[$i]['icon'] = theme_moove_get_menu_icon($tabs[$a]->id);
                 $i++;
+            }
         }
+
+        // Build more menu
+        $more_menu = [];
+        $m = 0;
+        // Start at 5 because more menu begins at element 5
+        for ($b = 5; $b < count($tabs); $b++) {
+            $more_menu[$m]['id'] = $tabs[$b]->id;
+            $more_menu[$m]['name'] = $tabs[$b]->title;
+            $more_menu[$m]['url'] = str_replace('&amp;', '&', $tabs[$b]->link->out());
+            $m++;
+        }
+        // Add both arrays into menus object
+        $menus->menu = $menu;
+        $menus->more = $more_menu;
+    } else {
+        $menu[0]['id'] = $tabs[0]->id;
+        $menu[0]['name'] = $tabs[0]->title;
+        $menu[0]['url'] = str_replace('&amp;', '&', $tabs[0]->link->out());
+        $menu[0]['format'] = $COURSE->format;
+        $menu[0]['icon'] = theme_moove_get_menu_icon($tabs[0]->id);
+
+        $menus->menu = $menu;
+        $menus->more = [];
     }
-    // Build more menu
-    $more_menu = [];
-    $m = 0;
-    // Start at 5 because more menu begins at element 5
-    for ($b = 5; $b < count($tabs); $b++) {
-        $more_menu[$m]['id'] = $tabs[$b]->id;
-        $more_menu[$m]['name'] = $tabs[$b]->title;
-        $more_menu[$m]['url'] = str_replace('&amp;', '&', $tabs[$b]->link->out());
-        $m++;
-    }
-    // Add both arrays into menus object
-    $menus->menu = $menu;
-    $menus->more = $more_menu;
 
     return $menus;
 }
