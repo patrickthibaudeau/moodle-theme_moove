@@ -33,10 +33,12 @@ class moove_primary extends \core\navigation\output\primary
 
         $primary_nav = $this->get_primary_nav();
 
-        // Remove Home
-        unset($primary_nav[0]);
-        // Remove Dashboard
-        unset($primary_nav[1]);
+        if (!is_siteadmin()) {
+            // Remove Home
+            unset($primary_nav[0]);
+            // Remove Dashboard
+            unset($primary_nav[1]);
+        }
 
         $menudata = (object) array_merge($primary_nav, $this->get_custom_menu($output));
         $moremenu = new \core\navigation\output\more_menu($menudata, 'navbar-nav', false);
