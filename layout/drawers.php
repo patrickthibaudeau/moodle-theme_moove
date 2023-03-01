@@ -150,7 +150,7 @@ if ($PAGE->has_secondary_navigation()) {
 
 $extraclasses[] = 'has-secondarynavigation';
 
-$primary = new \theme_moove\moove_primary($PAGE);
+$primary = new core\navigation\output\primary($PAGE);
 $renderer = $PAGE->get_renderer('core');
 $primarymenu = $primary->export_for_template($renderer);
 $buildregionmainsettings = !$PAGE->include_region_main_settings_in_header_actions() && !$PAGE->has_secondary_navigation();
