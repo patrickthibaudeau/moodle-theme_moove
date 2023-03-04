@@ -154,6 +154,17 @@ $string['telegramdesc'] = 'Enter your Telegram contact or group link.';
 $string['contactus'] = 'Contact us';
 $string['followus'] = 'Follow us';
 
+// Login Page
+$string['create_account'] = 'Create a new account or log in with an existing account to continue';
+$string['create_an_account'] = 'create an account';
+$string['continue_goole_ms'] = 'Continue with Google or Microsoft ';
+$string['continue_microlecture'] = 'To continue to the Microlecture Series, you will need to have an account.';
+$string['continue_with_existing'] = 'Continue with an existing account';
+$string['first_time_here'] = 'Is this your first time here?';
+$string['have_one_created'] = 'or have one created automatically by logging in using your own Google or Microsoft account (right).';
+$string['microlecture_series'] = 'York University’s Microlecture Series in Sustainable Living';
+$string['you_can_either'] = 'You can either';
+
 // Mypublic page.
 $string['aboutme'] = 'About me';
 $string['personalinformation'] = 'Personal information';
