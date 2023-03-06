@@ -164,6 +164,7 @@ $string['first_time_here'] = 'Is this your first time here?';
 $string['have_one_created'] = 'or have one created automatically by logging in using your own Google or Microsoft account.';
 $string['microlecture_series'] = 'York University’s Microlecture Series in Sustainable Living';
 $string['you_can_either'] = 'To continue to the Microlecture Series, you can either';
+$string['microseries_account'] = 'Login with your Microlecture Series account.';
 
 // Mypublic page.
 $string['aboutme'] = 'About me';

@@ -129,16 +129,17 @@
                             {{#cansignup}}
                                 <div class="login-signup">
                                     <p>
-                                        <b>{{#str}}first_time_here, theme_moove{{/str}}</b>
-                                    </p>
-                                    <p>
                                         {{#str}}you_can_either, theme_moove{{/str}} <a href="{{signupurl}}">{{#str}}
                                         create_an_account, theme_moove{{/str}}</a>
                                         {{#str}}have_one_created, theme_moove{{/str}}
                                     </p>
-
                                 </div>
                             {{/cansignup}}
+                            <div class="sigin-info">
+                                <p>
+                                    {{#str}}microseries_account, theme_moove{{/str}}
+                                </p>
+                            </div>
                             <form class="login-form" action="{{loginurl}}" method="post" id="login">
                                 <input type="hidden" name="logintoken" value="{{logintoken}}">
                                 <div class="login-form-username form-group">
