@@ -129,6 +129,9 @@
                             {{#cansignup}}
                                 <div class="login-signup">
                                     <p>
+                                        <b>{{#str}}first_time_here, theme_moove{{/str}}</b>
+                                    </p>
+                                    <p>
                                         {{#str}}you_can_either, theme_moove{{/str}} <a href="{{signupurl}}">{{#str}}
                                         create_an_account, theme_moove{{/str}}</a>
                                         {{#str}}have_one_created, theme_moove{{/str}}
@@ -195,10 +198,17 @@
                         </div>
                         {{#hastwocolumns}}
                             <div class="col-lg-6 col-md-12 right-column">
+
+                                    {{#hasinstructions}}
+                                    <div>
+                                        {{{instructions}}}
+                                    </div>
+                                    {{/hasinstructions}}
+
                                 <div class="column-content">
                                     {{#hasidentityproviders}}
                                         <div class="login-identityproviders">
-                                            <p class="login-heading text-center">{{#str}}continue_goole_ms, theme_moove{{/str}}</p>
+
                                             {{#identityproviders}}
                                                 <a class="btn login-identityprovider-btn btn-block {{#isfacebook}}facebook{{/isfacebook}}"
                                                    href="{{url}}">
@@ -212,9 +222,7 @@
 
                                         <div class="login-divider"></div>
                                     {{/hasidentityproviders}}
-                                    {{#hasinstructions}}
-                                        {{{instructions}}}
-                                    {{/hasinstructions}}
+
                                     {{#canloginasguest}}
                                         <form action="{{loginurl}}" method="post" id="guestlogin">
                                             <input type="hidden" name="logintoken" value="{{logintoken}}">
