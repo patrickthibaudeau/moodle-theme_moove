@@ -161,7 +161,7 @@ $string['continue_goole_ms'] = 'Continue with Google or Microsoft ';
 $string['continue_microlecture'] = 'To continue to the Microlecture Series, you will need to have an account.';
 $string['continue_with_existing'] = 'Continue with an existing account';
 $string['first_time_here'] = 'Is this your first time here?';
-$string['have_one_created'] = 'or have one created automatically by logging in using your own Google or Microsoft account (right).';
+$string['have_one_created'] = 'or have one created automatically by logging in using your own Google or Microsoft account.';
 $string['microlecture_series'] = 'York University’s Microlecture Series in Sustainable Living';
 $string['you_can_either'] = 'You can either';
 
