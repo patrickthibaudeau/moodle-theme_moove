@@ -163,7 +163,7 @@ $string['continue_with_existing'] = 'Create a new account or log in with an exis
 $string['first_time_here'] = 'Is this your first time here?';
 $string['have_one_created'] = 'or have one created automatically by logging in using your own Google or Microsoft account.';
 $string['microlecture_series'] = 'York University’s Microlecture Series in Sustainable Living';
-$string['you_can_either'] = 'You can either';
+$string['you_can_either'] = 'To continue to the Microlecture Series, you can either';
 
 // Mypublic page.
 $string['aboutme'] = 'About me';
