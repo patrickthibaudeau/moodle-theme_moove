@@ -187,3 +187,15 @@ $string['privacy:accessibilitystyles_fontsizeclass'] = 'The current preference f
 $string['privacy:accessibilitystyles_sitecolorclass'] = 'The current preference for the site color is: {$a}.';
 $string['privacy:thememoovesettings_fonttype'] = 'The current preference for the font type is: {$a}.';
 $string['privacy:thememoovesettings_enableaccessibilitytoolbar'] = 'The current preference for enable accessibility toolbar is to show it.';
+
+// Login Page
+$string['create_account'] = 'Create a new account or log in with an existing account to continue';
+$string['create_an_account'] = 'créer un compte, ';
+$string['continue_goole_ms'] = 'Continuer avec Google ou Microsoft ';
+$string['continue_microlecture'] = 'To continue to the Microlecture Series, you will need to have an account.';
+$string['continue_with_existing'] = 'Create a new account or log in with an existing account to continue. To continue using your existing Passport York account, log in using Microsoft with your email in the ‘account@yorku.ca’ format.';
+$string['have_one_created'] = 'soit en créer un automatiquement en vous connectant à l\'aide de votre propre compte Google ou Microsoft.';
+$string['microlecture_series'] = 'Série de micro-discours sur le mode de vie durable de l\'Université York';
+$string['you_can_either'] = 'Pour continuer avec la série de micro-discours, vous pouvez soit ';
+$string['microseries_account'] = 'Connectez-vous avec votre compte de la série micro-discours.';
+$string['york_community_members'] = '*Les membres de la communauté York peuvent se connecter avec les informations d\'identification Passport York via la connexion Microsoft en utilisant <i>username@yorku.ca</i>';
