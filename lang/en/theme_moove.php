@@ -165,7 +165,7 @@ $string['have_one_created'] = 'or have one created automatically by logging in u
 $string['microlecture_series'] = 'York University’s Microlecture Series in Sustainable Living';
 $string['you_can_either'] = 'To continue to the Microlecture Series, you can either';
 $string['microseries_account'] = 'Login with your Microlecture Series account.';
-$string['yorku_community_members'] = '*York community members can log in with Passport York credentials through the Microsoft Log-in using <i>username@yorku.ca</i>';
+$string['york_community_members'] = '*York community members can log in with Passport York credentials through the Microsoft Log-in using <i>username@yorku.ca</i>';
 
 
 // Mypublic page.
