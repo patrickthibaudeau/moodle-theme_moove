@@ -1,0 +1,28 @@
+<script type="text/javascript">
+function checkLink(){
+    var urlRemote = "{{config.wwwroot}}/local/yorktasks/sleekplantoken.php"
+    var useridurl = $("div.user > a").attr("href").split("?")[1];
+    var urlParams = new URLSearchParams(useridurl);
+    var userid = urlParams.get("id");
+    var mail = {{useremail}};
+    var img = $("img.userpicture").attr("src");
+
+    $.post(urlRemote,
+    {
+        mail: mail,
+    userid: userid,
+    img: img
+    }, function(data, status){
+      if (status == "success"){
+        window.SLEEK_USER = {
+            token: data,
+        };
+        var sleekplanhtml = '<script 
+type="text/javascript">window.$sleek=[];window.SLEEK_PRODUCT_ID=205691429;(function(){d=document;s=d.createElement("script");s.src="https://client.sleekplan.com/sdk/e.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>';
+        $("body").append(sleekplanhtml);
+      }
+  });
+}
+checkLink();
+</script>
+

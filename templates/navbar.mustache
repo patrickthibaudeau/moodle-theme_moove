@@ -88,10 +88,15 @@
         <div class="navbarcallbacks">
             {{{ output.get_navbar_callbacks_data }}}
         </div>
+
         {{# output.search_box }}
             {{{ output.search_box }}}
             <div class="divider border-left h-75 align-self-center mx-1"></div>
         {{/output.search_box}}
+
+        <!-- watson cal -->
+        {{{output.render_watson}}}
+
         {{#langmenu}}
             {{> theme_moove/language_menu }}
             <div class="divider border-left h-75 align-self-center mx-1"></div>

@@ -77,6 +77,15 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');
     $page->add($setting);
 
+    $name = 'theme_moove/secondarymenuremoveitems';
+    $title = get_string('secondarymenuremoveitems', 'theme_moove');
+    $description = get_string('secondarymenuremoveitems_desc', 'theme_moove');
+    $default = 0;
+    $choices = array(0 => get_string('no'), 1 => get_string('yes'));
+    $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $page->add($setting);
+
     // Preset files setting.
     $name = 'theme_moove/presetfiles';
     $title = get_string('presetfiles', 'theme_moove');

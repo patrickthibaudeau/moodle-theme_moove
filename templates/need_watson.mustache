@@ -1,0 +1,240 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template message_output_popup/message_popover
+
+    This template will render the message popover for the navigation bar.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * All data attributes are required
+
+    Context variables required for this template:
+    * userid The logged in user id
+    * urls The URLs for the popover
+
+    Example context (json):
+    {
+        "userid": 3,
+        "urls": {
+            "preferences": "http://www.moodle.com"
+        }
+    }
+
+}}
+{{< theme_moove/watson_popover_region }} <!-- TODO: figure out the button for watson -->
+    {{$togglelabel}}Show Watson{{/togglelabel}}
+    {{$userid}}{{userid}}{{/userid}}
+    {{$toggletitle}}Toggle Watson{{/toggletitle}}
+    {{$togglecontent}}
+        <div>
+            <!--<i class="icon fa-cloud" aria-hidden="true"></i> -->
+            <img src="{{bigwatsonicon}}" class="watson-btn" alt="{{#str}}watson_logo, theme_moove{{/str}}"
+                 onclick="callWatsonBroker()">
+            <div class="count-container hidden" data-region="count-container"></div>
+        </div>
+    {{/togglecontent}}
+
+    {{$containerlabel}}watsonwindow{{/containerlabel}}
+
+    {{$headertext}}
+        <input type='hidden' id='watsonstatus' value=0></input>
+        <div id='mdlwatsondiv' name='mdlwatsondiv'></div>
+        <div id='watsonchat' class='watsonchat' name='watsonchat'></div>
+        <script>
+            var initiateChat = false;
+
+window.watsonAssistantChatOptions = {
+    integrationID: "5612a2e8-4b79-4bfe-be8a-a7fed2832016", // The ID of this integration.
+    region: "us-south", // The region your integration is hosted in.
+    serviceInstanceID: "da69ef66-2427-48f5-bda4-407443d0d16f", // The ID of your service instance.
+
+   // Config option to hide the default launcher.
+    showLauncher: false,
+
+   onLoad: function (instance) {
+        // Select the button element from the page.
+        const button = document.querySelector('.watson-btn');
+
+       // Add the event listener to open your web chat.
+        button.addEventListener('click', function clickListener() {
+            instance.openWindow();
+        });
+
+       // Render the web chat. Nothing appears on the page, because the launcher is
+        // hidden and the web chat window is closed by default.
+        instance.render().then(function () {
+            // Now that web chat has been rendered (but is still closed), we make the
+            // custom launcher button visible.
+            button.style.display = 'block';
+            button.classList.add('open');
+        });
+    }
+};
+//            function callWatsonBroker() {
+
+                if (!initiateChat) {
+                    var script = document.createElement('script');
+                    var payload = {
+                        "context": {
+                            "launchpoint": "1",
+                            "firstName": "{{firstname}}",
+                            "commonName": "{{commonname}}",
+                            "studentID": "{{idnumber}}",
+                            "isInternational": "{{isinternational}}",
+                            "studyLevel": "{{studylevel}}",
+                            "language": "{{language}}",
+                            "collegeaffiliation": "{{collegeaffiliation}}",
+                            "registeredactive": "{{registeredactive}}",
+                            "usertype": "{{usertype}}",
+                            "subjects": [
+                                {{#onesubject}}
+                                    {{#subjects}}
+                                        {
+                                            "desc": "{{desc}}",
+                                            "title1": "{{title1}}",
+                                            "subject1": "{{subject1}}",
+                                            "unit1": "{{unit1}}",
+                                            "subject1facultydesc": "{{subject1facultydesc}}",
+                                            "subject1faculty": "{{subject1faculty}}",
+                                            "subject1dept": "{{subject1dept}}",
+                                            "title2": "{{title2}}",
+                                            "subject2": "{{subject2}}",
+                                            "unit2": "{{unit2}}",
+                                            "subject2facultydesc": "{{subject2facultydesc}}",
+                                            "subject2faculty": "{{subject2faculty}}",
+                                            "subject2dept": "{{subject2dept}}"
+                                        }
+                                    {{/subjects}}
+                                {{/onesubject}}
+                                {{#moresubjects}}
+                                    {{#subjects}}
+                                        {
+                                            "desc": "{{desc}}",
+                                            "title1": "{{title1}}",
+                                            "subject1": "{{subject1}}",
+                                            "unit1": "{{unit1}}",
+                                            "subject1facultydesc": "{{subject1facultydesc}}",
+                                            "subject1faculty": "{{subject1faculty}}",
+                                            "subject1dept": "{{subject1dept}}",
+                                            "title2": "{{title2}}",
+                                            "subject2": "{{subject2}}",
+                                            "unit2": "{{unit2}}",
+                                            "subject2facultydesc": "{{subject2facultydesc}}",
+                                            "subject2faculty": "{{subject2faculty}}",
+                                            "subject2dept": "{{subject2dept}}"
+                                        },
+                                    {{/subjects}}
+                                    {{#lastsubject}}
+                                        {
+                                            "desc": "{{desc}}",
+                                            "title1": "{{title1}}",
+                                            "subject1": "{{subject1}}",
+                                            "unit1": "{{unit1}}",
+                                            "subject1facultydesc": "{{subject1facultydesc}}",
+                                            "subject1faculty": "{{subject1faculty}}",
+                                            "subject1dept": "{{subject1dept}}",
+                                            "title2": "{{title2}}",
+                                            "subject2": "{{subject2}}",
+                                            "unit2": "{{unit2}}",
+                                            "subject2facultydesc": "{{subject2facultydesc}}",
+                                            "subject2faculty": "{{subject2faculty}}",
+                                            "subject2dept": "{{subject2dept}}"
+                                        }
+                                    {{/lastsubject}}
+                                {{/moresubjects}}
+                            ],
+                            "classes": [
+                                {{#courses}}
+                                    {
+                                        "uniqueId": "{{uniqueid}}",
+                                        "id": "{{id}}",
+                                        "title": "{{title}}",
+                                        "campus": "{{campus}}",
+                                        "periodCode": "{{period}}",
+                                        "session": "{{session}}",
+                                        "faculty": "{{faculty}}"
+                                    },
+                                {{/courses}}
+                                {{#lastcourse}}
+                                    {
+                                        "uniqueId": "{{uniqueid}}",
+                                        "id": "{{id}}",
+                                        "title": "{{title}}",
+                                        "campus": "{{campus}}",
+                                        "periodCode": "{{period}}",
+                                        "session": "{{session}}",
+                                        "faculty": "{{faculty}}"
+                                    }
+                                {{/lastcourse}}
+                            ],
+                            "progfaculty": "{{progfaculty}}"
+                        }
+                    };
+                    var dataPayload = JSON.stringify(payload);
+                    script.setAttribute('data-prop-bot-name', 'York V3 Test');
+                    script.setAttribute('data-prop-bot-id', '68d2eb2d-4f68-4812-a240-8cc76c6e8dd3'); <!-- TODO: get bot id and name -->
+                    script.setAttribute('data-mount-app-id', 'chat');
+                    script.setAttribute('data-mount', 'watsonchat');
+                    script.setAttribute('data-prop-input-text-size', '13px');
+                    script.setAttribute('data-prop-start-open', 'false');
+                    script.setAttribute('data-prop-event-callback', 'handleChatChange');
+                    script.setAttribute('data-prop-handle-bg', '#09AEEC');
+                    script.setAttribute('data-prop-handle-fg', '#000000');
+                    script.setAttribute('data-prop-brand-uri', '{{brand}}');
+                    script.setAttribute('data-prop-api-key', '{{apikey}}');
+                    script.setAttribute('data-prop-username', '{{moodleid}}');
+                    script.setAttribute('data-prop-isglendon', '{{isglendon}}');
+                    script.setAttribute('data-prop-payload', dataPayload);
+                    script.src = "https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+
+                    document.head.appendChild(script);
+                    initiateChat = true;
+
+                    //create report button, then hide it so we can make it visible once we've observed a change in the chat div
+                    var reportdiv = document.createElement('div');
+                    reportdiv.setAttribute('id', 'watsonreport');
+                    reportdiv.setAttribute('name', 'watsonreport');
+                    var reportlink = document.createElement('a');
+                    reportlink.setAttribute('target', '_blank');
+                    reportlink.setAttribute('href', 'https://go.yorku.ca/sva1');
+                    reportlink.innerHTML = 'Report an issue';
+                    reportdiv.appendChild(reportlink);
+                    $('#watsonchat').parent().append(reportdiv);
+                    $('#watsonreport').hide();
+
+                    //create new MutationObserver to watch for changes to the watsonchat element, once it detects a change, make the watsonreport div created earlier visible
+                    var observer = new MutationObserver(function (mutations) {
+                        $('#watsonreport').show();
+                        observer.disconnect();
+                    });
+                    const targetNode = document.getElementById('watsonchat');
+                    observer.observe(targetNode, {
+                        childList: true
+                    });
+                }
+//            }
+        </script>
+    {{/headertext}}
+{{/ theme_moove/watson_popover_region }}
+{{#js}}
+    require(['theme_moove/watson'], function(mod) {
+//    mod.init();
+    });
+{{/js}}

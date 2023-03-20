@@ -1,0 +1,158 @@
+/*Speech bubble for SAVY reminders*/
+
+/*Make sure the alerts don't show unless called*/
+#savyalerts {
+    display:none;
+}
+
+div#savyalerts, div#div#savyalertsall {
+    position: absolute;
+    z-index: 99999;
+    width: 300px;
+}
+
+.savy-speech {
+    position: relative;
+    top: 10px;
+    left: -45px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 12px;
+    line-height: normal;
+    background: #ce1b2d;
+    color: #fff;
+    border-radius: 10px;
+    padding-top: 20px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 5px;
+    max-width: 300px;
+}
+
+.savy-bottom::after {
+    /* [THESE WILL CREATE THE TRIANGLE] */
+    content: '';
+    border: 20px solid transparent;
+    border-top-color: #ce1b2d;
+    border-bottom: 0;
+    /* [THESE WILL POSITION THE TRIANGLE] */
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    margin-left: -20px;
+}
+
+.savy-top::after {
+    content: '';
+    border: 20px solid transparent;
+    border-bottom-color: #ce1b2d;
+    border-top: 0;
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    margin-left: -20px;
+}
+
+.savy-left::after {
+    content: '';
+    border: 20px solid transparent;
+    border-right-color: #ce1b2d;
+    border-left: 0;
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    margin-top: -20px;
+}
+
+.savy-right::after {
+    content: '';
+    border: 20px solid transparent;
+    border-left-color: #ce1b2d;
+    border-right: 0;
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    margin-top: -20px;
+}
+
+.savy-top-right-half::after {
+    content: '';
+    border: 20px solid transparent;
+    border-left: 20px solid #ce1b2d;
+    border-bottom: 20px solid #ce1b2d;
+    position: absolute;
+    top: -20px;
+    left: 80%;
+}
+
+.savy-top-left-half::after {
+    content: '';
+    border: 20px solid transparent;
+    border-right: 20px solid #ce1b2d;
+    border-bottom: 20px solid #ce1b2d;
+    position: absolute;
+    top: -20px;
+    left: 20%;
+}
+
+.savy-speech-dialog {
+    background-color: #fff;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    color: #000;
+    /*padding: 10px;*/
+}
+
+.savy-speech-dialog-logo-container {
+    display: block;
+    margin-right: 5px;
+    float: left;
+}
+.savy-speech-dialog-logo {
+    width: 35px;
+    height: auto;
+}
+
+.savy-close-speech-dialog {
+    margin: 0px 5px;
+    float: right;
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+
+.savy-speech-dialog-body {
+    /*display: block;*/
+}
+
+.savy-speech-dialog.container-fluid.row.col {
+    padding-left: 5px;
+    padding-rigth: 5px;
+}
+
+.savy-speech-column {
+  float: left;
+  padding: 5px;
+}
+
+.savy-speech-left  {
+  width: 20%;
+}
+
+.savy-speech-right {
+  width: 10%;
+}
+
+.savy-speech-middle {
+  width: 70%;
+}
+
+/* Clear floats after the columns */
+.savy-speech-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}

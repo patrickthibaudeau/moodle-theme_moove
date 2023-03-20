@@ -6,7 +6,7 @@ define(['jquery', 'core/log'], function ($, log) {
     log.debug('Remove mods initialised');
 
     function init_mods() {
-        let blockedMods = $('#blocked_mods').val();
+        var blockedMods = $('#blocked_mods').val();
 
         //Capture activity chooser has been clicked
         $('.section-modchooser-link').click(function () {
@@ -23,8 +23,8 @@ define(['jquery', 'core/log'], function ($, log) {
                     }
                 }, 100);
 
-                setTimeout(() => {
-                   interval;
+                setTimeout(function(){
+                   interval
                 }, 10000);
             }
         });
