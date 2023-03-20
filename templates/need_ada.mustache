@@ -1,0 +1,171 @@
+{{< theme_moove/ada_popover_region }}
+    {{$togglelabel}}Show Ada{{/togglelabel}}
+    {{$userid}}{{userid}}{{/userid}}
+    {{$toggletitle}}Toggle Ada{{/toggletitle}}
+    {{$togglecontent}}
+        <div>
+            <!--<i class="icon fa-cloud" aria-hidden="true"></i> -->
+            <img src="{{bigwatsonicon}}" class="ada-btn" alt="{{#str}}ada_logo, theme_moove{{/str}}"
+                 onclick="callAdaBroker()">
+            <div class="count-container hidden" data-region="count-container"></div>
+        </div>
+    {{/togglecontent}}
+
+    {{$containerlabel}}adawindow{{/containerlabel}}
+
+    {{$headertext}}
+        <input type='hidden' id='adastatus' value=0></input>
+        <div id='mdladadiv' name='mdladadiv'></div>
+        <div id='adachat' name='adachat'></div>
+        <script>
+            var initiateChat = false;
+
+            function callAdaBroker() {
+
+                if (!initiateChat) {
+                    var script = document.createElement('script');
+                    var payload = {
+                        "context": {
+                            "firstName": "{{firstname}}",
+                            "commonName": "{{commonname}}",
+                            "studentID": "{{idnumber}}",
+                            "isInternational": "{{isinternational}}",
+                            "studyLevel": "{{studylevel}}",
+                            "language": "{{language}}",
+                            "collegeaffiliation": "{{collegeaffiliation}}",
+                            "registeredactive": "{{registeredactive}}",
+                            "usertype": "{{usertype}}",
+                            "subjects": [
+                                {{#onesubject}}
+                                    {{#subjects}}
+                                        {
+                                            "desc": "{{desc}}",
+                                            "title1": "{{title1}}",
+                                            "subject1": "{{subject1}}",
+                                            "unit1": "{{unit1}}",
+                                            "subject1facultydesc": "{{subject1facultydesc}}",
+                                            "subject1faculty": "{{subject1faculty}}",
+                                            "subject1dept": "{{subject1dept}}",
+                                            "title2": "{{title2}}",
+                                            "subject2": "{{subject2}}",
+                                            "unit2": "{{unit2}}",
+                                            "subject2facultydesc": "{{subject2facultydesc}}",
+                                            "subject2faculty": "{{subject2faculty}}",
+                                            "subject2dept": "{{subject2dept}}"
+                                        }
+                                    {{/subjects}}
+                                {{/onesubject}}
+                                {{#moresubjects}}
+                                    {{#subjects}}
+                                        {
+                                            "desc": "{{desc}}",
+                                            "title1": "{{title1}}",
+                                            "subject1": "{{subject1}}",
+                                            "unit1": "{{unit1}}",
+                                            "subject1facultydesc": "{{subject1facultydesc}}",
+                                            "subject1faculty": "{{subject1faculty}}",
+                                            "subject1dept": "{{subject1dept}}",
+                                            "title2": "{{title2}}",
+                                            "subject2": "{{subject2}}",
+                                            "unit2": "{{unit2}}",
+                                            "subject2facultydesc": "{{subject2facultydesc}}",
+                                            "subject2faculty": "{{subject2faculty}}",
+                                            "subject2dept": "{{subject2dept}}"
+                                        },
+                                    {{/subjects}}
+                                    {{#lastsubject}}
+                                        {
+                                            "desc": "{{desc}}",
+                                            "title1": "{{title1}}",
+                                            "subject1": "{{subject1}}",
+                                            "unit1": "{{unit1}}",
+                                            "subject1facultydesc": "{{subject1facultydesc}}",
+                                            "subject1faculty": "{{subject1faculty}}",
+                                            "subject1dept": "{{subject1dept}}",
+                                            "title2": "{{title2}}",
+                                            "subject2": "{{subject2}}",
+                                            "unit2": "{{unit2}}",
+                                            "subject2facultydesc": "{{subject2facultydesc}}",
+                                            "subject2faculty": "{{subject2faculty}}",
+                                            "subject2dept": "{{subject2dept}}"
+                                        }
+                                    {{/lastsubject}}
+                                {{/moresubjects}}
+                            ],
+                            "classes": [
+                                {{#courses}}
+                                    {
+                                        "uniqueId": "{{uniqueid}}",
+                                        "id": "{{id}}",
+                                        "title": "{{title}}",
+                                        "campus": "{{campus}}",
+                                        "periodCode": "{{period}}",
+                                        "session": "{{session}}",
+                                        "faculty": "{{faculty}}"
+                                    },
+                                {{/courses}}
+                                {{#lastcourse}}
+                                    {
+                                        "uniqueId": "{{uniqueid}}",
+                                        "id": "{{id}}",
+                                        "title": "{{title}}",
+                                        "campus": "{{campus}}",
+                                        "periodCode": "{{period}}",
+                                        "session": "{{session}}",
+                                        "faculty": "{{faculty}}"
+                                    }
+                                {{/lastcourse}}
+                            ],
+                            "progfaculty": "{{progfaculty}}"
+                        }
+                    };
+                    var dataPayload = JSON.stringify(payload);
+                    script.setAttribute('data-prop-bot-name', 'York V3 Test');
+                    script.setAttribute('data-prop-bot-id', '68d2eb2d-4f68-4812-a240-8cc76c6e8dd3'); <!-- TODO: get bot id and name -->
+                    script.setAttribute('data-mount', 'adachat');
+                    script.setAttribute('data-prop-input-text-size', '13px');
+                    script.setAttribute('data-prop-start-open', 'false');
+                    script.setAttribute('data-prop-event-callback', 'handleChatChange');
+                    script.setAttribute('data-prop-handle-bg', '#09AEEC');
+                    script.setAttribute('data-prop-handle-fg', '#000000');
+                    script.setAttribute('data-prop-brand-uri', '{{brand}}');
+                    script.setAttribute('data-prop-api-key', '{{apikey}}');
+                    script.setAttribute('data-prop-username', '{{moodleid}}');
+                    script.setAttribute('data-prop-isglendon', '{{isglendon}}');
+                    script.setAttribute('data-prop-payload', dataPayload);
+                    script.setAttribute('src', '{{endpointurl}}');
+
+                    document.head.appendChild(script);
+                    initiateChat = true;
+
+                    //create report button, then hide it so we can make it visible once we've observed a change in the chat div
+                    var reportdiv = document.createElement('div');
+                    reportdiv.setAttribute('id', 'adareport');
+                    reportdiv.setAttribute('name', 'adareport');
+                    var reportlink = document.createElement('a');
+                    reportlink.setAttribute('target', '_blank');
+                    reportlink.setAttribute('href', 'https://go.yorku.ca/sva1');
+                    reportlink.innerHTML = 'Report an issue';
+                    reportdiv.appendChild(reportlink);
+                    $('#adachat').parent().append(reportdiv);
+                    $('#adareport').hide();
+
+                    //create new MutationObserver to watch for changes to the watsonchat element, once it detects a change, make the watsonreport div created earlier visible
+                    var observer = new MutationObserver(function (mutations) {
+                        $('#adareport').show();
+                        observer.disconnect();
+                    });
+                    const targetNode = document.getElementById('adachat');
+                    observer.observe(targetNode, {
+                        childList: true
+                    });
+                }
+            }
+        </script>
+    {{/headertext}}
+{{/ theme_moove/ada_popover_region }}
+{{#js}}
+    require(['theme_moove/ada'], function(mod) {
+    mod.init();
+    });
+{{/js}}
