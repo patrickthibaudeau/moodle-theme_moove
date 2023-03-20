@@ -114,7 +114,7 @@
     </div>
 {{/secondarymoremenu}}
 {{^secondarymoremenu}}
-    <div class="york-red-seperator secondary-navigation d-print-none moove">
+    <div class="secondary-navigation d-print-none moove">
 <!--    On my dashboar or my courses page-->
         {{#is_mycourses_page}}
 <!--        User is staff-->
@@ -123,13 +123,14 @@
                     <ul class="boxes">
 <!--                    Sandbox plugin is installed-->
                         {{#sandbox_installed}}
-                            <li style="height: 60px; padding:15px">
+                            <li>
                                 <div title="Playground">
                                     <a href="{{config.wwwroot}}/local/sandbox/index.php"
                                        title="{{#str}}createsandbox, local_sandbox{{/str}}">
                                         <div>
+                                            <h2><i class="fa fa-plus-square-o" aria-hidden="true"></i></h2>
                                             <span class="course-menu-text">{{#str}}
-                                                createsandbox, local_sandbox{{/str}}</span>
+                                                playground, theme_moove{{/str}}</span>
                                         </div>
                                     </a>
                                 </div>
