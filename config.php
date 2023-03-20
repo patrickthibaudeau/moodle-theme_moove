@@ -27,8 +27,8 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/lib.php');
 
 $THEME->name = 'moove';
-$THEME->sheets = [];
-$THEME->editor_sheets = [];
+$THEME->sheets =  ['custom', 'savy_alerts'];
+$THEME->editor_sheets = ['bootstrap'];
 $THEME->editor_scss = ['editor'];
 $THEME->usefallback = false;
 $THEME->scss = function($theme) {
@@ -165,6 +165,19 @@ $THEME->layouts = [
         'file' => 'secure.php',
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre'
+    ),
+    'savy_mobile' => array(
+        'file' => 'savy_mobile.php',
+        'regions' => array(),
+        'options' => array(
+            'nofooter' => true,
+            'nonavbar' => true,
+            'activityheader' => [
+                'notitle' => true,
+                'nocompletion' => true,
+                'nodescription' => true
+            ]
+        )
     )
 ];
 

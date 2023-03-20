@@ -1,104 +1,191 @@
 body {
-    background-color: $background !important; /* stylelint-disable-line */
+  background-color: $background !important; /* stylelint-disable-line */
+  // used to align forms
+  .ml-2_6 {
+    margin-left: 2.7rem !important;
+  }
+}
+
+// York No rounded corners for buttons
+.btn-succes,
+.btn-primary,
+.btn-info,
+.btn-warning,
+.btn-danger,
+.btn-secondary,
+.card {
+  border-radius: 0px !important;
+}
+
+.card-img, .card-img-top {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+#user-action-menu {
+  background-color: $york-red;
+  border-color: $york-red-dark;
+  //border-width: 1px;
+  -webkit-box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.37);
+  box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.37);
+
+  .dropdown-item {
+    color: #fff;
+  }
+
+  .dropdown-item:hover {
+    background-color: $york-red-medium !important;
+  }
+}
+
+.moremenu .dropdown-item[aria-current="true"], .moremenu .dropdown-item.active {
+  background-color: transparent;
+  color: #fff !important;
+}
+
+.btn-group .dropdown-menu {
+  background-color: $york-grey-dark;
+
+  a {
+    color: #fff;
+  }
+
+  .dropdown-header {
+    color: #fff;
+  }
+
+  :hover {
+    background-color: $york-red-dark;
+    color: #fff;
+  }
+}
+
+.dropdownmoremenu {
+  .dropdown-menu {
+    background-color: $york-red !important;
+    a {
+      color: #fff;
+    }
+  }
+}
+
+//select option {
+//  background-color: $york-grey-dark !important;
+//  color: #fff;
+//  :hover {
+//    background-color: $york-red-dark !important;
+//    color: #fff;
+//  }
+//}
+
+
+// York U image
+.navbar.fixed-top .navbar-brand .logo {
+  max-height: calc(45px - (0.25rem * 2));
+}
+
+.btn.btn-primary.search-icon {
+  border-top-right-radius: 0.5rem !important;
+  border-bottom-right-radius: 0.5rem !important;
 }
 
 #page-header {
-    margin: 1.25rem auto;
-    padding: 0;
+  margin: 1.25rem auto;
+  padding: 0;
 
-    h1 {
-        margin-bottom: 0;
-    }
+  h1 {
+    margin-bottom: 0;
+  }
 
-    #page-navbar {
-        display: flex;
-        align-items: center;
-        justify-content: right;
-    }
+  #page-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+  }
 
-    .courseheader {
-        display: flex;
-        align-items: center;
-        white-space: nowrap;
-    }
+  .courseheader {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
 }
 
 .moove-container-fluid {
-    padding: 0;
-    width: 100%;
-    margin-right: auto;
-    margin-left: auto;
+  padding: 0;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .card {
-    border: none;
-    -webkit-box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
-    box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
+  border: none;
+  -webkit-box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
+  box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
 }
 
 .moove-container-fluid,
 .container-fluid {
-    max-width: 85%;
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
+  max-width: 85%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .container-fluid.tertiary-navigation {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 a {
-    transition: all 0.25s ease-out;
-    color: $brand-primary;
+  transition: all 0.25s ease-out;
+  color: $brand-primary;
 }
 
 .dropdown-item:active,
 .dropdown-item:hover,
 .dropdown-item:focus,
 .dropdown-item:focus-within {
-    background-color: darken($brand-primary, 10%);
+  background-color: darken($brand-primary, 10%);
 }
 
 .shadow {
-    box-shadow: 0 0.375rem 1.5rem 0 rgb(140 152 164 / 13%) !important;
+  box-shadow: 0 0.375rem 1.5rem 0 rgb(140 152 164 / 13%) !important;
 }
 
 @include media-breakpoint-up(md) {
-    .pagelayout-standard #page.drawers .main-inner,
-    body.limitedwidth #page.drawers .main-inner,
-    #page.drawers .main-inner,
-    .moove-container-fluid,
-    .container-fluid,
-    .container-lg,
-    .container-md,
-    .container-sm,
-    .container-xl,
-    .container-xxl {
-        max-width: 85%;
-        padding-right: 15px;
-        padding-left: 15px;
-        margin-right: auto;
-        margin-left: auto;
-    }
+  .pagelayout-standard #page.drawers .main-inner,
+  body.limitedwidth #page.drawers .main-inner,
+  #page.drawers .main-inner,
+  .moove-container-fluid,
+  .container-fluid,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl,
+  .container-xxl {
+    max-width: 85%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
 
-    .header-maxwidth {
-        max-width: 100%;
-    }
+  .header-maxwidth {
+    max-width: 100%;
+  }
 }
 
 @include media-breakpoint-down(md) {
-    .pagelayout-standard #page.drawers .main-inner,
-    body.limitedwidth #page.drawers .main-inner,
-    #page.drawers .main-inner,
-    .moove-container-fluid,
-    .container-fluid,
-    .container-lg,
-    .container-md,
-    .container-sm,
-    .container-xl,
-    .container-xxl {
-        max-width: 95%;
-    }
+  .pagelayout-standard #page.drawers .main-inner,
+  body.limitedwidth #page.drawers .main-inner,
+  #page.drawers .main-inner,
+  .moove-container-fluid,
+  .container-fluid,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl,
+  .container-xxl {
+    max-width: 95%;
+  }
 }

@@ -1,0 +1,29 @@
+/** LTSYM-786 Watson popup fix round corners and remove border **/
+.navbar .popover-region-container.watson-container, .navbar .popover-region-container.ada-container {
+    top: 1.96875rem;
+}
+.popover-region-container.watson-container, .popover-region-container.ada-container {
+    border: none;
+    background-color: unset;
+}
+
+img.watson-btn, img.ada-btn{
+    max-width: 11em;
+    cursor: pointer;
+    min-width: 8em;
+}
+div#watsonreport, div#adareport{
+    background: rgb(51, 51, 51);
+    padding: 0px 5px 3px;
+    margin-left: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 0 13px 40px 0 rgba(0,0,0,.27);
+    width: 6em;
+    text-align: center;
+}
+div#watsonreport > a, div#adareport > a{
+    font-size: .7em;
+    text-decoration: none;
+    color: #fff;
+}

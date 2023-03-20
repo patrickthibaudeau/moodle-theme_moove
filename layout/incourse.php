@@ -24,11 +24,16 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+global $USER;
+
 require_once($CFG->libdir . '/behat/lib.php');
+require_once($CFG->libdir . '/accesslib.php');
 require_once($CFG->dirroot . '/course/lib.php');
+require_once($CFG->dirroot . '/theme/moove/lib.php');
 
 // Add block button in editing mode.
 $addblockbutton = $OUTPUT->addblockbutton();
+$PAGE->requires->js_call_amd('theme_moove/visibility', 'init');
 
 user_preference_allow_ajax_update('drawer-open-nav', PARAM_ALPHA);
 user_preference_allow_ajax_update('drawer-open-index', PARAM_BOOL);
@@ -44,6 +49,14 @@ if (isloggedin()) {
 
 if (defined('BEHAT_SITE_RUNNING')) {
     $blockdraweropen = true;
+}
+
+$teachers = theme_moove_get_teachers();
+
+// Is course format menutab?
+$is_menutab_format = false;
+if ($PAGE->course->format == 'menutab') {
+    $is_menutab_format = true;
 }
 
 $extraclasses = ['uses-drawers'];
@@ -69,10 +82,33 @@ if (!$courseindex) {
     $courseindexopen = false;
 }
 
+$edit_settings = false;
+if (has_capability('moodle/course:update', $PAGE->context)) {
+    $edit_settings = true;
+}
+
+$edit_grades = false;
+if (has_capability('moodle/grade:edit', $PAGE->context)) {
+    $edit_grades = true;
+}
+
+$view_reports = false;
+if (has_capability('moodle/site:viewreports', $PAGE->context)) {
+    $view_reports = true;
+}
+
+$is_site_course = false;
+if ($PAGE->course->id == 1) {
+    $is_site_course = true;
+}
+
 $forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
 
 $secondarynavigation = false;
 $overflow = '';
+$main_menu = '';
+$more_menu = '';
+$has_more_menu = false;
 if ($PAGE->has_secondary_navigation()) {
     $secondary = $PAGE->secondarynav;
 
@@ -81,6 +117,18 @@ if ($PAGE->has_secondary_navigation()) {
         $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
         $secondarynavigation = $moremenu->export_for_template($OUTPUT);
         $extraclasses[] = 'has-secondarynavigation';
+    }
+
+    // For course_navbar
+    if ($secondary->get_children_key_list()) {
+        $menus = theme_moove_build_secondary_menu($secondary->get_tabs_array());
+        $main_menu = $menus->menu;
+        $more_menu = $menus->more;
+        if ($more_menu) {
+            $has_more_menu = true;
+        }
+//        print_object($main_menu);
+//        die;
     }
 
     $overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
@@ -119,7 +167,20 @@ $templatecontext = [
     'hasregionmainsettingsmenu' => !empty($regionmainsettingsmenu),
     'overflow' => $overflow,
     'headercontent' => $headercontent,
-    'addblockbutton' => $addblockbutton
+    'addblockbutton' => $addblockbutton,
+    'edit_settings' => $edit_settings,
+    'edit_grades' => $edit_grades,
+    'view_reports' => $view_reports,
+    'visibility' => $PAGE->course->visible,
+    'courseid' => $PAGE->course->id,
+    'is_menutab_format' => $is_menutab_format,
+    'teachers' => $teachers,
+    'course_mods' => get_current_course_mods(),
+    'main_menu' => $main_menu,
+    'more_menu' => $more_menu,
+    'courseid' => $PAGE->course->id,
+    'has_more_menu' => $has_more_menu,
+    'is_site_course' => $is_site_course
 ];
 
 $templatecontext = array_merge($templatecontext, $themesettings->footer());

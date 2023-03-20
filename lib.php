@@ -28,7 +28,8 @@
  * @param theme_config $theme The theme config object.
  * @return string
  */
-function theme_moove_get_main_scss_content($theme) {
+function theme_moove_get_main_scss_content($theme)
+{
     global $CFG;
 
     $scss = '';
@@ -63,7 +64,8 @@ function theme_moove_get_main_scss_content($theme) {
  * @param theme_config $theme The theme config object.
  * @return string
  */
-function theme_moove_get_extra_scss($theme) {
+function theme_moove_get_extra_scss($theme)
+{
     $content = '';
 
     // Sets the login background image.
@@ -84,7 +86,8 @@ function theme_moove_get_extra_scss($theme) {
  * @param theme_config $theme The theme config object.
  * @return string
  */
-function theme_moove_get_pre_scss($theme) {
+function theme_moove_get_pre_scss($theme)
+{
     $scss = '';
     $configurable = [
         // Config key => [variableName, ...].
@@ -99,13 +102,13 @@ function theme_moove_get_pre_scss($theme) {
         if (empty($value)) {
             continue;
         }
-        array_map(function($target) use (&$scss, $value) {
+        array_map(function ($target) use (&$scss, $value) {
             if ($target == 'fontsite') {
-                $scss .= '$' . $target . ': "' . $value . '", sans-serif !default' .";\n";
+                $scss .= '$' . $target . ': "' . $value . '", sans-serif !default' . ";\n";
             } else {
                 $scss .= '$' . $target . ': ' . $value . ";\n";
             }
-        }, (array) $targets);
+        }, (array)$targets);
     }
 
     // Prepend pre-scss.
@@ -121,7 +124,8 @@ function theme_moove_get_pre_scss($theme) {
  *
  * @return string compiled css
  */
-function theme_moove_get_precompiled_css() {
+function theme_moove_get_precompiled_css()
+{
     global $CFG;
 
     return file_get_contents($CFG->dirroot . '/theme/moove/style/moodle.css');
@@ -139,7 +143,8 @@ function theme_moove_get_precompiled_css() {
  * @param array $options
  * @return mixed
  */
-function theme_moove_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
+function theme_moove_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array())
+{
     $theme = theme_config::load('moove');
 
     if ($context->contextlevel == CONTEXT_SYSTEM &&
@@ -173,4 +178,158 @@ function theme_moove_pluginfile($course, $cm, $context, $filearea, $args, $force
     }
 
     send_file_not_found();
+}
+
+function theme_moove_get_teachers()
+{
+    global $CFG, $DB, $PAGE, $OUTPUT;
+    require_once($CFG->libdir . '/accesslib.php');
+    require_once($CFG->libdir . '/filelib.php');
+
+    $role = $DB->get_record('role', ['shortname' => 'editingteacher']);
+    $users = get_role_users($role->id, $PAGE->context);
+
+    $teachers = [];
+    $i = 0;
+    foreach ($users as $u) {
+        $user = $DB->get_record('user', ['id' => $u->id]);
+        $user_picture = new user_picture($user);
+        $moodle_url = $user_picture->get_url($PAGE);
+
+        $teachers[$i] = new stdClass();
+        $teachers[$i]->fullname = fullname($u);
+        $teachers[$i]->email = $u->email;
+        $teachers[$i]->image = $moodle_url->out();
+        $teachers[$i]->id = $u->id;
+        $i++;
+    }
+    return $teachers;
+}
+
+function get_current_course_mods()
+{
+    global $CFG, $DB, $COURSE;
+
+    $context = context_course::instance($COURSE->id);
+    $contextArray = convert_to_array($context);
+    $course_id = $COURSE->id;
+
+    $cmods = get_course_mods($course_id);
+    $mod_names = [];
+    $i = 0;
+    $assign = 0;
+    foreach ($cmods as $m) {
+        if ($m->modname != 'label') {
+            // For a reason I can't understand, array_search does not detect assign
+            // this is a work around
+            if ($assign == 0 || $m->modname != 'assign') {
+                if ($i == 0) {
+                    $mod_names[$i]['name'] = $m->modname;
+                    $mod_names[$i]['fullname'] = get_string('pluginname', "mod_" . $m->modname);
+                    $mod_names[$i]['courseid'] = $m->course;
+                    $i++;
+                } else {
+                    if (!array_search($m->modname, array_column($mod_names, 'name'))) {
+                        $mod_names[$i]['name'] = $m->modname;
+                        $mod_names[$i]['fullname'] = get_string('pluginname', "mod_" . $m->modname);
+                        $mod_names[$i]['courseid'] = $m->course;
+                        $i++;
+                    }
+                }
+            }
+
+            if ($m->modname == 'assign') {
+                $assign = 1;
+            }
+        }
+    }
+
+
+    return $mod_names;
+}
+
+/**
+ * Build secondary menu
+ * @param $items array Taken from $secondary->get_tabs_array()
+ * @return stdClass
+ */
+function theme_moove_build_secondary_menu($items)
+{
+    global $CFG, $COURSE;
+
+    // Put tab items into one variable
+    $tabs = $items[0][0];
+    // Menus is the obkect that will be returned
+    $menus = new stdClass();
+    // Build primary menu
+    $menu = [];
+    $i = 0;
+    for ($a = 0; $a < 5; $a++) {
+        // Do not add course home because it is added on all pages.
+        if (isset($tabs[$a]->id)) {
+                $menu[$i]['id'] = $tabs[$a]->id;
+                $menu[$i]['name'] = $tabs[$a]->title;
+                $menu[$i]['url'] = str_replace('&amp;', '&', $tabs[$a]->link->out());
+                $menu[$i]['format'] = $COURSE->format;
+                $menu[$i]['icon'] = theme_moove_get_menu_icon($tabs[$a]->id);
+                $i++;
+        }
+    }
+    // Build more menu
+    $more_menu = [];
+    $m = 0;
+    // Start at 5 because more menu begins at element 5
+    for ($b = 5; $b < count($tabs); $b++) {
+        $more_menu[$m]['id'] = $tabs[$b]->id;
+        $more_menu[$m]['name'] = $tabs[$b]->title;
+        $more_menu[$m]['url'] = str_replace('&amp;', '&', $tabs[$b]->link->out());
+        $m++;
+    }
+    // Add both arrays into menus object
+    $menus->menu = $menu;
+    $menus->more = $more_menu;
+
+    return $menus;
+}
+
+function theme_moove_get_menu_icon($type)
+{
+    $icon = 'fa fa-circle-o';
+    switch ($type) {
+        case 'coursehome':
+            $icon = 'fa fa-bookmark';
+            break;
+        case 'editsettings':
+        case 'modedit':
+            $icon = 'fa fa-sliders';
+            break;
+        case 'participants':
+            $icon = 'fa fa-users';
+            break;
+        case 'grades':
+        case 'advgrading':
+            $icon = 'fa fa-font';
+            break;
+        case 'coursereports':
+            $icon = 'fa fa-bar-chart';
+            break;
+        case 'filtermanage':
+            $icon = 'fa fa-filter';
+            break;
+        case 'roleoverride':
+        case 'mod_assign_useroverrides':
+            $icon = 'fa fa-check-square-o';
+            break;
+        case 'backup':
+            $icon = 'fa fa-download';
+            break;
+        case 'competencies':
+            $icon = 'fa fa-lightbulb-o';
+            break;
+        default:
+            $icon = 'fa fa-circle-o';
+            break;
+    }
+
+    return $icon;
 }

@@ -23,21 +23,36 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
-$string['pluginname'] = 'Moove';
+$string['access'] = 'Access';
+$string['assignments'] = 'Assignments';
+$string['change_course_visibility'] = 'Change course visibility';
+$string['change_course_visibility_help'] = 'Are you sure you want to change the course visibility?';
 $string['configtitle'] = 'Moove';
+$string['content'] = 'Content';
+$string['course_home'] = 'Course home';
+$string['course_settings'] = 'Course settings';
+$string['table_of_contents'] = 'Table of contents';
 $string['choosereadme'] = 'Moove is a modern highly-customisable theme. This theme is intended to be used directly, or as a parent theme when creating new themes utilising Bootstrap 4.';
 
 $string['currentinparentheses'] = '(current)';
+$string['image_of'] = 'Image of ';
 $string['region-side-pre'] = 'Right';
 $string['prev_section'] = 'Previous section';
 $string['next_section'] = 'Next section';
 $string['themedevelopedby'] = 'This theme was developed by';
-$string['access'] = 'Access';
+$string['pluginname'] = 'Moove';
 $string['prev_activity'] = 'Previous activity';
 $string['next_activity'] = 'Next activity';
 $string['donthaveanaccount'] = 'Don\'t have an account?';
 $string['signinwith'] = 'Sign in with';
+$string['yes'] = 'Yes';
+$string['hide_course'] = 'Course disabled';
+$string['show_course'] = 'Course open';
+$string['available'] = 'Available';
+$string['disabled'] = 'Disabled';
+$string['send_email'] = 'Send email';
+$string['view_profile'] = 'View profile';
+
 
 // General settings tab.
 $string['generalsettings'] = 'General';
@@ -55,6 +70,8 @@ $string['brandcolor'] = 'Brand colour';
 $string['brandcolor_desc'] = 'The accent colour.';
 $string['secondarymenucolor'] = 'Secondary menu color';
 $string['secondarymenucolor_desc'] = 'Secondary menu background color';
+$string['secondarymenuremoveitems'] = 'Remove Secondary menu items';
+$string['secondarymenuremoveitems_desc'] = 'If yes, all menu options except Course will be removed for students';
 $string['navbarbg'] = 'Navbar color';
 $string['navbarbg_desc'] = 'The left navbar color';
 $string['navbarbghover'] = 'Navbar hover color';
@@ -106,7 +123,7 @@ $string['numbersfrontpagecontentdefault'] = '<h2>Trusted by 25,000+ happy custom
                         a page without coding. Build your next website <br class="d-none d-sm-block d-md-none d-xl-block">
                         within few minutes.</p>';
 $string['numbersusers'] = 'Active users accessing our amazing resources';
-$string['numberscourses'] = 'Courses made for you that you can trust!';
+$string['numberscourses'] = 'Courses made for your that you can trust!';
 
 $string['faq'] = 'FAQ';
 $string['faqcount'] = 'FAQ questions';

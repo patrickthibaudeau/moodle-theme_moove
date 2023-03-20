@@ -1,0 +1,53 @@
+<li id="nav-needada-popover-container" class="popover-region collapsed popover-region-ada"
+    data-userid="{{$userid}}{{/userid}}"
+    data-region="popover-region">
+    <div class="ada-btn-container nav-link "
+         data-region="popover-region-toggle"
+         aria-role="button"
+         aria-controls="popover-region-container-{{uniqid}}"
+         aria-haspopup="true"
+         aria-label="{{$togglelabel}}{{/togglelabel}}"
+         tabindex="0"
+    >
+        {{$togglecontent}}{{/togglecontent}}
+    </div>
+
+    <div {{$containerattributes}}{{/containerattributes}}
+            id="popover-region-container-{{uniqid}}"
+            class="popover-region-container ada-container"
+            style="height: auto;"
+            data-region="popover-region-container"
+            aria-expanded="false"
+            aria-hidden="true"
+            aria-label="{{$containerlabel}}{{/containerlabel}}"
+            role="region">
+        <div class="dropdown-menu-header">
+            <h5 class="d-inline" data-region="popover-region-header-text">{{$headertext}}{{/headertext}}</h5>
+            <span class="float-right popover-region-header-actions">{{$headeractions}}{{/headeractions}}</span>
+        </div>
+
+        <div class="list-group" role="presentation">
+            <div class="popover-region-content-container" data-role="container"
+                 data-region="popover-region-content-container">
+                <div class="popover-region-content" data-role="content" data-region="popover-region-content">
+                    {{$content}}{{/content}}
+                </div>
+                {{> core/loading }}
+            </div>
+        </div>
+        <div class="dropdown-menu-footer" role="presentation">
+            {{$footeractions}}{{/footeractions}}
+
+            {{$anchor}}
+                {{#urls.seeall}}
+                    <a class="see-all-link dropdown-item"
+                       role="menuitem"
+                       href="{{{.}}}">
+                        {{#str}} seeall, message {{/str}}
+                    </a>
+                {{/urls.seeall}}
+            {{/anchor}}
+        </div>
+    </div>
+
+</li>

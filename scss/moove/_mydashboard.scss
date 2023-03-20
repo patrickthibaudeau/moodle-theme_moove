@@ -33,6 +33,20 @@
     }
 }
 
+//YorkU Modifications
+#page, #page.drawers {
+    margin-top: 0px;
+}
+.drawer-toggles .drawer-toggler {
+    position: fixed;
+    top: 140px;
+}
+
+.drawer-left, .drawer-right {
+    top: calc(120px + 1px);
+    height: calc(100vh - 70px);
+}
+//YorkU Modifications end
 @include media-breakpoint-down(md) {
     .pagelayout-mydashboard {
         #block-region-content {

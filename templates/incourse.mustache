@@ -59,7 +59,12 @@
 
     {{{ output.standard_top_of_body_html }}}
 
-    {{> theme_moove/navbar }}
+    {{#is_site_course}}
+        {{> theme_moove/navbar }}
+    {{/is_site_course}}
+    {{^is_site_course}}
+        {{> theme_moove/course_navbar }}
+    {{/is_site_course}}
 
     {{#courseindex}}
         {{< theme_boost/drawer }}
@@ -95,7 +100,6 @@
     <div id="page" data-region="mainpage" data-usertour="scroller" class="drawers {{#courseindexopen}}show-drawer-left{{/courseindexopen}} {{#blockdraweropen}}show-drawer-right{{/blockdraweropen}} drag-container">
 
         {{{ output.full_header }}}
-
         <div id="topofscroll" class="main-inner">
             <div class="drawer-toggles d-flex">
                 {{#courseindex}}

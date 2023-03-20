@@ -3,6 +3,12 @@
         max-width: 100%;
     }
 
+    .login-container {
+        .login-logo {
+            justify-content: left;
+        }
+    }
+
     .login-identityprovider-btn.facebook {
         background-color: $facebook-color;
         color: #fff;
