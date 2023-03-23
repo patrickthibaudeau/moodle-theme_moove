@@ -148,7 +148,7 @@
     margin: 0 auto;
 }
 .btn.btn-ti.no-radius {
-    border-radius: 0;
+    border-radius: 5px;
 }
 .btn.btn-ti.radius-4 {
     border-radius: 4px;
@@ -179,7 +179,7 @@
 }
 .btn.btn-ti.radius-4 > .badge.no-radius,
 .btn.btn-ti.no-radius > .badge.no-radius {
-    border-radius: 0;
+    border-radius: 4px;
 }
 .btn-ti.no-bg {
     color: $brand-primary;

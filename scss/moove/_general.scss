@@ -14,12 +14,12 @@ body {
 .btn-danger,
 .btn-secondary,
 .card {
-  border-radius: 0px !important;
+  border-radius: 5px !important;
 }
 
 .card-img, .card-img-top {
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 #user-action-menu {
