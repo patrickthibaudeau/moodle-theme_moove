@@ -192,10 +192,12 @@ a {
 
 // Fix for Dropdown menu on dashboard cards
 // This puts the dropdown menu left of the button (dots)
-.dropdown-menu.dropdown-menu-right.show {
-  will-change: transform !important;
-  position: absolute !important;
-  transform: translate3d(-190px, -25px, 0px) !important;
-  top: 0px !important;
-  left: 0px !important;
+.card-deck.dashboard-card-deck {
+  .dropdown-menu.dropdown-menu-right.show {
+    will-change: transform !important;
+    position: absolute !important;
+    transform: translate3d(-190px, -25px, 0px) !important;
+    top: 0px !important;
+    left: 0px !important;
+  }
 }
