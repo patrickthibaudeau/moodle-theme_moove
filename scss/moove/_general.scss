@@ -189,3 +189,12 @@ a {
     max-width: 95%;
   }
 }
+
+// Fix for Dropdown menu on dashboard cards
+.dropdown-menu.dropdown-menu-right.show {
+  will-change: transform !important;
+  position: absolute !important;
+  transform: translate3d(-150px, -90px, 0px) !important;
+  top: 0px !important;
+  left: 0px !important;
+}

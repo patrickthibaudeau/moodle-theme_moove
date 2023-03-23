@@ -28,8 +28,8 @@ require_once(__DIR__ . '/lib.php');
 
 $THEME->name = 'moove';
 $THEME->sheets = ['custom'];
-$THEME->editor_sheets = ['bootstrap'];
-$THEME->editor_scss = ['editor'];
+//$THEME->editor_sheets = ['bootstrap'];
+//$THEME->editor_scss = ['editor'];
 $THEME->usefallback = false;
 $THEME->scss = function($theme) {
     return theme_moove_get_main_scss_content($theme);
