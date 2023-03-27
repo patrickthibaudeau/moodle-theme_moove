@@ -27,15 +27,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/lib.php');
 
 $THEME->name = 'moove';
-<<<<<<< HEAD
 $THEME->sheets = ['custom'];
-//$THEME->editor_sheets = ['bootstrap'];
+$THEME->editor_sheets = ['bootstrap'];
 //$THEME->editor_scss = ['editor'];
-=======
 $THEME->sheets =  ['custom', 'savy_alerts'];
 $THEME->editor_sheets = ['bootstrap'];
 $THEME->editor_scss = ['editor'];
->>>>>>> 0a6ab2e... SAVY changes - fullscreen + moove integration, also SleekPlan js files
 $THEME->usefallback = false;
 $THEME->scss = function($theme) {
     return theme_moove_get_main_scss_content($theme);
