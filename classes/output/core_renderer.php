@@ -443,6 +443,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
         if (!in_array($USER->idnumber,array('102102735','102051899','102109330','102086179','102079620'))){
             return '';
         }
+
         if (!isloggedin() || isguestuser() || user_not_fully_set_up($USER) || get_user_preferences('auth_forcepasswordchange') || (!$USER->policyagreed && !is_siteadmin() && ($manager = new \core_privacy\local\sitepolicy\manager()) && $manager->is_defined())) {
             return '';
         }
@@ -598,22 +599,19 @@ class core_renderer extends \theme_boost\output\core_renderer {
             } else {
                 $watsondata['usertype'] = 'student';
             }
-            switch ($watsondata['usertype']){
-                case "professor":
-                case "staff":
-//                    $watsondata['brand'] = $adabrand;
-//                    $bigimg = $OUTPUT->image_url('bigadaicon', 'theme');
-//                    $watsondata['bigwatsonicon'] = $bigimg;
-//                    $output .= $this->render_from_template('/need_ada', $watsondata);
-//                    break;
-                case "student":
-                default:
-                    $watsondata['brand'] = $brand;
-                    $watsondata['bigwatsonicon'] = $bigimg;
-                    $output .= $this->render_from_template('/need_watson', $watsondata);
-                    break;
-            }
+            $watsondata['brand'] = $brand;
+            $watsondata['bigwatsonicon'] = $bigimg;
+            $output .= $this->render_from_template('/need_watson', $watsondata);
         }
         return $output;
+    }
+
+    public function is_staff() {
+        global $USER;
+        if (substr($USER->idnumber, 0, 1) === '1' || substr($USER->idnumber, 0, 1) === '5') {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
