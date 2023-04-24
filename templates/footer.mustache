@@ -162,6 +162,14 @@
         <div class="footer-section p-3 border-bottom">
             {{{output.render_watson}}}
         </div>
+        {{#output.get_user_tours}}
+            <div class="footer-section p-3 border-bottom">
+                <a id="resetpagetour" class="btn btn-primary text-light">
+                    {{#str}}reset_user_tour, theme_moove{{/str}}
+                </a>
+            </div>
+        {{/output.get_user_tours}}
+
         {{# output.has_popover_links }}
             <div class="footer-section p-3 border-bottom">
                 {{# output.page_doc_link }}

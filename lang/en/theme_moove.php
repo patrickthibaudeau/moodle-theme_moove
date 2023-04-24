@@ -43,6 +43,7 @@ $string['next_section'] = 'Next section';
 $string['themedevelopedby'] = 'This theme was developed by';
 $string['pluginname'] = 'Moove';
 $string['prev_activity'] = 'Previous activity';
+$string['reset_user_tour'] = 'Restart help tour';
 $string['next_activity'] = 'Next activity';
 $string['donthaveanaccount'] = 'Don\'t have an account?';
 $string['signinwith'] = 'Sign in with';

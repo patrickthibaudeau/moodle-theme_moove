@@ -37,7 +37,8 @@ use theme_moove\output\core_course\activity_navigation;
  * @copyright  2022 Willian Mano {@link https://conecti.me}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class core_renderer extends \theme_boost\output\core_renderer {
+class core_renderer extends \theme_boost\output\core_renderer
+{
     /**
      * The standard tags (meta tags, links to stylesheets and JavaScript, etc.)
      * that should be included in the <head> tag. Designed to be called in theme
@@ -45,7 +46,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
      *
      * @return string HTML fragment.
      */
-    public function standard_head_html() {
+    public function standard_head_html()
+    {
         $output = parent::standard_head_html();
 
         $googleanalyticscode = "<script
@@ -72,8 +74,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $output .= '<link rel="preconnect" href="https://fonts.googleapis.com">
                        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                        <link href="https://fonts.googleapis.com/css2?family='
-                        . $sitefont .
-                       ':ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">';
+            . $sitefont .
+            ':ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">';
 
         return $output;
     }
@@ -89,7 +91,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
      *
      * @since Moodle 2.5.1 2.6
      */
-    public function body_attributes($additionalclasses = array()) {
+    public function body_attributes($additionalclasses = array())
+    {
         $hasaccessibilitybar = get_user_preferences('thememoovesettings_enableaccessibilitytoolbar', '');
         if ($hasaccessibilitybar) {
             $additionalclasses[] = 'hasaccessibilitybar';
@@ -114,7 +117,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
             $additionalclasses = explode(' ', $additionalclasses);
         }
 
-        return ' id="'. $this->body_id().'" class="'.$this->body_css_classes($additionalclasses).'"';
+        return ' id="' . $this->body_id() . '" class="' . $this->body_css_classes($additionalclasses) . '"';
     }
 
     /**
@@ -122,7 +125,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
      *
      * @return bool
      */
-    public function should_display_logo() {
+    public function should_display_logo()
+    {
         if ($this->should_display_theme_logo() || parent::should_display_navbar_logo()) {
             return true;
         }
@@ -135,7 +139,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
      *
      * @return bool
      */
-    public function should_display_theme_logo() {
+    public function should_display_theme_logo()
+    {
         $logo = $this->get_theme_logo_url();
 
         return !empty($logo);
@@ -146,7 +151,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
      *
      * @return string
      */
-    public function get_logo() {
+    public function get_logo()
+    {
         $logo = $this->get_theme_logo_url();
 
         if ($logo) {
@@ -167,7 +173,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
      *
      * @return string
      */
-    public function get_theme_logo_url() {
+    public function get_theme_logo_url()
+    {
         $theme = theme_config::load('moove');
 
         return $theme->setting_file_url('logo', 'logo');
@@ -179,7 +186,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
      * @param \core_auth\output\login $form The renderable.
      * @return string
      */
-    public function render_login(\core_auth\output\login $form) {
+    public function render_login(\core_auth\output\login $form)
+    {
         global $SITE, $CFG;
 
         $context = $form->export_for_template($this);
@@ -220,7 +228,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
      * @param array $customattribs Array of custom attributes for the support email anchor tag.
      * @return string The html code for the support email link.
      */
-    public function supportemail(array $customattribs = []): string {
+    public function supportemail(array $customattribs = []): string
+    {
         global $CFG;
 
         $label = get_string('contactsitesupport', 'admin');
@@ -244,10 +253,11 @@ class core_renderer extends \theme_boost\output\core_renderer {
     /**
      * Returns the moodle_url for the favicon.
      *
-     * @since Moodle 2.5.1 2.6
      * @return moodle_url The moodle_url for the favicon
+     * @since Moodle 2.5.1 2.6
      */
-    public function favicon() {
+    public function favicon()
+    {
         global $CFG;
 
         $theme = theme_config::load('moove');
@@ -270,7 +280,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
      * @param \context_header $contextheader Header bar object.
      * @return string HTML for the header bar.
      */
-    protected function render_context_header(\context_header $contextheader) {
+    protected function render_context_header(\context_header $contextheader)
+    {
         if ($this->page->pagelayout == 'mypublic') {
             return '';
         }
@@ -335,7 +346,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
      *
      * @return string the navigation HTML.
      */
-    public function activity_navigation() {
+    public function activity_navigation()
+    {
         // First we should check if we want to add navigation.
         $context = $this->page->context;
         if (($this->page->pagelayout !== 'incourse' && $this->page->pagelayout !== 'frametop')
@@ -416,7 +428,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
      *
      * @return string Final html code.
      */
-    public function get_navbar_callbacks_data() {
+    public function get_navbar_callbacks_data()
+    {
         $callbacks = get_plugins_with_function('moove_additional_header', 'lib.php');
 
         if (!$callbacks) {
@@ -436,11 +449,12 @@ class core_renderer extends \theme_boost\output\core_renderer {
         return $output;
     }
 
-    public function render_watson() {
+    public function render_watson()
+    {
         global $CFG, $USER, $OUTPUT, $DB;
         // Early bail out conditions.
 
-        if (!in_array($USER->idnumber,array('102102735','102051899','102109330','102086179','102079620'))){
+        if (!in_array($USER->idnumber, array('102102735', '102051899', '102109330', '102086179', '102079620'))) {
             return '';
         }
 
@@ -472,27 +486,27 @@ class core_renderer extends \theme_boost\output\core_renderer {
             return '';
         }
         //If watson seetings have not been set
-       // if (!$CFG->yorktasks_watsonapiendpoint || !$CFG->yorktasks_watsonapikey || !$CFG->yorktasks_watsonchecksrc) {
-       //     return '';
-       // }
+        // if (!$CFG->yorktasks_watsonapiendpoint || !$CFG->yorktasks_watsonapikey || !$CFG->yorktasks_watsonchecksrc) {
+        //     return '';
+        // }
         // EAM - Added watson integration... kinda
         if ($USER->idnumber) {
             $watsondata = array();
 
-            if ($coursedata = $DB->get_records('svadata', array('sisid' => $USER->idnumber))){
+            if ($coursedata = $DB->get_records('svadata', array('sisid' => $USER->idnumber))) {
                 //found course data so set 'registeredactive' to true, then process the courses
                 $watsondata['registeredactive'] = 'true';
                 $courses = array();
                 $subjects = array();
-                foreach ($coursedata as $course){
+                foreach ($coursedata as $course) {
                     $userinfo = $course;
                     $courses[] = array(
-                        'uniqueid' => htmlentities($course->uniqueid) ,
-                        'id' => htmlentities($course->courseid) ,
-                        'title' => htmlentities($course->title) ,
-                        'campus' => htmlentities($course->campus) ,
-                        'period' => htmlentities($course->period) ,
-                        'session' => htmlentities($course->studysession) . htmlentities($course->academicyear) ,
+                        'uniqueid' => htmlentities($course->uniqueid),
+                        'id' => htmlentities($course->courseid),
+                        'title' => htmlentities($course->title),
+                        'campus' => htmlentities($course->campus),
+                        'period' => htmlentities($course->period),
+                        'session' => htmlentities($course->studysession) . htmlentities($course->academicyear),
                         'faculty' => htmlentities($course->faculty)
                     );
                     $subjects[$course->seqpersprog] = array(
@@ -513,7 +527,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
                 }
                 //sort subjects from most recent to oldest
                 krsort($subjects);
-                if (count($subjects) == 1){
+                if (count($subjects) == 1) {
                     //only one found, don't pass a comma for the json data
                     $watsondata['onesubject'] = true;
                     $tempsubjects = array();
@@ -568,12 +582,12 @@ class core_renderer extends \theme_boost\output\core_renderer {
             $watsondata['userid'] = $USER->id;
             $watsondata['apikey'] = $CFG->yorktasks_watsonapikey;
             $watsondata['endpointurl'] = $endpoint;
-            $watsondata['moodleid'] = hash("sha256", $USER->idnumber) ??'';
+            $watsondata['moodleid'] = hash("sha256", $USER->idnumber) ?? '';
             //make this detect automatically?
             $watsondata['isglendon'] = false;
             $watsondata['firstname'] = $USER->firstname;
             $watsondata['commonname'] = $userinfo->commonname ?? ''; //If isset write info otherwise blank
-            $watsondata['idnumber'] = preg_replace("/[^0-9]/","",hash("sha256",$USER->idnumber));
+            $watsondata['idnumber'] = preg_replace("/[^0-9]/", "", hash("sha256", $USER->idnumber));
             $watsondata['isinternational'] = $userinfo->isinternational ?? '';
             $watsondata['studylevel'] = $userinfo->studylevel ?? '';
             //$watsondata['language'] = $userinfo->language ?? '';
@@ -586,12 +600,12 @@ class core_renderer extends \theme_boost\output\core_renderer {
             $watsondata['popup_enabled_text'] = get_string('popup_enabled_text', 'theme_edyucate');
             $watsondata['quiz_help'] = get_string('quiz_help', 'theme_edyucate');
 
-            if (isset($USER->profile['usertypes'])){
-                if (strpos($USER->profile['usertypes'], 'student') !== false){
+            if (isset($USER->profile['usertypes'])) {
+                if (strpos($USER->profile['usertypes'], 'student') !== false) {
                     $watsondata['usertype'] = 'student';
-                } elseif (strpos($USER->profile['usertypes'], 'professor') !== false){
+                } elseif (strpos($USER->profile['usertypes'], 'professor') !== false) {
                     $watsondata['usertype'] = 'professor';
-                } elseif (strpos($USER->profile['usertypes'], 'staff') !== false){
+                } elseif (strpos($USER->profile['usertypes'], 'staff') !== false) {
                     $watsondata['usertype'] = 'staff';
                 } else {
                     $watsondata['usertype'] = 'student';
@@ -606,12 +620,39 @@ class core_renderer extends \theme_boost\output\core_renderer {
         return $output;
     }
 
-    public function is_staff() {
+    public function is_staff()
+    {
         global $USER;
         if (substr($USER->idnumber, 0, 1) === '1' || substr($USER->idnumber, 0, 1) === '5') {
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * Is there a user tour on this page
+     *
+     * @return true|void
+     * @throws \dml_exception
+     */
+    public function get_user_tours()
+    {
+        global $DB;
+        $url = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?'));
+        if ($url == '/my/') {
+            $url = 'FRONTPAGE_MY';
+        }
+        $sql = "SELECT 
+                    * 
+                FROM 
+                    {tool_usertours_tours} 
+                WHERE 
+                    enabled = 1 AND 
+                    pathmatch LIKE '$url%'";
+        if ($user_tours = $DB->get_records_sql($sql)) {
+            return true;
+        }
+        return false;
     }
 }
