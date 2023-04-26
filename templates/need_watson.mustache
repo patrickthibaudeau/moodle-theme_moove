@@ -43,6 +43,39 @@
 	                // custom launcher button visible.
         	        button.style.display = 'block';
 	                button.classList.add('open');
+                        console.log('on load of watson options for chat look for WAC');
+                        const WACRenderDiv = window.document.querySelector('div.WatsonAssistantChatHost > div#WACContainer.WACContainer > div#WACContainer--render');
+                        var watsonReport = document.createElement('div');
+                        watsonReport.setAttribute('id', 'watsonreport');
+                        watsonReport.setAttribute('style', 'background: rgb(51, 51, 51); padding: 0px 5px 3px;  margin: 5px 0 5px 10px; border-radius: 10px; box-shadow: 0 13px 40px 0 rgba(0,0,0,.27);  width: 6em; text-align: center');
+ 
+                        var reportlink = document.createElement('a');
+                        reportlink.setAttribute('id', 'watsonreportlink');
+                        reportlink.setAttribute('target', '_blank');
+                        reportlink.setAttribute('href', 'https://go.yorku.ca/sva1');
+                        reportlink.setAttribute('style', 'font-size: .7em;text-decoration: none; color: #fff');
+
+                        reportlink.innerHTML = 'Report an issue';
+                        watsonReport.appendChild(reportlink);
+
+                        var observer = new MutationObserver(function (mutations) {
+                               console.log($('#WACWidget'));
+                               if($("#watsonreport").length > 0 ) {
+                                       // do nothing it exists
+                               }
+                               else {
+                                       $('#WACWidget').append(watsonReport);
+                                       observer.disconnect();
+                               }
+                        });
+
+                        const targetNode = window.document.querySelector('div.WatsonAssistantChatHost > div#WACContainer.WACContainer > div#WACContainer--render');
+                        observer.observe(targetNode, {
+                               childList: true,
+                               attributes: true,
+                               subtree: true,
+                               characterData: true
+                       });
         	    });
                     clearInterval(buttonCheckingInterval);
                   }
