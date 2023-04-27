@@ -39,6 +39,18 @@ body {
   border-top-right-radius: 5px;
 }
 
+.btn-york-red {
+  text-decoration: none !important;
+  color: #ffffff !important;
+  background-color: $york-red;
+  border-color: #york-red;
+  &:hover {
+    color: #ffffff !important;
+    background-color: $york-red-medium;
+    border-color: #york-red-medium;
+  }
+}
+
 #user-action-menu {
   background-color: $york-red;
   border-color: $york-red-dark;

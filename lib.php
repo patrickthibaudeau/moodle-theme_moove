@@ -210,40 +210,50 @@ function get_current_course_mods()
 {
     global $CFG, $DB, $COURSE;
 
-    $context = context_course::instance($COURSE->id);
-    $contextArray = convert_to_array($context);
     $course_id = $COURSE->id;
 
-    $cmods = get_course_mods($course_id);
-    $mod_names = [];
-    $i = 0;
-    $assign = 0;
-    foreach ($cmods as $m) {
-        if ($m->modname != 'label') {
-            // For a reason I can't understand, array_search does not detect assign
-            // this is a work around
-            if ($assign == 0 || $m->modname != 'assign') {
-                if ($i == 0) {
-                    $mod_names[$i]['name'] = $m->modname;
-                    $mod_names[$i]['fullname'] = get_string('pluginname', "mod_" . $m->modname);
-                    $mod_names[$i]['courseid'] = $m->course;
-                    $i++;
-                } else {
-                    if (!array_search($m->modname, array_column($mod_names, 'name'))) {
-                        $mod_names[$i]['name'] = $m->modname;
-                        $mod_names[$i]['fullname'] = get_string('pluginname', "mod_" . $m->modname);
-                        $mod_names[$i]['courseid'] = $m->course;
-                        $i++;
-                    }
-                }
-            }
+    $modinfo = get_fast_modinfo($COURSE);
+    $modfullnames = array();
 
-            if ($m->modname == 'assign') {
-                $assign = 1;
+    $archetypes = array();
+
+    foreach($modinfo->cms as $cm) {
+        // Exclude activities that aren't visible or have no view link (e.g. label). Account for folder being displayed inline.
+        if (!$cm->uservisible || (!$cm->has_view() && strcmp($cm->modname, 'folder') !== 0)) {
+            continue;
+        }
+        if (array_key_exists($cm->modname, $modfullnames)) {
+            continue;
+        }
+        if (!array_key_exists($cm->modname, $archetypes)) {
+            $archetypes[$cm->modname] = plugin_supports('mod', $cm->modname, FEATURE_MOD_ARCHETYPE, MOD_ARCHETYPE_OTHER);
+        }
+        if ($archetypes[$cm->modname] == MOD_ARCHETYPE_RESOURCE) {
+            if (!array_key_exists('resources', $modfullnames)) {
+                $modfullnames['resources'] = get_string('resources');
             }
+        } else {
+            $modfullnames[$cm->modname] = $cm->modplural;
         }
     }
 
+    core_collator::asort($modfullnames);
+    $mod_names = [];
+    $i = 0;
+    foreach ($modfullnames as $modname => $modfullname) {
+        if ($modname === 'resources') {
+            $mod_names[$i]['name'] = $modname;
+            $mod_names[$i]['fullname'] = $modfullname;
+            $mod_names[$i]['courseid'] = $course_id;
+            $mod_names[$i]['url'] = $CFG->wwwroot.'/course/resources.php?id='. $course_id;
+        } else {
+            $mod_names[$i]['name'] = $modname;
+            $mod_names[$i]['fullname'] = $modfullname;
+            $mod_names[$i]['courseid'] = $course_id;
+            $mod_names[$i]['url'] = $CFG->wwwroot.'/mod/'.$modname.'/index.php?id='.$course_id;
+        }
+        $i++;
+    }
 
     return $mod_names;
 }
