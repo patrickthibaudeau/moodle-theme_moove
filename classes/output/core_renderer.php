@@ -655,4 +655,13 @@ class core_renderer extends \theme_boost\output\core_renderer
         }
         return false;
     }
+
+    /**
+     * Is user editing?
+     * @return bool
+     */
+    public function user_is_editing() {
+        global $PAGE;
+        return $PAGE->user_is_editing();
+    }
 }

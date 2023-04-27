@@ -41,4 +41,13 @@
             </style>
         {{/secondarymoremenu}}
     {{/is_mycourses_page}}
+
+    {{^output.user_is_editing}}
+        <!-- this text shoudl show up-->
+        <style>
+            .editmode-only-visible {
+                display: none !important;
+            }
+        </style>
+    {{/output.user_is_editing}}
 </head>
