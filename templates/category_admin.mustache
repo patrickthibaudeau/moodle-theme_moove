@@ -2,11 +2,19 @@
 <input type="hidden" id="blocked_themes" value="{{{output.get_blocked_themes}}}">
 <input type="hidden" id="blocked_formats" value="{{{output.get_blocked_formats}}}">
 <input type="hidden" id="blocked_blocks" value="{{{output.get_blocked_blocks}}}">
+<input type="hidden" id="blocked_mods" value="{{{output.get_blocked_mods}}}">
+<input type="hidden" id="blocked_atto" value="{{{output.get_blocked_atto}}}">
 {{#js}}
-require(['theme_YOUR_THEME/blocked_themes'], function(mod) {
-mod.init();
-});
-require(['theme_YOUR_THEME/remove_blocks'], function(mod) {
-mod.init();
-});
+    require(['theme_moove/blocked_themes'], function(mod) {
+    mod.init();
+    });
+    require(['theme_moove/remove_blocks'], function(mod) {
+    mod.init();
+    });
+    require(['theme_moove/remove_mods'], function(mod) {
+    mod.init();
+    });
+    require(['theme_moove/remove_atto'], function(mod) {
+    mod.init();
+    });
 {{/js}}
