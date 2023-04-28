@@ -75,7 +75,7 @@ $text = $user->description;
 $file = 'pluginfile.php';
 $filearea = 'profile';
 $component = 'user';
-$itemid = 0;
+$itemid = '';
 
 $description = file_rewrite_pluginfile_urls($text, $file, $user_context->id, $component, $filearea, $itemid);
 
