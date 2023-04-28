@@ -69,6 +69,16 @@ if ($PAGE->has_secondary_navigation()) {
 
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
 
+// Prepare description file area
+$user_context = \context_user::instance($user->id);
+$text = $user->description;
+$file = 'pluginfile.php';
+$filearea = 'profile';
+$component = 'user';
+$itemid = 0;
+
+$description = file_rewrite_pluginfile_urls($text, $file, $user_context->id, $component, $filearea, $itemid);
+
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
@@ -84,7 +94,7 @@ $templatecontext = [
     'userfullname' => fullname($user),
     'headerbuttons' => \theme_moove\util\extras::get_mypublic_headerbuttons($context, $user),
     'editprofileurl' => \theme_moove\util\extras::get_mypublic_editprofile_url($user, $courseid),
-    'userdescription' => format_text($user->description, $user->descriptionformat, ['overflowdiv' => true])
+    'userdescription' => $description
 ];
 
 $themesettings = new \theme_moove\util\settings();
