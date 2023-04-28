@@ -167,13 +167,6 @@
             <div id="ltschat"></div>
         </div>
         {{/output.is_staff}}
-        {{#output.get_user_tours}}
-            <div class="footer-section p-3 border-bottom">
-                <a id="resetpagetour" class="btn btn-york-red w-100">
-                    {{#str}}reset_user_tour, theme_moove{{/str}}
-                </a>
-            </div>
-        {{/output.get_user_tours}}
 
         {{# output.has_popover_links }}
             <div class="footer-section p-3 border-bottom">
@@ -193,6 +186,13 @@
                 {{/ output.services_support_link }} -->
             </div>
         {{/ output.has_popover_links }}
+        {{#output.get_user_tours}}
+            <div class="footer-section p-3 border-bottom">
+                <a id="resetpagetour" class="btn btn-york-red w-100">
+                    {{#str}}reset_user_tour, theme_moove{{/str}}
+                </a>
+            </div>
+        {{/output.get_user_tours}}
         <div class="footer-section p-3">
             <div>{{#str}}poweredbymoodle, core{{/str}}</div>
             {{#output.moodle_release}}
