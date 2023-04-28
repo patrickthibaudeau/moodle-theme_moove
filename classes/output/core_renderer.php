@@ -453,11 +453,6 @@ class core_renderer extends \theme_boost\output\core_renderer
     {
         global $CFG, $USER, $OUTPUT, $DB;
         // Early bail out conditions.
-
-        if (!in_array($USER->idnumber, array('102102735', '102051899', '102109330', '102086179', '102079620'))) {
-            return '';
-        }
-
         if (!isloggedin() || isguestuser() || user_not_fully_set_up($USER) || get_user_preferences('auth_forcepasswordchange') || (!$USER->policyagreed && !is_siteadmin() && ($manager = new \core_privacy\local\sitepolicy\manager()) && $manager->is_defined())) {
             return '';
         }
@@ -814,4 +809,16 @@ class core_renderer extends \theme_boost\output\core_renderer
         global $PAGE;
         return $PAGE->user_is_editing();
     }
+    /**
+      * Returns config setting for Sleekplan product ID
+      */
+    public function get_sleekplanid() {
+        global $CFG;
+        if (isset($CFG->yorktasks_sleekplanproductid) && !empty($CFG->yorktasks_sleekplanproductid)){
+            return $CFG->yorktasks_sleekplanproductid;
+        } else {
+            return 'sleekplanidnotset';
+        }
+    }
+
 }
