@@ -620,6 +620,156 @@ class core_renderer extends \theme_boost\output\core_renderer
         return $output;
     }
 
+    public function get_blocked_themes()
+    {
+        global $COURSE, $DB;
+        $blockedThemes = '';
+        //We have to iterate through all categories because this could be a sub category
+        $category = $DB->get_record('course_categories', ['id' => $COURSE->category]);
+        if ($category) {
+            //Convert path into array, remove empty values and reverse
+            $categoryPath = array_reverse(array_filter(explode('/', $category->path)));
+            //Find themes that must be removed.
+            //First category to have plugins blocked overrides parent category
+            foreach ($categoryPath as $key => $categoryId) {
+                $params = ['categoryid' => $categoryId, 'plugintype' => 'theme'];
+
+                if ($blockedThemes = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
+                    break;
+                }
+            }
+            //Get blocked themes
+            $themes = '';
+            if ($blockedThemes) {
+                foreach ($blockedThemes as $bt) {
+                    $themes .= trim($bt->pluginname) . ',';
+                }
+            }
+
+            return rtrim($themes, ',');
+        }
+    }
+
+    public function get_blocked_formats()
+    {
+        global $COURSE, $DB;
+        $blockedFormats = '';
+        //We have to iterate through all categories because this could be a sub category
+        $category = $DB->get_record('course_categories', ['id' => $COURSE->category]);
+        if ($category) {
+            //Convert path into array, remove empty values and reverse
+            $categoryPath = array_reverse(array_filter(explode('/', $category->path)));
+            //Find themes that must be removed.
+            //First category to have plugins blocked overrides parent category
+            foreach ($categoryPath as $key => $categoryId) {
+                $params = ['categoryid' => $categoryId, 'plugintype' => 'format'];
+
+                if ($blockedFormats = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
+                    break;
+                }
+            }
+            //Get blocked themes
+            $formats = '';
+            if ($blockedFormats) {
+                foreach ($blockedFormats as $bf) {
+                    $formats .= trim(str_replace('format_', '', $bf->pluginname)) . ',';
+                }
+            }
+
+            return rtrim($formats, ',');
+        }
+    }
+
+    public function get_blocked_blocks()
+    {
+        global $COURSE, $DB;
+        $blockedBlocks = '';
+        //We have to iterate through all categories because this could be a sub category
+        $category = $DB->get_record('course_categories', ['id' => $COURSE->category]);
+        if ($category) {
+            //Convert path into array, remove empty values and reverse
+            $categoryPath = array_reverse(array_filter(explode('/', $category->path)));
+            //Find themes that must be removed.
+            //First category to have plugins blocked overrides parent category
+            foreach ($categoryPath as $key => $categoryId) {
+                $params = ['categoryid' => $categoryId, 'plugintype' => 'block'];
+
+                if ($blockedBlocks = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
+                    break;
+                }
+            }
+            //Get blocked themes
+            $blocks = '';
+            if ($blockedBlocks) {
+                foreach ($blockedBlocks as $bb) {
+                    $blocks .= trim(str_replace('block_', '', $bb->pluginname)) . ',';
+                }
+            }
+
+            return rtrim($blocks, ',');
+        }
+    }
+
+    public function get_blocked_mods()
+    {
+        global $COURSE, $DB;
+        $blockedMods = '';
+        //We have to iterate through all categories because this could be a sub category
+        $category = $DB->get_record('course_categories', ['id' => $COURSE->category]);
+        if ($category) {
+            //Convert path into array, remove empty values and reverse
+            $categoryPath = array_reverse(array_filter(explode('/', $category->path)));
+            //Find themes that must be removed.
+            //First category to have plugins blocked overrides parent category
+            foreach ($categoryPath as $key => $categoryId) {
+                $params = ['categoryid' => $categoryId, 'plugintype' => 'mod'];
+
+                if ($blockedMods = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
+                    break;
+                }
+            }
+            //Get blocked themes
+            $mods = '';
+            if ($blockedMods) {
+                foreach ($blockedMods as $bm) {
+                    $mods .= trim(str_replace('block_', '', $bm->pluginname)) . ',';
+                }
+            }
+
+            return rtrim($mods, ',');
+        }
+    }
+
+    public function get_blocked_atto()
+    {
+        global $COURSE, $DB;
+        $blockedAttos = '';
+        //We have to iterate through all categories because this could be a sub category
+        $category = $DB->get_record('course_categories', ['id' => $COURSE->category]);
+        if ($category) {
+            //Convert path into array, remove empty values and reverse
+            $categoryPath = array_reverse(array_filter(explode('/', $category->path)));
+            //Find themes that must be removed.
+            //First category to have plugins blocked overrides parent category
+            foreach ($categoryPath as $key => $categoryId) {
+                $params = ['categoryid' => $categoryId, 'plugintype' => 'atto'];
+
+                if ($blockedAttos = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
+                    break;
+                }
+            }
+            //Get blocked themes
+            $plugins = '';
+            if ($blockedAttos) {
+                foreach ($blockedAttos as $bm) {
+                    $plugins .= trim(str_replace('atto', '', $bm->pluginname)) . ',';
+                }
+            }
+
+            return rtrim($plugins, ',');
+        }
+    }
+
     public function is_staff()
     {
         global $USER;
