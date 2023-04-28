@@ -162,9 +162,11 @@
         <div class="footer-section p-3 border-bottom">
             {{{output.render_watson}}}
         </div>
+        {{#output.is_staff}}
         <div class="footer-section p-3 border-bottom">
             <div id="ltschat"></div>
         </div>
+        {{/output.is_staff}}
         {{#output.get_user_tours}}
             <div class="footer-section p-3 border-bottom">
                 <a id="resetpagetour" class="btn btn-york-red w-100">
