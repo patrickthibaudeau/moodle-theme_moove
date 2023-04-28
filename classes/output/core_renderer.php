@@ -814,4 +814,16 @@ class core_renderer extends \theme_boost\output\core_renderer
         global $PAGE;
         return $PAGE->user_is_editing();
     }
+    /**
+      * Returns config setting for Sleekplan product ID
+      */
+    public function get_sleekplanid() {
+        global $CFG;
+        if (isset($CFG->yorktasks_sleekplanproductid) && !empty($CFG->yorktasks_sleekplanproductid)){
+            return $CFG->yorktasks_sleekplanproductid;
+        } else {
+            return 'sleekplanidnotset';
+        }
+    }
+
 }
