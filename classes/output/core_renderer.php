@@ -790,19 +790,6 @@ class core_renderer extends \theme_boost\output\core_renderer
         if (strpos($url, '?') !== false) {
             $url = strstr($url, '?', true);
         }
-
-        $wwwroot_path = strstr($CFG->wwwroot, '/', true);
-
-        print_object('');
-        print_object('');
-        print_object('');
-        print_object('');
-        print_object('');
-        print_object('');
-        print_object('');
-        print_object('');
-        print_object('');
-        print_object('New path: ' . $wwwroot_path);
         // get all enabled tours
         $tours = $DB->get_records('tool_usertours_tours', ['enabled' => 1]);
 
@@ -822,8 +809,6 @@ class core_renderer extends \theme_boost\output\core_renderer
                     $path_name = $tour_pathmathch;
             }
 
-            print_object('URL: ' . $CFG->wwwroot .$url);
-            print_object('Path name: ' . $CFG->wwwroot .$path_name);
             // Check to see if url equal path name
             // If it does return true
             if ($CFG->wwwroot . $path_name == $CFG->wwwroot . $url) {
