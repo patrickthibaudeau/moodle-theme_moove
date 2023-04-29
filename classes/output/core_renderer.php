@@ -784,7 +784,7 @@ class core_renderer extends \theme_boost\output\core_renderer
      */
     public function get_user_tours()
     {
-        global $DB;
+        global $DB, $CFG;
 
         $url = $_SERVER['REQUEST_URI'];
         if (strpos($url, '?') !== false) {
@@ -816,7 +816,7 @@ class core_renderer extends \theme_boost\output\core_renderer
                     $path_name = '/my/';
                     break;
                 default:
-                    $path_name = $tour_pathmathch;
+                    $CFG->wwwroot . $path_name = $CFG->wwwroot . $tour_pathmathch;
             }
 
             print_object('URL: ' . $url);
