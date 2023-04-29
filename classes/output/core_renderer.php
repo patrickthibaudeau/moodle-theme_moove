@@ -786,7 +786,7 @@ class core_renderer extends \theme_boost\output\core_renderer
     {
         global $DB, $CFG;
 
-        $url = $_SERVER['REQUEST_URI'];
+        $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";;
         if (strpos($url, '?') !== false) {
             $url = strstr($url, '?', true);
         }
@@ -811,7 +811,7 @@ class core_renderer extends \theme_boost\output\core_renderer
 
             // Check to see if url equal path name
             // If it does return true
-            if ($CFG->wwwroot . $path_name == $CFG->wwwroot . $url) {
+            if ($CFG->wwwroot . $path_name == $url) {
                 return true;
             }
         }
