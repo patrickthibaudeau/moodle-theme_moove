@@ -29,6 +29,7 @@ use context_course;
 use moodle_url;
 use html_writer;
 use theme_moove\output\core_course\activity_navigation;
+use tool_usertours\tour as tourinstance;
 
 /**
  * Renderers to align Moodle's HTML with that expected by Bootstrap
@@ -784,37 +785,56 @@ class core_renderer extends \theme_boost\output\core_renderer
     public function get_user_tours()
     {
         global $DB;
-        $url = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?'));
-        if ($url == '/my/') {
-            $url = 'FRONTPAGE_MY';
+
+        $url = $_SERVER['REQUEST_URI'];
+        if (strpos($url, '?') !== false) {
+            $url = strstr($url, '?', true);
         }
-        $sql = "SELECT 
-                    * 
-                FROM 
-                    {tool_usertours_tours} 
-                WHERE 
-                    enabled = 1 AND 
-                    pathmatch LIKE '$url%'";
-        if ($user_tours = $DB->get_records_sql($sql)) {
-            return true;
+        // get all enabled tours
+        $tours = $DB->get_records('tool_usertours_tours', ['enabled' => 1]);
+
+        foreach ($tours as $t) {
+            $tour = tourinstance::instance($t->id);
+            // Clean path match
+            $tour_pathmathch = str_replace('%', '', $tour->get_pathmatch());
+            // Set path name based on pathmatch
+            switch($tour_pathmathch) {
+                case 'FRONTPAGE':
+                    $path_name = '/';
+                    break;
+                case 'FRONTPAGE_MY':
+                    $path_name = '/my/';
+                    break;
+                default:
+                    $path_name = $tour_pathmathch;
+            }
+            // Check to see if url equal path name
+            // If it does return true
+            if ($path_name == $url) {
+                return true;
+            }
         }
         return false;
+
     }
 
     /**
      * Is user editing?
      * @return bool
      */
-    public function user_is_editing() {
+    public function user_is_editing()
+    {
         global $PAGE;
         return $PAGE->user_is_editing();
     }
+
     /**
-      * Returns config setting for Sleekplan product ID
-      */
-    public function get_sleekplanid() {
+     * Returns config setting for Sleekplan product ID
+     */
+    public function get_sleekplanid()
+    {
         global $CFG;
-        if (isset($CFG->yorktasks_sleekplanproductid) && !empty($CFG->yorktasks_sleekplanproductid)){
+        if (isset($CFG->yorktasks_sleekplanproductid) && !empty($CFG->yorktasks_sleekplanproductid)) {
             return $CFG->yorktasks_sleekplanproductid;
         } else {
             return 'sleekplanidnotset';
