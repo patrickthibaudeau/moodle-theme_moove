@@ -217,7 +217,7 @@ function get_current_course_mods()
 
     $archetypes = array();
 
-    foreach($modinfo->cms as $cm) {
+    foreach ($modinfo->cms as $cm) {
         // Exclude activities that aren't visible or have no view link (e.g. label). Account for folder being displayed inline.
         if (!$cm->uservisible || (!$cm->has_view() && strcmp($cm->modname, 'folder') !== 0)) {
             continue;
@@ -245,12 +245,12 @@ function get_current_course_mods()
             $mod_names[$i]['name'] = $modname;
             $mod_names[$i]['fullname'] = $modfullname;
             $mod_names[$i]['courseid'] = $course_id;
-            $mod_names[$i]['url'] = $CFG->wwwroot.'/course/resources.php?id='. $course_id;
+            $mod_names[$i]['url'] = $CFG->wwwroot . '/course/resources.php?id=' . $course_id;
         } else {
             $mod_names[$i]['name'] = $modname;
             $mod_names[$i]['fullname'] = $modfullname;
             $mod_names[$i]['courseid'] = $course_id;
-            $mod_names[$i]['url'] = $CFG->wwwroot.'/mod/'.$modname.'/index.php?id='.$course_id;
+            $mod_names[$i]['url'] = $CFG->wwwroot . '/mod/' . $modname . '/index.php?id=' . $course_id;
         }
         $i++;
     }
@@ -275,14 +275,16 @@ function theme_moove_build_secondary_menu($items)
     $menu = [];
     $i = 0;
     for ($a = 0; $a < 5; $a++) {
-        // Do not add course home because it is added on all pages.
-        if (isset($tabs[$a]->id)) {
+        if (isset($tabs[$a])) {
+            // Do not add course home because it is added on all pages.
+            if (isset($tabs[$a]->id)) {
                 $menu[$i]['id'] = $tabs[$a]->id;
                 $menu[$i]['name'] = $tabs[$a]->title;
-                $menu[$i]['url'] = str_replace('&amp;', '&', $tabs[$a]->link->out());
+//                $menu[$i]['url'] = str_replace('&amp;', '&', $tabs[$a]->link->out());
                 $menu[$i]['format'] = $COURSE->format;
                 $menu[$i]['icon'] = theme_moove_get_menu_icon($tabs[$a]->id);
                 $i++;
+            }
         }
     }
     // Build more menu
