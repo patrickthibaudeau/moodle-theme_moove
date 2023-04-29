@@ -816,14 +816,14 @@ class core_renderer extends \theme_boost\output\core_renderer
                     $path_name = '/my/';
                     break;
                 default:
-                    $CFG->wwwroot . $path_name = $CFG->wwwroot . $tour_pathmathch;
+                    $path_name = $tour_pathmathch;
             }
 
-            print_object('URL: ' . $url);
-            print_object('Path name: ' . $path_name);
+            print_object('URL: ' . $CFG->wwwroot .$url);
+            print_object('Path name: ' . $CFG->wwwroot .$path_name);
             // Check to see if url equal path name
             // If it does return true
-            if ($path_name == $url) {
+            if ($CFG->wwwroot . $path_name == $CFG->wwwroot . $url) {
                 return true;
             }
         }
