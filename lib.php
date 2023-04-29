@@ -275,16 +275,18 @@ function theme_moove_build_secondary_menu($items)
     $menu = [];
     $i = 0;
     for ($a = 0; $a < 5; $a++) {
-        if (isset($tabs[$a])) {
             // Do not add course home because it is added on all pages.
             if (isset($tabs[$a]->id)) {
                 $menu[$i]['id'] = $tabs[$a]->id;
                 $menu[$i]['name'] = $tabs[$a]->title;
-                $menu[$i]['url'] = str_replace('&amp;', '&', $tabs[$a]->link->out());
+                if(isset($tabs[$a]->link)) {
+                    $menu[$i]['url'] = str_replace('&amp;', '&', $tabs[$a]->link->out());
+                } else {
+                    $menu[$i]['url'] = '';
+                }
                 $menu[$i]['format'] = $COURSE->format;
                 $menu[$i]['icon'] = theme_moove_get_menu_icon($tabs[$a]->id);
                 $i++;
-            }
         }
     }
     // Build more menu
