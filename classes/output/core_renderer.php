@@ -790,6 +790,16 @@ class core_renderer extends \theme_boost\output\core_renderer
         if (strpos($url, '?') !== false) {
             $url = strstr($url, '?', true);
         }
+        print_object('');
+        print_object('');
+        print_object('');
+        print_object('');
+        print_object('');
+        print_object('');
+        print_object('');
+        print_object('');
+        print_object('');
+        print_object('');
         // get all enabled tours
         $tours = $DB->get_records('tool_usertours_tours', ['enabled' => 1]);
 
@@ -808,6 +818,9 @@ class core_renderer extends \theme_boost\output\core_renderer
                 default:
                     $path_name = $tour_pathmathch;
             }
+
+            print_object('URL: ' . $url);
+            print_object('Path name: ' . $path_name);
             // Check to see if url equal path name
             // If it does return true
             if ($path_name == $url) {
