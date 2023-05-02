@@ -296,7 +296,11 @@ function theme_moove_build_secondary_menu($items)
     for ($b = 5; $b < count($tabs); $b++) {
         $more_menu[$m]['id'] = $tabs[$b]->id;
         $more_menu[$m]['name'] = $tabs[$b]->title;
-        $more_menu[$m]['url'] = str_replace('&amp;', '&', $tabs[$b]->link->out());
+        if(isset($tabs[$b]->link)) {
+            $more_menu[$m]['url'] = str_replace('&amp;', '&', $tabs[$b]->link->out());
+        } else {
+            $more_menu[$m]['url'] = '';
+        }
         $m++;
     }
     // Add both arrays into menus object
