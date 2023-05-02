@@ -283,7 +283,7 @@ function theme_moove_build_secondary_menu($items)
             if (isset($tabs[$a]->link)) {
                 if ($tabs[$a]->link instanceof \moodle_url) {
                     $link = $tabs[$a]->link->out();
-                } elseif (isset($tabs[$a]->link->url) && ($tabs[$b]->link->url instanceof \moodle_url)) {
+                } elseif (isset($tabs[$a]->link->url) && ($tabs[$a]->link->url instanceof \moodle_url)) {
                     $link = $tabs[$a]->link->url->out();
                 }
             } else {
