@@ -275,18 +275,24 @@ function theme_moove_build_secondary_menu($items)
     $menu = [];
     $i = 0;
     for ($a = 0; $a < 5; $a++) {
-            // Do not add course home because it is added on all pages.
-            if (isset($tabs[$a]->id)) {
-                $menu[$i]['id'] = $tabs[$a]->id;
-                $menu[$i]['name'] = $tabs[$a]->title;
-                if(isset($tabs[$a]->link)) {
-                    $menu[$i]['url'] = str_replace('&amp;', '&', $tabs[$a]->link->out());
-                } else {
-                    $menu[$i]['url'] = '';
+        // Do not add course home because it is added on all pages.
+        if (isset($tabs[$a]->id)) {
+            $menu[$i]['id'] = $tabs[$a]->id;
+            $menu[$i]['name'] = $tabs[$a]->title;
+            $link = '';
+            if (isset($tabs[$a]->link)) {
+                if ($tabs[$a]->link instanceof \moodle_url) {
+                    $link = $tabs[$a]->link->out();
+                } elseif (isset($tabs[$a]->link->url) && ($tabs[$b]->link->url instanceof \moodle_url)) {
+                    $link = $tabs[$a]->link->url->out();
                 }
-                $menu[$i]['format'] = $COURSE->format;
-                $menu[$i]['icon'] = theme_moove_get_menu_icon($tabs[$a]->id);
-                $i++;
+            } else {
+                $link = '';
+            }
+            $menu[$i]['url'] = $link;
+            $menu[$i]['format'] = $COURSE->format;
+            $menu[$i]['icon'] = theme_moove_get_menu_icon($tabs[$a]->id);
+            $i++;
         }
     }
     // Build more menu
@@ -296,11 +302,17 @@ function theme_moove_build_secondary_menu($items)
     for ($b = 5; $b < count($tabs); $b++) {
         $more_menu[$m]['id'] = $tabs[$b]->id;
         $more_menu[$m]['name'] = $tabs[$b]->title;
-        if(isset($tabs[$b]->link)) {
-            $more_menu[$m]['url'] = str_replace('&amp;', '&', $tabs[$b]->link->out());
+        $link = '';
+        if (isset($tabs[$b]->link)) {
+            if ($tabs[$b]->link instanceof \moodle_url) {
+                $link = $tabs[$b]->link->out();
+            } elseif (isset($tabs[$b]->link->url) && ($tabs[$b]->link->url instanceof \moodle_url)) {
+                $link = $tabs[$b]->link->url->out();
+            }
         } else {
-            $more_menu[$m]['url'] = '';
+            $link = '';
         }
+        $more_menu[$m]['url'] = $link;
         $m++;
     }
     // Add both arrays into menus object
