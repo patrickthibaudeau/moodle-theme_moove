@@ -289,7 +289,7 @@ function theme_moove_build_secondary_menu($items)
             } else {
                 $link = '';
             }
-            $menu[$i]['url'] = $link;
+            $menu[$i]['url'] = str_replace('&amp;', '&', $link);
             $menu[$i]['format'] = $COURSE->format;
             $menu[$i]['icon'] = theme_moove_get_menu_icon($tabs[$a]->id);
             $i++;
