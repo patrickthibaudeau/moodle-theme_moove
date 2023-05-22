@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG, $PAGE, $USER, $DB;
 require_once($CFG->libdir . '/behat/lib.php');
 require_once($CFG->dirroot . '/course/lib.php');
 require_once($CFG->dirroot . '/theme/moove/lib.php');
@@ -106,7 +107,7 @@ if ($PAGE->pagelayout == 'mycourses' || $PAGE->pagelayout == 'mydashboard') {
 }
 
 $is_staff = false;
-if (substr($USER->idnumber,0,1) == 1) {
+if (substr($USER->idnumber, 0, 1) == 1) {
     $is_staff = true;
 }
 
@@ -115,6 +116,11 @@ $sandbox_installed = false;
 if (is_dir($CFG->dirroot . '/local/sandbox')) {
     $sandbox_installed = true;
 }
+
+// Navbar menu items
+include_once($CFG->dirroot . '/theme/moove/layout/navigation.php');
+
+
 $secondarynavigation = false;
 $overflow = '';
 $main_menu = '';

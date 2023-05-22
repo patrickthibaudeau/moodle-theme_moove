@@ -312,7 +312,7 @@ function theme_moove_build_secondary_menu($items)
         } else {
             $link = '';
         }
-        $more_menu[$m]['url'] = $link;
+        $more_menu[$m]['url'] = str_replace('&amp;', '&', $link);;
         $m++;
     }
     // Add both arrays into menus object

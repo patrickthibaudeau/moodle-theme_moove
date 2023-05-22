@@ -81,6 +81,9 @@ if ($PAGE->has_secondary_navigation()) {
     }
 }
 
+// Navbar menu items
+include_once($CFG->dirroot . '/theme/moove/layout/navigation.php');
+
 $primary = new core\navigation\output\primary($PAGE);
 $renderer = $PAGE->get_renderer('core');
 $primarymenu = $primary->export_for_template($renderer);

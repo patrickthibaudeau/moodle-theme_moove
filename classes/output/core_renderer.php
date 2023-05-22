@@ -630,9 +630,9 @@ class core_renderer extends \theme_boost\output\core_renderer
             foreach ($categoryPath as $key => $categoryId) {
                 $params = ['categoryid' => $categoryId, 'plugintype' => 'theme'];
 
-                if ($blockedThemes = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
-                    break;
-                }
+//                if ($blockedThemes = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
+//                    break;
+//                }
             }
             //Get blocked themes
             $themes = '';
@@ -660,9 +660,9 @@ class core_renderer extends \theme_boost\output\core_renderer
             foreach ($categoryPath as $key => $categoryId) {
                 $params = ['categoryid' => $categoryId, 'plugintype' => 'format'];
 
-                if ($blockedFormats = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
-                    break;
-                }
+//                if ($blockedFormats = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
+//                    break;
+//                }
             }
             //Get blocked themes
             $formats = '';
@@ -690,9 +690,9 @@ class core_renderer extends \theme_boost\output\core_renderer
             foreach ($categoryPath as $key => $categoryId) {
                 $params = ['categoryid' => $categoryId, 'plugintype' => 'block'];
 
-                if ($blockedBlocks = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
-                    break;
-                }
+//                if ($blockedBlocks = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
+//                    break;
+//                }
             }
             //Get blocked themes
             $blocks = '';
@@ -720,9 +720,9 @@ class core_renderer extends \theme_boost\output\core_renderer
             foreach ($categoryPath as $key => $categoryId) {
                 $params = ['categoryid' => $categoryId, 'plugintype' => 'mod'];
 
-                if ($blockedMods = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
-                    break;
-                }
+//                if ($blockedMods = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
+//                    break;
+//                }
             }
             //Get blocked themes
             $mods = '';
@@ -750,9 +750,9 @@ class core_renderer extends \theme_boost\output\core_renderer
             foreach ($categoryPath as $key => $categoryId) {
                 $params = ['categoryid' => $categoryId, 'plugintype' => 'atto'];
 
-                if ($blockedAttos = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
-                    break;
-                }
+//                if ($blockedAttos = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
+//                    break;
+//                }
             }
             //Get blocked themes
             $plugins = '';
