@@ -298,10 +298,10 @@ class core_renderer extends \theme_boost\output\core_renderer
         $html = html_writer::start_div('page-context-header');
 
         // Image data.
-        if (isset($contextheader->imagedata)) {
-            // Header specific image.
-            $html .= html_writer::div($contextheader->imagedata, 'page-header-image mr-2');
-        }
+//        if (isset($contextheader->imagedata)) {
+//            // Header specific image.
+//            $html .= html_writer::div($contextheader->imagedata, 'page-header-image mr-2');
+//        }
 
         // Headings.
         if (isset($contextheader->prefix)) {
