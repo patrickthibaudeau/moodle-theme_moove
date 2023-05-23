@@ -9,7 +9,7 @@ $hrbpRole = $DB->get_record('role', ['shortname' => 'yulearn_hrbp']);
 $context = context_system::instance();
 
 // depending on the role, start the navigation order differently
-if (is_siteadmin($USER->id)) {
+if (has_capability('moodle/site:configview', $context) ) {
     $CFG->custommenuitems .= "-" . get_string('more') . "|\n";
     $CFG->custommenuitems .= "-" . get_string('my_training_history', 'local_yulearn') . "|/local/yulearn/reports/employee_training_history.php\n";
 } else {
