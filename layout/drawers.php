@@ -212,7 +212,6 @@ $templatecontext = [
     'is_staff' => $is_staff,
     'sandbox_installed' => $sandbox_installed
 ];
-
 $templatecontext = array_merge($templatecontext, $themesettings->footer());
 
 echo $OUTPUT->render_from_template('theme_moove/drawers', $templatecontext);

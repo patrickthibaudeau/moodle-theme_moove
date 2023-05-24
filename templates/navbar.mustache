@@ -55,6 +55,13 @@
         ]
     }
 }}
+{{#is_mycourses_page}}
+    <style>
+        body.has-secondarynavigation #page, body.has-secondarynavigation #page.drawers {
+            margin-top: 130px;
+        }
+    </style>
+{{/is_mycourses_page}}
 <nav class="navbar fixed-top navbar-light bg-white navbar-expand shadow"
      aria-label="{{#str}}sitemenubar, admin{{/str}}">
 
@@ -116,13 +123,11 @@
     </div>
 {{/secondarymoremenu}}
 {{^secondarymoremenu}}
+<!--    Always show a red bar-->
     <div class="secondary-navigation d-print-none moove">
-<!--    On my dashboar or my courses page-->
-        {{#is_mycourses_page}}
-<!--        User is staff-->
-            {{#is_staff}}
                 <div id="course-management" class="moove-container-fluid">
                     <ul class="boxes">
+                        <li></li>
 <!--                    Sandbox plugin is installed-->
                         {{#sandbox_installed}}
                             <li>
@@ -140,8 +145,6 @@
                         {{/sandbox_installed}}
                     </ul>
                 </div>
-            {{/is_staff}}
-        {{/is_mycourses_page}}
     </div>
 {{/secondarymoremenu}}
 
