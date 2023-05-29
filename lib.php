@@ -22,6 +22,84 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+
+function adjustBrightness($color, $percent) {
+    // Check if the color is in RGB format
+    if (preg_match('/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/', $color, $matches)) {
+        $red = $matches[1];
+        $green = $matches[2];
+        $blue = $matches[3];
+
+        // Adjust the brightness
+        $red = max(0, min(255, $red + ($red * $percent / 100)));
+        $green = max(0, min(255, $green + ($green * $percent / 100)));
+        $blue = max(0, min(255, $blue + ($blue * $percent / 100)));
+
+        // Return the adjusted RGB color
+        return "rgb($red, $green, $blue)";
+    }
+
+    // Check if the color is in hex format
+    if (preg_match('/^#?([a-f0-9]{6})$/i', $color, $matches)) {
+        $hex = $matches[1];
+
+        // Convert hex to RGB
+        $red = hexdec(substr($hex, 0, 2));
+        $green = hexdec(substr($hex, 2, 2));
+        $blue = hexdec(substr($hex, 4, 2));
+
+        // Adjust the brightness
+        $red = max(0, min(255, $red + ($red * $percent / 100)));
+        $green = max(0, min(255, $green + ($green * $percent / 100)));
+        $blue = max(0, min(255, $blue + ($blue * $percent / 100)));
+
+        // Convert RGB to hex and return the adjusted color
+        return '#' . sprintf('%02x', $red) . sprintf('%02x', $green) . sprintf('%02x', $blue);
+    }
+
+    // Return the original color if it doesn't match any format
+    return $color;
+}
+
+/**
+ * Get SCSS to prepend.
+ *
+ * @param theme_config $theme The theme config object.
+ * @return string
+ * @throws dml_exception
+ */
+function theme_moove_get_pre_scss($theme)
+{
+    $primary = $theme->settings->brandcolor;
+    $brandcolor = $theme->settings->brandcolor;
+
+    // Config Variables
+    $linkedVars = [
+        "primary" =>  $primary, // Most buttons
+        "brand-primary" => $brandcolor, // Font Coloured
+        "secondary-menu-color" => $theme->settings->secondarymenucolor,  // Otherwise
+        "brand-primary-2" => adjustBrightness($brandcolor, -10),
+        "secondary-menu-color-2" => adjustBrightness($theme->settings->secondarymenucolor, -10),
+    ];
+
+
+    $exposedVars = array_merge($linkedVars, [
+        "primary-2" => "lighten($primary, 50%)",
+        "primary-3" => "lighten($primary, 40%)",
+        "primary-4" => "rgba($primary, .75)"
+    ]);
+
+    $scss = theme_moove_create_sass_link_vars($theme, $linkedVars); //
+    $scss .= theme_moove_create_sass_expose_vars("sass-var-expose", $exposedVars); // .sass-var-expose
+
+    // Prepend pre-scss.
+    if (!empty($theme->settings->scsspre)) {
+        $scss .= $theme->settings->scsspre;
+    }
+
+    return $scss;
+}
+
 /**
  * Returns the main SCSS content.
  *
@@ -30,13 +108,15 @@
  */
 function theme_moove_get_main_scss_content($theme)
 {
-    global $CFG;
+    global $CFG, $USER;
 
     $scss = '';
     $filename = !empty($theme->settings->preset) ? $theme->settings->preset : null;
     $fs = get_file_storage();
 
     $context = context_system::instance();
+
+    // Get Main
     if ($filename == 'default.scss') {
         $scss .= file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/default.scss');
     } else if ($filename == 'plain.scss') {
@@ -44,18 +124,15 @@ function theme_moove_get_main_scss_content($theme)
     } else if ($filename && ($presetfile = $fs->get_file($context->id, 'theme_moove', 'preset', 0, '/', $filename))) {
         $scss .= $presetfile->get_content();
     } else {
-        // Safety fallback - maybe new installs etc.
         $scss .= file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/default.scss');
     }
 
-    // Moove scss.
-    $moovevariables = file_get_contents($CFG->dirroot . '/theme/moove/scss/moove/_variables.scss');
+    // Moove Theme
     $moove = file_get_contents($CFG->dirroot . '/theme/moove/scss/default.scss');
+    $vars = file_get_contents($CFG->dirroot . '/theme/moove/scss/moove/_variables.scss');
 
-    // Combine them together.
-    $allscss = $moovevariables . "\n" . $scss . "\n" . $moove;
-
-    return $allscss;
+    # Combine CSS
+    return "\n".join([$vars, $scss, $moove]);
 }
 
 /**
@@ -80,43 +157,29 @@ function theme_moove_get_extra_scss($theme)
     return !empty($theme->settings->scss) ? $theme->settings->scss . ' ' . $content : $content;
 }
 
-/**
- * Get SCSS to prepend.
- *
- * @param theme_config $theme The theme config object.
- * @return string
- */
-function theme_moove_get_pre_scss($theme)
-{
-    $scss = '';
-    $configurable = [
-        // Config key => [variableName, ...].
-        'brandcolor' => ['brand-primary'],
-        'secondarymenucolor' => 'secondary-menu-color',
-        'fontsite' => 'font-family-sans-serif'
-    ];
 
-    // Prepend variables first.
-    foreach ($configurable as $configkey => $targets) {
-        $value = isset($theme->settings->{$configkey}) ? $theme->settings->{$configkey} : null;
-        if (empty($value)) {
-            continue;
-        }
-        array_map(function ($target) use (&$scss, $value) {
-            if ($target == 'fontsite') {
-                $scss .= '$' . $target . ': "' . $value . '", sans-serif !default' . ";\n";
-            } else {
-                $scss .= '$' . $target . ': ' . $value . ";\n";
-            }
-        }, (array)$targets);
+function theme_moove_create_sass_expose_vars($className, $config) {
+    $scss = ".$className {\n";
+
+    foreach ($config as $key => $value) {
+        if (!$value) continue;
+
+        $scss .= ($key . ": ". $value . ";\n");
     }
 
-    // Prepend pre-scss.
-    if (!empty($theme->settings->scsspre)) {
-        $scss .= $theme->settings->scsspre;
+    return $scss . "}\n";
+}
+
+function theme_moove_create_sass_link_vars($theme, $config) {
+    $scss = ":root {\n";
+
+    foreach ($config as $key => $value) {
+        if (!$value) continue;
+
+        $scss .= ("--" . $key . ": ". $value . "!important;\n");
     }
 
-    return $scss;
+    return $scss . "}\n";
 }
 
 /**

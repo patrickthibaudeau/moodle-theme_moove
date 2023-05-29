@@ -49,6 +49,7 @@
         "addblockbutton": ""
     }
 }}
+
 {{> theme_moove/head }}
 
 <body {{{ bodyattributes }}}>
@@ -107,7 +108,6 @@
                 {{{ addcontentblockbutton}}}
                 {{{ contentblocks }}}
             </div>
-
             <div class="drawer-toggles d-flex">
                 {{#courseindex}}
                     <div class="drawer-toggler drawer-left-toggle open-nav d-print-none">
@@ -182,7 +182,8 @@
 </div>
 
 </body>
-</html>
+{{user}}
+
 {{#js}}
 M.util.js_pending('theme_boost/loader');
 require(['theme_boost/loader', 'theme_boost/drawer'], function(Loader, Drawer) {

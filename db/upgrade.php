@@ -30,7 +30,9 @@
  * @return bool Success.
  */
 function xmldb_theme_moove_upgrade($oldversion = 0) {
-    global $DB;
+    global $CFG, $DB;
+    require_once($CFG->libdir.'/db/upgradelib.php');
+    $dbman = $DB->get_manager();
 
     if ($oldversion < 2022052800) {
         $usertours = $DB->get_records('tool_usertours_tours');
@@ -54,5 +56,34 @@ function xmldb_theme_moove_upgrade($oldversion = 0) {
         upgrade_plugin_savepoint(true, 2022052800, 'theme', 'moove');
     }
 
+
+    if ($oldversion < 2023051402) {
+
+        // Define table theme_moove to be created.
+        $table = new xmldb_table('theme_moove');
+
+        // Adding fields to table theme_moove.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('usermodified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('dark_enabled', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '20', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table theme_moove.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+        $table->add_key('usermodified', XMLDB_KEY_FOREIGN, ['usermodified'], 'user', ['id']);
+        $table->add_key('theme_mooveuserid', XMLDB_KEY_FOREIGN_UNIQUE, ['userid'], 'user', ['id']);
+
+        // Conditionally launch create table for theme_moove.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Moove savepoint reached.
+        upgrade_plugin_savepoint(true, 2023051402, 'theme', 'moove');
+    }
+
     return true;
+
 }

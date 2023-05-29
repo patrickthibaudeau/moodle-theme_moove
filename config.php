@@ -26,6 +26,8 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/lib.php');
 
+$CFG->cachejs = false;
+
 $THEME->name = 'moove';
 $THEME->sheets =  ['custom', 'savy_alerts'];
 $THEME->editor_sheets = ['bootstrap'];
@@ -34,6 +36,8 @@ $THEME->usefallback = false;
 $THEME->scss = function($theme) {
     return theme_moove_get_main_scss_content($theme);
 };
+
+
 
 $THEME->layouts = [
     // Most backwards compatible layout without the blocks.
@@ -168,6 +172,19 @@ $THEME->layouts = [
     ),
     'savy_mobile' => array(
         'file' => 'savy_mobile.php',
+        'regions' => array(),
+        'options' => array(
+            'nofooter' => true,
+            'nonavbar' => true,
+            'activityheader' => [
+                'notitle' => true,
+                'nocompletion' => true,
+                'nodescription' => true
+            ]
+        )
+    ),
+    'style' => array(
+        'file' => 'style.php',
         'regions' => array(),
         'options' => array(
             'nofooter' => true,
