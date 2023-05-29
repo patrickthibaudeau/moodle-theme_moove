@@ -55,7 +55,7 @@
         ]
     }
 }}
-<nav class="navbar fixed-top navbar-light bg-white navbar-expand shadow"
+<nav class="navbar fixed-top moove-navbar moove-background-secondary navbar-expand shadow"
      aria-label="{{#str}}sitemenubar, admin{{/str}}">
 
     <button class="navbar-toggler aabtn d-block d-md-none px-1 my-1 border-0" data-toggler="drawers"
@@ -102,6 +102,7 @@
             <div class="divider border-left h-75 align-self-center mx-1"></div>
         {{/langmenu}}
         {{{ output.navbar_plugin_output }}}
+
         <div class="d-flex align-items-stretch usermenu-container" data-region="usermenu">
             {{#usermenu}}
                 {{> core/user_menu }}

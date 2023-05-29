@@ -7,7 +7,7 @@
         height: 10rem !important;
 
         .course-category {
-            background-color: $brand-primary;
+            background-color: $brand-primary !important;
             color: #fff;
             padding: 4px 6px;
             margin-bottom: .25rem;
@@ -19,11 +19,30 @@
                 color: #fff;
             }
         }
+
+
     }
 
     .card-body.course-info-container .coursename .text-truncate {
         white-space: initial;
     }
+}
+
+.dashboard-card {
+    box-shadow: none !important;
+    border-radius: 5px !important;
+
+    .dashboard-card-img {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+
+    }
+
+    div.progress {
+        height: 0.6rem;
+        margin-bottom: 12px;
+    }
+
 }
 
 .block .block-cards .moove-card-footer {
@@ -83,3 +102,11 @@
         margin: 1rem 0;
     }
 }
+
+.path-grade-report-grader .gradeparent tr .cell, .path-grade-report-grader .gradeparent .floater .cell {
+    background-color: transparent !important;
+}
+.path-mod .activity-header:not(:empty) {
+    background-color: transparent !important;
+}
+

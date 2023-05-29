@@ -24,11 +24,13 @@
 
 namespace theme_moove\output;
 
+use core_scss;
 use theme_config;
 use context_course;
 use moodle_url;
 use html_writer;
 use theme_moove\output\core_course\activity_navigation;
+
 
 /**
  * Renderers to align Moodle's HTML with that expected by Bootstrap
@@ -38,6 +40,90 @@ use theme_moove\output\core_course\activity_navigation;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class core_renderer extends \theme_boost\output\core_renderer {
+
+    public function get_theme_mode_css(): string {
+        global $CFG, $DB, $USER;
+
+        $record = $DB->get_record('theme_moove', ['userid' => $USER->id], '*');
+        $dark_enabled = $record->dark_enabled;
+
+        if (!$dark_enabled) {
+            return "";
+        }
+
+        $core = new core_scss();
+        $core->set_file($CFG->dirroot . '/theme/moove/scss/moove/modes/_dark.scss');
+        $css = $core->to_css();
+        return "<style>$css</style>";
+    }
+
+    public function get_modified_css_content($css, $exposeClassName)
+    {
+
+        // Save values
+        $class = $this->extractCSSClass($css, $exposeClassName);
+        $root = $this->extractCSSClass($css, ":root");
+        $classProps = $this->extractPropertiesFromClass($class);
+
+        // Temp remove (so it isn't affected by variable replacement)
+        $css = str_ireplace($class, "", $css);
+        $css = str_ireplace($root, "", $css);
+
+
+        // Do variable replacement
+        foreach ($classProps as $key => $value) {
+            $css = str_ireplace($value, "var(--$key)", $css);
+        }
+
+        // Return temp-removed items
+        return $class . $root . $css;
+    }
+
+    public function extractCSSClass($css, $className): string
+    {
+        preg_match("/" . preg_quote($className) ."\s*\{[^}]*?\}/i", $css, $match);
+        return $match[0];
+    }
+
+
+
+    public function extractPropertiesFromClass($cssClassString): array
+    {
+
+        // Match the contents between the braces
+        preg_match('/\{([^}]*)\}/', $cssClassString, $matches);
+
+        // Check if the match was successful
+        if (!isset($matches[1])) {
+            return [];
+        }
+
+        $cssClassContent = $matches[1];
+
+        // split by semicolon to get each property-value pair
+        $properties = explode(';', $cssClassContent);
+
+        $propertiesArray = [];
+
+        foreach ($properties as $property) {
+            // trim to remove leading/trailing white space
+            $property = trim($property);
+
+            // skip if this is an empty string
+            if (empty($property)) {
+                continue;
+            }
+
+            // split by colon to separate property and value
+            list($prop, $value) = explode(':', $property);
+
+            // trim and add to array
+            $propertiesArray[trim($prop)] = trim($value);
+        }
+
+        return $propertiesArray;
+    }
+
     /**
      * The standard tags (meta tags, links to stylesheets and JavaScript, etc.)
      * that should be included in the <head> tag. Designed to be called in theme
@@ -46,34 +132,44 @@ class core_renderer extends \theme_boost\output\core_renderer {
      * @return string HTML fragment.
      */
     public function standard_head_html() {
+
+        // Load standard & REMOVE default stylesheet
         $output = parent::standard_head_html();
+        $output = preg_replace('/http:\/\/.*\/moove\/.*\/all/', '', $output);
 
-        $googleanalyticscode = "<script
-                                    async
-                                    src='https://www.googletagmanager.com/gtag/js?id=GOOGLE-ANALYTICS-CODE'>
-                                </script>
-                                <script>
-                                    window.dataLayer = window.dataLayer || [];
-                                    function gtag() {
-                                        dataLayer.push(arguments);
-                                    }
-                                    gtag('js', new Date());
-                                    gtag('config', 'GOOGLE-ANALYTICS-CODE');
-                                </script>";
+        $theme = theme_config::load("moove");
+        $css = $theme->get_css_content();
 
-        $theme = theme_config::load('moove');
+        // Load the new version
+        $output .= "<style>" . $this->get_modified_css_content($css, ".sass-var-expose") . "</style>";
+        $output .= $this->get_theme_mode_css();
+
+        $google_analytics_code = (
+            "<script
+                async
+                src='https://www.googletagmanager.com/gtag/js?id=GOOGLE-ANALYTICS-CODE'>
+            </script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag() {
+                dataLayer.push(arguments);
+                }
+                gtag('js', new Date());
+                gtag('config', 'GOOGLE-ANALYTICS-CODE');
+            </script>"
+        );
 
         if (!empty($theme->settings->googleanalytics)) {
-            $output .= str_replace("GOOGLE-ANALYTICS-CODE", trim($theme->settings->googleanalytics), $googleanalyticscode);
+            $output .= str_replace("GOOGLE-ANALYTICS-CODE", trim($theme->settings->googleanalytics), $google_analytics_code);
         }
 
         $sitefont = isset($theme->settings->fontsite) ? $theme->settings->fontsite : 'Roboto';
 
-        $output .= '<link rel="preconnect" href="https://fonts.googleapis.com">
-                       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                       <link href="https://fonts.googleapis.com/css2?family='
-                        . $sitefont .
-                       ':ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">';
+        $output .= ('
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=
+        ') . $sitefont . ':ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">';
 
         return $output;
     }
@@ -615,5 +711,27 @@ class core_renderer extends \theme_boost\output\core_renderer {
             }
         }
         return $output;
+    }
+
+    public function render_dark_selector() {
+
+        // Must be logged in
+        global $USER, $DB;
+        if (!($USER->id)) {
+            return "";
+        }
+
+        $record = $DB->get_record('theme_moove', ['userid' => $USER->id], '*');
+        $dark_enabled = $record->dark_enabled;
+
+        $context = [
+            "graphic" => $dark_enabled ? "hollow_moon" : "filled_moon",
+        ];
+
+        return $this->render_from_template("/dark_mode", $context);
+    }
+
+    public function navbar_plugin_output(): string {
+        return (parent::navbar_plugin_output()) . $this->render_dark_selector();
     }
 }

@@ -1,5 +1,6 @@
 body {
-  background-color: $background !important; /* stylelint-disable-line */
+  background-color: $background-primary !important; /* stylelint-disable-line */
+  color: $font-primary;
   // used to align forms
   .ml-2_6 {
     margin-left: 2.7rem !important;
@@ -23,8 +24,7 @@ body {
 }
 
 #user-action-menu {
-  background-color: $york-red;
-  border-color: $york-red-dark;
+  background-color: $background-action-menu;
   //border-width: 1px;
   -webkit-box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.37);
   box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.37);
@@ -34,7 +34,7 @@ body {
   }
 
   .dropdown-item:hover {
-    background-color: $york-red-medium !important;
+    background-color: $background-action-menu-2 !important;
   }
 }
 
@@ -45,6 +45,7 @@ body {
 
 .btn-group .dropdown-menu {
   background-color: $york-grey-dark;
+  color: $font-primary !important;
 
   a {
     color: #fff;
@@ -55,8 +56,8 @@ body {
   }
 
   :hover {
-    background-color: $york-red-dark;
-    color: #fff;
+    background-color: $brand-primary-2;
+    color: $font-primary !important;
   }
 }
 
@@ -145,7 +146,7 @@ a {
 .dropdown-item:hover,
 .dropdown-item:focus,
 .dropdown-item:focus-within {
-  background-color: darken($brand-primary, 10%);
+  background-color: $brand-primary-2;
 }
 
 .shadow {
@@ -188,4 +189,146 @@ a {
   .container-xxl {
     max-width: 95%;
   }
+}
+
+// Footer fix
+#page {
+  flex-grow: 1;
+}
+
+.modal-content {
+  background-color: $background-drawer !important;
+}
+
+.activity-add,
+.block-add,
+.activity-add > .pluscontainer,
+.block-add > .pluscontainer
+
+{
+  background-color: inherit !important;
+  border-color: var(--primary-3);
+}
+
+.popover-region-container, .popover-region-footer-container {
+  background-color: $background-navbar;
+  border: 1px solid #ddd;
+
+}
+
+nav.navbar {
+  background-color: $background-navbar;
+}
+
+.popover-region-footer-container {
+  border: none !important;
+  border-top: 1px solid white !important;
+
+}
+
+.popover-region-toggle::after, .popover-region-toggle::before {
+  border-color: $background-navbar !important;
+}
+
+.message-app {
+  background-color: $background-drawer;
+}
+
+.list-group-item, .simplesearchform .btn-submit {
+  background-color: transparent !important;
+}
+
+.table, .list-group-item-action {
+  color: inherit !important;
+}
+
+
+.modal-content  {
+
+  .modal-footer {
+    background-color: inherit !important;
+  }
+
+  .nav-tabs {
+    .nav-link.active, .nav-item.show .nav-link {
+      color: inherit !important;
+      background-color: inherit !important;
+    }
+  }
+}
+
+
+.modchoosercontainer ,  {
+  background-color: inherit !important;
+  .optionscontainer .option .optioninfo a,
+  .searchresultitemscontainer .option .optioninfo a {
+    background-color: inherit !important;
+    color: inherit !important;
+  }
+}
+
+
+
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: 0 0 0 0.2rem inherit;
+}
+
+.custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
+  border-color: inherit;
+}
+
+.custom-control-input:not(:disabled):active ~ .custom-control-label::before {
+  color: #fff;
+  background-color: #b3d7ff;
+  border-color: #b3d7ff;
+}
+
+.custom-control-input[disabled] ~ .custom-control-label, .custom-control-input:disabled ~ .custom-control-label {
+  color: inherit;
+}
+
+.custom-control-input[disabled] ~ .custom-control-label::before, .custom-control-input:disabled ~ .custom-control-label::before {
+  background-color: #e9ecef;
+}
+
+.wp-block-social-links {
+  background-color: transparent !important;
+}
+
+.page-link:hover, a:hover {
+  color: var(--primary-5);
+}
+
+.fp-thumbnail {
+  background-color: $white !important;
+}
+
+.editmode-switch-form {
+  margin-bottom: 0 !important;
+}
+
+div > div[role='application'].tox {
+  min-height: 250px !important;
+}
+
+div.fcontainer collapseable collapse show > .form-group row  fitem   {
+  display: block;
+}
+
+div.form-checkbox-container {
+  display: block;
+}
+
+div.col-form-label {
+  padding-left: 0;
+}
+
+.fcontainer > div.moreless-actions {
+  margin-left: 2.7rem;
+  margin-bottom: 2.7rem;
+}
+
+#form-advanced-div > div.advanced.show {
+  display: block !important;
 }

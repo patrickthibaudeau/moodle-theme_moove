@@ -1,0 +1,10 @@
+<!-- SASS defines the icon by the ID. If icon disappears, check ID's first -->
+<div id="moove-dark-mode-switch">
+    <div class="mode-svg {{graphic}}">
+    </div>
+</div>
+{{#js}}
+    require(['theme_moove/theme_mode'], function(mod) {
+    mod.init();
+    });
+{{/js}}

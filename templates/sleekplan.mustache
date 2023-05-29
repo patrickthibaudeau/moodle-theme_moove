@@ -14,14 +14,23 @@ function checkLink(){
     img: img
     }, function(data, status){
       if (status == "success"){
-        window.SLEEK_USER = {
+    window.SLEEK_USER = {
             token: data,
         };
-        var sleekplanhtml = '<script 
-type="text/javascript">window.$sleek=[];window.SLEEK_PRODUCT_ID=205691429;(function(){d=document;s=d.createElement("script");s.src="https://client.sleekplan.com/sdk/e.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>';
+        var sleekplanhtml = `
+            <script type="text/javascript">
+                window.$sleek=[];
+                window.SLEEK_PRODUCT_ID=205691429;
+                (function(){
+                    d=document;
+                    s=d.createElement("script");
+                    s.src="https://client.sleekplan.com/sdk/e.js";
+                    s.async=1;d.getElementsByTagName("head")[0].appendChild(s);
+                })();
+            </script>`;
         $("body").append(sleekplanhtml);
       }
-  });
+});
 }
 checkLink();
 </script>
