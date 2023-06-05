@@ -133,9 +133,17 @@ class core_renderer extends \theme_boost\output\core_renderer {
      */
     public function standard_head_html() {
 
-        // Load standard & REMOVE default stylesheet
+        // Load standard
         $output = parent::standard_head_html();
-        $output = preg_replace('/http:\/\/.*\/moove\/.*\/all/', '', $output);
+
+        /*
+         * This line was left in to note what NOT to do.
+         * Removing the /all/ base stylesheet will break certain things (file picker, color picker, etc.).
+         * Leave the stylesheet in there as a FALLBACK in case our inline one is missing some stuff
+         * (It seems it is due to SCSS being added to the /all/ file somewhere in the moodle core out of our control)
+         *
+         * $output = preg_replace('/http:\/\/.*\/moove\/.*\/all/', '', $output);
+         */
 
         $theme = theme_config::load("moove");
         $css = $theme->get_css_content();

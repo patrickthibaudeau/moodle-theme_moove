@@ -44,7 +44,7 @@ body {
 }
 
 .btn-group .dropdown-menu {
-  background-color: $york-grey-dark;
+  background-color: $brand-primary-2;
   color: $font-primary !important;
 
   a {
@@ -56,8 +56,8 @@ body {
   }
 
   :hover {
-    background-color: $brand-primary-2;
-    color: $font-primary !important;
+    background-color: $primary;
+    color: #ffffff;
   }
 }
 
@@ -331,4 +331,18 @@ div.col-form-label {
 
 #form-advanced-div > div.advanced.show {
   display: block !important;
+}
+
+textarea.tiny_equation_equation {
+  background-color: inherit !important;
+  color: inherit !important;
+}
+
+#page-mod-quiz-edit ul.slots li.section li.activity,
+#page-mod-quiz-edit ul.slots li.section li.activity .instancemaxmarkcontainer {
+  background-color: inherit !important;
+}
+
+.changenumsections {
+  border-color: var(--primary-3) !important;
 }
