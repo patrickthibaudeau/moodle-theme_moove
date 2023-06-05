@@ -157,7 +157,7 @@ div.header-container > [data-region='view-conversation'], [data-region='content-
   border: none !important;
 
   div.course-category {
-    background-color: $background-navbar !important;
+    background-color: $background-primary !important;
   }
 
 }
@@ -298,6 +298,10 @@ div.editor_atto_toolbar button:hover {
   color: white !important;
 }
 
+.aalink:focus {
+  background-color: var(--secondary-menu-color) !important;
+}
+
 button.btn-primary, input.btn-primary {
   background-color: $secondary-menu-color !important;
   border-color: $secondary-menu-color !important;
@@ -411,7 +415,7 @@ h2 > img.iconlarge, .modicon > .icon {
   background-color: transparent !important;
 }
 
-.activity > img.icon {
+.activity > img.icon, icon.activityicon {
   filter: invert(0.8);
 }
 
@@ -436,4 +440,32 @@ input {
 
 .icon.itemicon, .dragicon > .icon.fa {
   filter: invert(0.65);
+}
+
+.filemanager > .card {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.custom-switch .custom-control-input:disabled:checked~.custom-control-label::before {
+  background-color: var(--primary-4);
+}
+
+
+.editing .activity-item:hover, .editing .activity-item.selected {
+  color: inherit !important;
+  background-color: inherit !important;
+  border-color: inherit !important;
+
+  .activityiconcontainer {
+    mix-blend-mode: normal !important;
+  }
+}
+
+.activityname > .inplaceeditable > .aalink {
+  color: inherit !important;
+
+  &:hover {
+    color: inherit !important;
+  }
 }

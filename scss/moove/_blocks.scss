@@ -7,8 +7,8 @@
         height: 10rem !important;
 
         .course-category {
-            background-color: $brand-primary !important;
-            color: #fff;
+            background-color: $brand-primary-2;
+            color: #ffffff;
             padding: 4px 6px;
             margin-bottom: .25rem;
             border-radius: 0.5rem;
@@ -20,7 +20,10 @@
             }
         }
 
+    }
 
+    a:has(.course-category) {
+        text-decoration-color: #ffffff;
     }
 
     .card-body.course-info-container .coursename .text-truncate {
@@ -41,6 +44,10 @@
     div.progress {
         height: 0.6rem;
         margin-bottom: 12px;
+    }
+
+    div.card-footer {
+        background-color: inherit !important;
     }
 
 }
@@ -108,5 +115,10 @@
 }
 .path-mod .activity-header:not(:empty) {
     background-color: transparent !important;
+}
+
+
+.section-modchooser > i.fa-plus::before {
+    margin-left: 2px;
 }
 
