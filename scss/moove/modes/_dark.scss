@@ -31,7 +31,7 @@ body {
   --primary-2: rgba(255, 255, 255, 0.9); // 50% lighter
   --primary-3: rgba(255, 255, 255, 0.7); // 40% lighter
   --primary-4: rgba(255, 255, 255, 0.5); // .75 RGBA
-  --primary-5: rgba(255, 255, 255, 0.3); // 40% darker
+  --primary-5: rgba(255, 255, 255, 0.4); // 40% darker
   --primary-6: rgba(255, 255, 255, 0.1); // 50% darker
 
 }
@@ -298,10 +298,6 @@ div.editor_atto_toolbar button:hover {
   color: white !important;
 }
 
-.aalink:focus {
-  background-color: var(--secondary-menu-color) !important;
-}
-
 button.btn-primary, input.btn-primary {
   background-color: $secondary-menu-color !important;
   border-color: $secondary-menu-color !important;
@@ -462,10 +458,15 @@ input {
   }
 }
 
-.activityname > .inplaceeditable > .aalink {
+[data-itemtype='sectionnamenl'] > a.aalink, .quickeditlink.aalink {
   color: inherit !important;
 
   &:hover {
     color: inherit !important;
   }
+
+  &:focus {
+    background-color: var(--secondary-menu-color) !important;
+  }
+
 }

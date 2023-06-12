@@ -137,7 +137,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $output = parent::standard_head_html();
 
         /*
-         * This line was left in to note what NOT to do.
+         * This commented line was left in to note what NOT to do.
          * Removing the /all/ base stylesheet will break certain things (file picker, color picker, etc.).
          * Leave the stylesheet in there as a FALLBACK in case our inline one is missing some stuff
          * (It seems it is due to SCSS being added to the /all/ file somewhere in the moodle core out of our control)
@@ -149,8 +149,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $css = $theme->get_css_content();
 
         // Load the new version
-        $output .= "<style>" . $this->get_modified_css_content($css, ".sass-var-expose") . "</style>";
-        $output .= $this->get_theme_mode_css();
+        //$output .= "<style>" . $this->get_modified_css_content($css, ".sass-var-expose") . "</style>";
+        //$output .= $this->get_theme_mode_css();
 
         $google_analytics_code = (
             "<script
