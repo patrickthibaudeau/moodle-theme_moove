@@ -41,87 +41,15 @@ use theme_moove\output\core_course\activity_navigation;
  */
 class core_renderer extends \theme_boost\output\core_renderer {
 
-    public function get_theme_mode_css(): string {
-        global $CFG, $DB, $USER;
+    public function get_mode_stylesheet() {
+        global $DB, $USER;
 
         $record = $DB->get_record('theme_moove', ['userid' => $USER->id], '*');
         $dark_enabled = $record->dark_enabled;
 
-        if (!$dark_enabled) {
-            return "";
-        }
+        $mode = $dark_enabled ? 'dark' : 'normal';
 
-        $core = new core_scss();
-        $core->set_file($CFG->dirroot . '/theme/moove/scss/moove/modes/_dark.scss');
-        $css = $core->to_css();
-        return "<style>$css</style>";
-    }
-
-    public function get_modified_css_content($css, $exposeClassName)
-    {
-
-        // Save values
-        $class = $this->extractCSSClass($css, $exposeClassName);
-        $root = $this->extractCSSClass($css, ":root");
-        $classProps = $this->extractPropertiesFromClass($class);
-
-        // Temp remove (so it isn't affected by variable replacement)
-        $css = str_ireplace($class, "", $css);
-        $css = str_ireplace($root, "", $css);
-
-
-        // Do variable replacement
-        foreach ($classProps as $key => $value) {
-            $css = str_ireplace($value, "var(--$key)", $css);
-        }
-
-        // Return temp-removed items
-        return $class . $root . $css;
-    }
-
-    public function extractCSSClass($css, $className): string
-    {
-        preg_match("/" . preg_quote($className) ."\s*\{[^}]*?\}/i", $css, $match);
-        return $match[0];
-    }
-
-
-
-    public function extractPropertiesFromClass($cssClassString): array
-    {
-
-        // Match the contents between the braces
-        preg_match('/\{([^}]*)\}/', $cssClassString, $matches);
-
-        // Check if the match was successful
-        if (!isset($matches[1])) {
-            return [];
-        }
-
-        $cssClassContent = $matches[1];
-
-        // split by semicolon to get each property-value pair
-        $properties = explode(';', $cssClassContent);
-
-        $propertiesArray = [];
-
-        foreach ($properties as $property) {
-            // trim to remove leading/trailing white space
-            $property = trim($property);
-
-            // skip if this is an empty string
-            if (empty($property)) {
-                continue;
-            }
-
-            // split by colon to separate property and value
-            list($prop, $value) = explode(':', $property);
-
-            // trim and add to array
-            $propertiesArray[trim($prop)] = trim($value);
-        }
-
-        return $propertiesArray;
+        return "/theme/moove/layout/theme_css.php?mode=$mode";
     }
 
     /**
@@ -146,11 +74,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
          */
 
         $theme = theme_config::load("moove");
-        $css = $theme->get_css_content();
-
-        // Load the new version
-        //$output .= "<style>" . $this->get_modified_css_content($css, ".sass-var-expose") . "</style>";
-        //$output .= $this->get_theme_mode_css();
+        $output .= '<link rel="stylesheet" type="text/css" href="' .  $this->get_mode_stylesheet() . '">';
 
         $google_analytics_code = (
             "<script
