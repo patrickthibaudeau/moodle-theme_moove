@@ -1,12 +1,12 @@
 .breadcrumb {
+    margin-left: 8px;
     justify-content: flex-end;
 
     .breadcrumb-item + .breadcrumb-item::before {
-        font: normal normal normal 12px/1 FontAwesome;
         text-rendering: auto;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        content: "\f054";
+        content: "\276f";
         display: flex;
         align-items: center;
         white-space: nowrap;

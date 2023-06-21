@@ -344,3 +344,23 @@ textarea.tiny_equation_equation {
 .changenumsections {
   border-color: var(--primary-3) !important;
 }
+
+
+a.btn-primary:hover {
+  test-prop: 3;
+  color: #fff;
+  background-color: var(--primary-5) !important;
+  border-color: var(--primary-6) !important;
+}
+
+a.btn-primary:focus, .btn-primary.focus {
+  color: #fff;
+  background-color: var(--primary-5) !important;
+  border-color: var(--primary-6) !important;
+}
+
+a.btn-primary.disabled, .btn-primary:disabled {
+  color: #fff;
+  background-color: var(--primary-5) !important;
+  border-color: var(--primary-6) !important;
+}
