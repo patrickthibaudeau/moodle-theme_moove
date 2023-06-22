@@ -47,6 +47,8 @@ Scrollbar Start
   margin-right: 2px;
   padding: 30px;
   background-color: transparent !important;
+  border-radius: 15px;
+
 }
 ::-webkit-scrollbar-button {
   display: none;
@@ -71,6 +73,15 @@ Scrollbar Start
   background-color: transparent !important;
 
 }
+
+::-webkit-scrollbar-corner {
+  /*
+  background-image: url(resources/corner.png);
+  background-repeat: no-repeat;
+  */
+  background-color: $background-primary;
+}
+
 
 /*
 Scrollbar End
@@ -469,4 +480,17 @@ input {
     background-color: var(--secondary-menu-color) !important;
   }
 
+}
+
+.nav-tabs:not(.more-nav) .nav-link,.nav-pills .nav-link {
+  background: $background-navbar !important;
+  border: 0;
+  margin: .125rem
+}
+
+.nav-tabs:not(.more-nav),.nav-pills {
+  margin: 0;
+  border: 0;
+  padding: .125rem;
+  background-color: $background-primary !important;
 }
