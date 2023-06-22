@@ -122,3 +122,21 @@
     margin-left: 2px;
 }
 
+.popover:has(.popover-body > #moove-licenselinks) {
+    background-color: $background-primary;
+    height: 70%;
+
+    .arrow::after {
+        border-left-color: $background-primary;
+    }
+    .popover-body {
+        height: 100%;
+        color: $font-primary;
+        overflow: scroll;
+    }
+
+    #moove-licenselinks {
+
+    }
+
+}
