@@ -494,3 +494,23 @@ input {
   padding: .125rem;
   background-color: $background-primary !important;
 }
+
+#page-mod-quiz-edit .section .activity .actions {
+  background-color: $background-action-menu;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+#page-mod-quiz-edit {
+
+  .inplaceeditable {
+    border-radius: 3px;
+  }
+
+  ul.slots li.activity div.activityinstance {
+    .questionname, .questiontext {
+      color: inherit;
+    }
+  }
+
+}
