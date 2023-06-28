@@ -26,8 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/lib.php');
 
-$CFG->cachejs = false;
-
 $THEME->name = 'moove';
 $THEME->sheets =  ['custom', 'savy_alerts'];
 $THEME->editor_sheets = ['bootstrap'];
