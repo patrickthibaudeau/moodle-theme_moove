@@ -22,7 +22,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
+/**
+ * Adjust brightness of a hex colou
+ *
+ * @param $color string Original hex colour
+ * @param $percent float Adjustment factor
+ * @return mixed|string New hex colour
+ */
 function adjustBrightness($color, $percent) {
     // Check if the color is in RGB format
     if (preg_match('/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/', $color, $matches)) {
@@ -158,6 +164,14 @@ function theme_moove_get_extra_scss($theme)
 }
 
 
+/**
+ * Creates a class formatted as {var: value} to expose SASS variable values. This allows them to be
+ * REPLACED with CSS vars that we have control over during runtime.
+ *
+ * @param $className
+ * @param $config
+ * @return string
+ */
 function theme_moove_create_sass_expose_vars($className, $config) {
     $scss = ".$className {\n";
 
@@ -170,6 +184,13 @@ function theme_moove_create_sass_expose_vars($className, $config) {
     return $scss . "}\n";
 }
 
+/**
+ * Creates a root element with CSS variables based on config variables, linked in with the SASS exposure flow.
+ *
+ * @param $theme
+ * @param $config
+ * @return string
+ */
 function theme_moove_create_sass_link_vars($theme, $config) {
     $scss = ":root {\n";
 
