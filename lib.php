@@ -295,40 +295,50 @@ function get_current_course_mods()
 {
     global $CFG, $DB, $COURSE;
 
-    $context = context_course::instance($COURSE->id);
-    $contextArray = convert_to_array($context);
     $course_id = $COURSE->id;
 
-    $cmods = get_course_mods($course_id);
-    $mod_names = [];
-    $i = 0;
-    $assign = 0;
-    foreach ($cmods as $m) {
-        if ($m->modname != 'label') {
-            // For a reason I can't understand, array_search does not detect assign
-            // this is a work around
-            if ($assign == 0 || $m->modname != 'assign') {
-                if ($i == 0) {
-                    $mod_names[$i]['name'] = $m->modname;
-                    $mod_names[$i]['fullname'] = get_string('pluginname', "mod_" . $m->modname);
-                    $mod_names[$i]['courseid'] = $m->course;
-                    $i++;
-                } else {
-                    if (!array_search($m->modname, array_column($mod_names, 'name'))) {
-                        $mod_names[$i]['name'] = $m->modname;
-                        $mod_names[$i]['fullname'] = get_string('pluginname', "mod_" . $m->modname);
-                        $mod_names[$i]['courseid'] = $m->course;
-                        $i++;
-                    }
-                }
-            }
+    $modinfo = get_fast_modinfo($COURSE);
+    $modfullnames = array();
 
-            if ($m->modname == 'assign') {
-                $assign = 1;
+    $archetypes = array();
+
+    foreach ($modinfo->cms as $cm) {
+        // Exclude activities that aren't visible or have no view link (e.g. label). Account for folder being displayed inline.
+        if (!$cm->uservisible || (!$cm->has_view() && strcmp($cm->modname, 'folder') !== 0)) {
+            continue;
+        }
+        if (array_key_exists($cm->modname, $modfullnames)) {
+            continue;
+        }
+        if (!array_key_exists($cm->modname, $archetypes)) {
+            $archetypes[$cm->modname] = plugin_supports('mod', $cm->modname, FEATURE_MOD_ARCHETYPE, MOD_ARCHETYPE_OTHER);
+        }
+        if ($archetypes[$cm->modname] == MOD_ARCHETYPE_RESOURCE) {
+            if (!array_key_exists('resources', $modfullnames)) {
+                $modfullnames['resources'] = get_string('resources');
             }
+        } else {
+            $modfullnames[$cm->modname] = $cm->modplural;
         }
     }
 
+    core_collator::asort($modfullnames);
+    $mod_names = [];
+    $i = 0;
+    foreach ($modfullnames as $modname => $modfullname) {
+        if ($modname === 'resources') {
+            $mod_names[$i]['name'] = $modname;
+            $mod_names[$i]['fullname'] = $modfullname;
+            $mod_names[$i]['courseid'] = $course_id;
+            $mod_names[$i]['url'] = $CFG->wwwroot . '/course/resources.php?id=' . $course_id;
+        } else {
+            $mod_names[$i]['name'] = $modname;
+            $mod_names[$i]['fullname'] = $modfullname;
+            $mod_names[$i]['courseid'] = $course_id;
+            $mod_names[$i]['url'] = $CFG->wwwroot . '/mod/' . $modname . '/index.php?id=' . $course_id;
+        }
+        $i++;
+    }
 
     return $mod_names;
 }
@@ -352,12 +362,22 @@ function theme_moove_build_secondary_menu($items)
     for ($a = 0; $a < 5; $a++) {
         // Do not add course home because it is added on all pages.
         if (isset($tabs[$a]->id)) {
-                $menu[$i]['id'] = $tabs[$a]->id;
-                $menu[$i]['name'] = $tabs[$a]->title;
-                $menu[$i]['url'] = str_replace('&amp;', '&', $tabs[$a]->link->out());
-                $menu[$i]['format'] = $COURSE->format;
-                $menu[$i]['icon'] = theme_moove_get_menu_icon($tabs[$a]->id);
-                $i++;
+            $menu[$i]['id'] = $tabs[$a]->id;
+            $menu[$i]['name'] = $tabs[$a]->title;
+            $link = '';
+            if (isset($tabs[$a]->link)) {
+                if ($tabs[$a]->link instanceof \moodle_url) {
+                    $link = $tabs[$a]->link->out();
+                } elseif (isset($tabs[$a]->link->url) && ($tabs[$a]->link->url instanceof \moodle_url)) {
+                    $link = $tabs[$a]->link->url->out();
+                }
+            } else {
+                $link = '';
+            }
+            $menu[$i]['url'] = str_replace('&amp;', '&', $link);
+            $menu[$i]['format'] = $COURSE->format;
+            $menu[$i]['icon'] = theme_moove_get_menu_icon($tabs[$a]->id);
+            $i++;
         }
     }
     // Build more menu
@@ -367,7 +387,17 @@ function theme_moove_build_secondary_menu($items)
     for ($b = 5; $b < count($tabs); $b++) {
         $more_menu[$m]['id'] = $tabs[$b]->id;
         $more_menu[$m]['name'] = $tabs[$b]->title;
-        $more_menu[$m]['url'] = str_replace('&amp;', '&', $tabs[$b]->link->out());
+        $link = '';
+        if (isset($tabs[$b]->link)) {
+            if ($tabs[$b]->link instanceof \moodle_url) {
+                $link = $tabs[$b]->link->out();
+            } elseif (isset($tabs[$b]->link->url) && ($tabs[$b]->link->url instanceof \moodle_url)) {
+                $link = $tabs[$b]->link->url->out();
+            }
+        } else {
+            $link = '';
+        }
+        $more_menu[$m]['url'] = $link;
         $m++;
     }
     // Add both arrays into menus object

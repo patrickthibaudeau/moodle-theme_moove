@@ -139,24 +139,42 @@
         </div>
     </div>
 
-    <div data-region="footer-container-popover" style="display:none;">
+    <div data-region="footer-container-popover">
         <button class="btn btn-icon bg-secondary icon-no-margin btn-footer-popover" data-action="footer-popover"
-                aria-label="{{#str}}showfooter, theme_boost{{/str}}">
+                aria-label="{{#str}}showfooter, theme_boost{{/str}}" onclick='initWatson()'>
             {{#pix}}e/question, core{{/pix}}
         </button>
     </div>
     <div class="footer-content-popover container" data-region="footer-content-popover">
+        <div class="footer-section p-3 border-bottom">
+            {{{output.render_watson}}}
+        </div>
+
         {{# output.has_popover_links }}
             <div class="footer-section p-3 border-bottom">
-                {{# output.page_doc_link }}
+                <a href="https://lthelp.yorku.ca/moodle"
+                   class="btn btn-york-red w-100"
+                   target="_blank"
+                    title="{{#str}}moodledocslink, core{{/str}}"
+                >
+                    {{#str}}moodledocslink, core{{/str}}
+                </a>
+                <!-- {{# output.page_doc_link }}
                     <div>{{{ output.page_doc_link }}}</div>
                 {{/ output.page_doc_link }}
 
                 {{# output.services_support_link }}
                     <div>{{{ output.services_support_link }}}</div>
-                {{/ output.services_support_link }}
+                {{/ output.services_support_link }} -->
             </div>
         {{/ output.has_popover_links }}
+        {{#output.get_user_tours}}
+            <div class="footer-section p-3 border-bottom">
+                <a id="resetpagetour" class="btn btn-york-red w-100">
+                    {{#str}}reset_user_tour, theme_moove{{/str}}
+                </a>
+            </div>
+        {{/output.get_user_tours}}
         <div class="footer-section p-3">
             <div>{{#str}}poweredbymoodle, core{{/str}}</div>
             {{#output.moodle_release}}
@@ -167,6 +185,7 @@
         </div>
     </div>
 
+    <input type="hidden" id="sleekplanid" value="{{{output.get_sleekplanid}}}">
     <div class="copyright">
         <div class="container yorku-arrow">
             <div class="row">
@@ -201,6 +220,9 @@
     FooterPopover.init();
     });
     require(['theme_moove/sleekplan'], function(mod) {
-      mod.init();
+      {{#output.is_staff}}
+        mod.init();
+      {{/output.is_staff}}
+
     });
 {{/js}}

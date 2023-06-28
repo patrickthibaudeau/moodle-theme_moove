@@ -16,7 +16,8 @@ define(['jquery', 'core/log', 'core/config'], function ($, log, mdlcfg) {
               window.SLEEK_USER = {
                 token: data,
               };
-              var sleekplanhtml = "<script type='text/javascript'>window.$sleek=[];window.SLEEK_PRODUCT_ID=205691429;(function(){d=document;s=d.createElement('script');s.src='https://client.sleekplan.com/sdk/e.js';s.async=1;d.getElementsByTagName('head')[0].appendChild(s);})();</script>";
+              var sleekplanid = $('#sleekplanid').val();
+              var sleekplanhtml = "<script type='text/javascript'>window.$sleek=[];window.SLEEK_PRODUCT_ID=" + sleekplanid + ";(function(){d=document;s=d.createElement('script');s.src='https://client.sleekplan.com/sdk/e.js';s.async=1;d.getElementsByTagName('head')[0].appendChild(s);})();</script>";
               $("body").append(sleekplanhtml);
           }
       });

@@ -1,0 +1,84 @@
+.activity-item:not(.activityinline) {
+padding: .5rem;
+  .activityiconcontainer {
+    height: 24px !important;
+    width: 24px !important;
+    img.activityicon {
+      height: 12px !important;
+      width: 12px !important;
+    }
+  }
+
+  .modicon_choicegroup > img.activityicon {
+    width: 50px !important;
+    height: 50px !important;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+  }
+
+  .modicon_customcert > img.activityicon {
+    width: 50px !important;
+    height: 50px !important;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+  }
+
+  .modicon_mediagallery > img.activityicon {
+    width: 50px !important;
+    height: 50px !important;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+  }
+
+  .modicon_tab > img.activityicon {
+    width: 50px !important;
+    height: 50px !important;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+  }
+}
+
+
+.optionicon.modicon_journal > img.activityicon {
+  width: 50px !important;
+  height: 50px!important;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.optionicon.modicon_choicegroup > img.activityicon {
+  width: 50px !important;
+  height: 50px!important;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.optionicon.modicon_customcert > img.activityicon {
+  width: 50px!important;
+  height: 50px!important;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.optionicon.modicon_mediagallery > img.activityicon {
+  width: 50px!important;
+  height: 50px!important;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.optionicon.modicon_tab > img.activityicon {
+  width: 50px!important;
+  height: 50px!important;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}

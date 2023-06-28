@@ -7,6 +7,23 @@ body {
   }
 }
 
+//
+.editmode-note {
+  display: block !important;
+  border: 1px solid #eee;
+  position: relative;
+  z-index: 1;
+  padding: .5rem;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  background: #dfecdf;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  box-shadow: .25rem .25rem .25rem #1b661baa;
+
+}
+
 // York No rounded corners for buttons
 .btn-succes,
 .btn-primary,
@@ -15,12 +32,24 @@ body {
 .btn-danger,
 .btn-secondary,
 .card {
-  border-radius: 0px !important;
+  border-radius: 5px !important;
 }
 
 .card-img, .card-img-top {
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.btn-york-red {
+  text-decoration: none !important;
+  color: #ffffff !important;
+  background-color: $york-red;
+  border-color: #york-red;
+  &:hover {
+    color: #ffffff !important;
+    background-color: $york-red-medium;
+    border-color: #york-red-medium;
+  }
 }
 
 #user-action-menu {
@@ -190,6 +219,7 @@ a {
     max-width: 95%;
   }
 }
+
 
 // Footer fix
 #page {
@@ -364,3 +394,16 @@ a.btn-primary.disabled, .btn-primary:disabled {
   background-color: var(--primary-5) !important;
   border-color: var(--primary-6) !important;
 }
+
+// Fix for Dropdown menu on dashboard cards
+// This puts the dropdown menu left of the button (dots)
+.card-deck.dashboard-card-deck {
+  .dropdown-menu.dropdown-menu-right.show {
+    will-change: transform !important;
+    position: absolute !important;
+    transform: translate3d(-190px, -25px, 0px) !important;
+    top: 0px !important;
+    left: 0px !important;
+  }
+}
+

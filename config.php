@@ -31,6 +31,9 @@ $CFG->cachejs = false;
 $THEME->name = 'moove';
 $THEME->sheets =  ['custom', 'savy_alerts'];
 $THEME->editor_sheets = ['bootstrap'];
+//$THEME->editor_scss = ['editor'];
+$THEME->sheets =  ['custom', 'savy_alerts'];
+$THEME->editor_sheets = ['bootstrap'];
 $THEME->editor_scss = ['editor'];
 $THEME->usefallback = false;
 $THEME->scss = function($theme) {
@@ -172,19 +175,6 @@ $THEME->layouts = [
     ),
     'savy_mobile' => array(
         'file' => 'savy_mobile.php',
-        'regions' => array(),
-        'options' => array(
-            'nofooter' => true,
-            'nonavbar' => true,
-            'activityheader' => [
-                'notitle' => true,
-                'nocompletion' => true,
-                'nodescription' => true
-            ]
-        )
-    ),
-    'style' => array(
-        'file' => 'style.php',
         'regions' => array(),
         'options' => array(
             'nofooter' => true,

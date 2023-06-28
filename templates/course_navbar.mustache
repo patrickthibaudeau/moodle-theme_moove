@@ -137,7 +137,7 @@
                             <div class="dropdown-menu" aria-labelledby="courseAssignments">
                                 {{#course_mods}}
                                     <a class="dropdown-item"
-                                       href="{{config.wwwroot}}/mod/{{name}}/index.php?id={{courseid}}"
+                                       href="{{url}}"
                                     title="{{fullname}}">{{fullname}}</a>
                                 {{/course_mods}}
                             </div>
@@ -190,7 +190,7 @@
                                 <div class="dropdown-menu" aria-labelledby="courseAssignments">
                                     {{#more_menu}}
                                         <a class="dropdown-item"
-                                           href="{{url}}"
+                                           href="{{{url}}}"
                                            title="{{name}}">{{name}}</a>
                                     {{/more_menu}}
                                 </div>
