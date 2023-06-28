@@ -61,5 +61,13 @@ $functions = array(
         'description' => 'Change course visibility',
         'type' => 'write',
         'ajax' => true
+    ),
+    'theme_moove_thememodeswitch' => array(
+        'classname' => 'theme_moove\api\theme_mode',
+        'classpath' => 'theme_moove/classes/api/theme_mode',
+        'methodname' => 'theme_mode_switch',
+        'description' => 'Switch between dark & light versions of the theme',
+        'type' => 'write',
+        'ajax' => true
     )
 );

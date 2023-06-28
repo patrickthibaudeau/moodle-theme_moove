@@ -1,9 +1,8 @@
 $brand-primary: #0f47ad !default;
+$secondary-menu-color: $brand-primary !default;
+
 $green: #64a44e !default;
 $gold: #f7bf29 !default;
-$background: #f2f3f7;
-
-$secondary-menu-color: $brand-primary !default;
 
 $moodle-color: #f98012 !default;
 $facebook-color: #4167B2 !default;
@@ -33,3 +32,5 @@ $york-lassonde-plum:    #993366;
 $york-lassonde-red:     #cc3333;
 $york-lassonde-teal:    #339999;
 $york-lassonde-yellow:  #ffcc00;
+
+$fontsite: "font-family-sans-serif", sans-serif !default;

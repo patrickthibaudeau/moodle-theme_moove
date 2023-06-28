@@ -1,6 +1,6 @@
 #page-footer {
     margin: 0 -15px;
-    background-color: #000000;
+    background-color: #030303;
 
     color: #fff;
 
@@ -59,21 +59,21 @@
                     &.website {
                         background-color: $brand-primary;
                         &:hover {
-                            background-color: darken($brand-primary, 20%);
+                            background-color: $brand-primary-2;
                         }
                     }
 
                     &.mobile {
                         background-color: $brand-primary;
                         &:hover {
-                            background-color: darken($brand-primary, 20%);
+                            background-color: $brand-primary-2;
                         }
                     }
 
                     &.mail {
                         background-color: $brand-primary;
                         &:hover {
-                            background-color: darken($brand-primary, 20%);
+                            background-color: $brand-primary-2;
                         }
                     }
 
@@ -160,7 +160,7 @@
     }
 
     .copyright {
-        background-color: #e31837;
+        background-color: $background-footer;
         text-align: center;
         height: 156px;
         color: #fff;
@@ -178,7 +178,7 @@
     .yorku-arrow {
         position: relative;
         height: 125px;
-        background: #e31837 url('[[pix:theme|arrow]]');
+        background: $background-footer url('[[pix:theme|arrow]]');
         background-repeat: no-repeat !important;
         margin-right: 15%;
         top: 30px;
@@ -191,7 +191,6 @@
     }
 
     .usertour {
-        margin-top: -25px;
         text-align: center;
         margin-left: 25px;
     }

@@ -4,6 +4,7 @@
   }
 }
 
+
 .pagelayout-incourse {
   #topofscroll {
     padding-top: 0 !important;
@@ -109,7 +110,7 @@
     color: #fff;
 
     &:hover {
-      background-color: #af0d1a;
+      background-color: $secondary-menu-color-2;
     }
 
     /*        &:hover a {
@@ -137,8 +138,13 @@
   .dropdown-menu {
     top: 6px !important;
     left: -5px !important;
-    background-color: #E31837;
-    border-color: #810001;
+
+    border: none !important;
+    background-color: $background-action-menu;
+    -webkit-box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.37);
+    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.37);
+
+
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
     border-bottom-left-radius: 5px;

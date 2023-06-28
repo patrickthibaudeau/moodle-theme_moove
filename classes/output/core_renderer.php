@@ -24,12 +24,14 @@
 
 namespace theme_moove\output;
 
+use core_scss;
 use theme_config;
 use context_course;
 use moodle_url;
 use html_writer;
 use theme_moove\output\core_course\activity_navigation;
 use tool_usertours\tour as tourinstance;
+
 
 /**
  * Renderers to align Moodle's HTML with that expected by Bootstrap
@@ -38,8 +40,19 @@ use tool_usertours\tour as tourinstance;
  * @copyright  2022 Willian Mano {@link https://conecti.me}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class core_renderer extends \theme_boost\output\core_renderer
-{
+class core_renderer extends \theme_boost\output\core_renderer {
+
+    public function get_mode_stylesheet() {
+        global $DB, $USER;
+
+        $record = $DB->get_record('theme_moove', ['userid' => $USER->id], '*');
+        $dark_enabled = $record->dark_enabled;
+
+        $mode = $dark_enabled ? 'dark' : 'normal';
+
+        return "/theme/moove/layout/theme_css.php?mode=$mode";
+    }
+
     /**
      * The standard tags (meta tags, links to stylesheets and JavaScript, etc.)
      * that should be included in the <head> tag. Designed to be called in theme
@@ -47,36 +60,53 @@ class core_renderer extends \theme_boost\output\core_renderer
      *
      * @return string HTML fragment.
      */
-    public function standard_head_html()
-    {
+
+    public function standard_head_html() {
+
+
+        // Load standard
         $output = parent::standard_head_html();
 
-        $googleanalyticscode = "<script
-                                    async
-                                    src='https://www.googletagmanager.com/gtag/js?id=GOOGLE-ANALYTICS-CODE'>
-                                </script>
-                                <script>
-                                    window.dataLayer = window.dataLayer || [];
-                                    function gtag() {
-                                        dataLayer.push(arguments);
-                                    }
-                                    gtag('js', new Date());
-                                    gtag('config', 'GOOGLE-ANALYTICS-CODE');
-                                </script>";
+        /*
+         * This commented line was left in to note what NOT to do.
+         * Removing the /all/ base stylesheet will break certain things (file picker, color picker, etc.).
+         * Leave the stylesheet in there as a FALLBACK in case our inline one is missing some stuff
+         * (It seems it is due to SCSS being added to the /all/ file somewhere in the moodle core out of our control)
+         *
+         * $output = preg_replace('/http:\/\/.*\/moove\/.*\/all/', '', $output);
+         */
 
-        $theme = theme_config::load('moove');
+        $theme = theme_config::load("moove");
+        $output .= '<link rel="stylesheet" type="text/css" href="' .  $this->get_mode_stylesheet() . '">';
+
+        $google_analytics_code = (
+            "<script
+                async
+                src='https://www.googletagmanager.com/gtag/js?id=GOOGLE-ANALYTICS-CODE'>
+            </script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag() {
+                dataLayer.push(arguments);
+                }
+                gtag('js', new Date());
+                gtag('config', 'GOOGLE-ANALYTICS-CODE');
+            </script>"
+        );
 
         if (!empty($theme->settings->googleanalytics)) {
-            $output .= str_replace("GOOGLE-ANALYTICS-CODE", trim($theme->settings->googleanalytics), $googleanalyticscode);
+            $output .= str_replace("GOOGLE-ANALYTICS-CODE", trim($theme->settings->googleanalytics), $google_analytics_code);
         }
 
         $sitefont = isset($theme->settings->fontsite) ? $theme->settings->fontsite : 'Roboto';
 
-        $output .= '<link rel="preconnect" href="https://fonts.googleapis.com">
-                       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                       <link href="https://fonts.googleapis.com/css2?family='
-            . $sitefont .
-            ':ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">';
+
+        $output .= ('
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=
+        ') . $sitefont . ':ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">';
+
 
         return $output;
     }
@@ -450,6 +480,7 @@ class core_renderer extends \theme_boost\output\core_renderer
         return $output;
     }
 
+
     public function render_watson()
     {
         global $CFG, $USER, $OUTPUT, $DB;
@@ -482,27 +513,28 @@ class core_renderer extends \theme_boost\output\core_renderer
             return '';
         }
         //If watson seetings have not been set
-        // if (!$CFG->yorktasks_watsonapiendpoint || !$CFG->yorktasks_watsonapikey || !$CFG->yorktasks_watsonchecksrc) {
-        //     return '';
-        // }
+
         // EAM - Added watson integration... kinda
         if ($USER->idnumber) {
             $watsondata = array();
 
-            if ($coursedata = $DB->get_records('svadata', array('sisid' => $USER->idnumber))) {
+
+            if ($coursedata = $DB->get_records('svadata', array('sisid' => $USER->idnumber))){
+
                 //found course data so set 'registeredactive' to true, then process the courses
                 $watsondata['registeredactive'] = 'true';
                 $courses = array();
                 $subjects = array();
-                foreach ($coursedata as $course) {
+
+                foreach ($coursedata as $course){
                     $userinfo = $course;
                     $courses[] = array(
-                        'uniqueid' => htmlentities($course->uniqueid),
-                        'id' => htmlentities($course->courseid),
-                        'title' => htmlentities($course->title),
-                        'campus' => htmlentities($course->campus),
-                        'period' => htmlentities($course->period),
-                        'session' => htmlentities($course->studysession) . htmlentities($course->academicyear),
+                        'uniqueid' => htmlentities($course->uniqueid) ,
+                        'id' => htmlentities($course->courseid) ,
+                        'title' => htmlentities($course->title) ,
+                        'campus' => htmlentities($course->campus) ,
+                        'period' => htmlentities($course->period) ,
+                        'session' => htmlentities($course->studysession) . htmlentities($course->academicyear) ,
                         'faculty' => htmlentities($course->faculty)
                     );
                     $subjects[$course->seqpersprog] = array(
@@ -523,7 +555,8 @@ class core_renderer extends \theme_boost\output\core_renderer
                 }
                 //sort subjects from most recent to oldest
                 krsort($subjects);
-                if (count($subjects) == 1) {
+
+                if (count($subjects) == 1){
                     //only one found, don't pass a comma for the json data
                     $watsondata['onesubject'] = true;
                     $tempsubjects = array();
@@ -578,12 +611,13 @@ class core_renderer extends \theme_boost\output\core_renderer
             $watsondata['userid'] = $USER->id;
             $watsondata['apikey'] = $CFG->yorktasks_watsonapikey;
             $watsondata['endpointurl'] = $endpoint;
-            $watsondata['moodleid'] = hash("sha256", $USER->idnumber) ?? '';
+            $watsondata['moodleid'] = hash("sha256", $USER->idnumber) ??'';
             //make this detect automatically?
             $watsondata['isglendon'] = false;
             $watsondata['firstname'] = $USER->firstname;
             $watsondata['commonname'] = $userinfo->commonname ?? ''; //If isset write info otherwise blank
             $watsondata['idnumber'] = preg_replace("/[^0-9]/", "", hash("sha256", $USER->idnumber));
+
             $watsondata['isinternational'] = $userinfo->isinternational ?? '';
             $watsondata['studylevel'] = $userinfo->studylevel ?? '';
             //$watsondata['language'] = $userinfo->language ?? '';
@@ -596,12 +630,13 @@ class core_renderer extends \theme_boost\output\core_renderer
             $watsondata['popup_enabled_text'] = get_string('popup_enabled_text', 'theme_edyucate');
             $watsondata['quiz_help'] = get_string('quiz_help', 'theme_edyucate');
 
-            if (isset($USER->profile['usertypes'])) {
-                if (strpos($USER->profile['usertypes'], 'student') !== false) {
+
+            if (isset($USER->profile['usertypes'])){
+                if (strpos($USER->profile['usertypes'], 'student') !== false){
                     $watsondata['usertype'] = 'student';
-                } elseif (strpos($USER->profile['usertypes'], 'professor') !== false) {
+                } elseif (strpos($USER->profile['usertypes'], 'professor') !== false){
                     $watsondata['usertype'] = 'professor';
-                } elseif (strpos($USER->profile['usertypes'], 'staff') !== false) {
+                } elseif (strpos($USER->profile['usertypes'], 'staff') !== false){
                     $watsondata['usertype'] = 'staff';
                 } else {
                     $watsondata['usertype'] = 'student';
@@ -616,6 +651,28 @@ class core_renderer extends \theme_boost\output\core_renderer
         return $output;
     }
 
+      public function render_dark_selector() {
+
+        // Must be logged in
+        global $USER, $DB;
+        if (!($USER->id)) {
+            return "";
+        }
+
+        $record = $DB->get_record('theme_moove', ['userid' => $USER->id], '*');
+        $dark_enabled = $record->dark_enabled;
+
+        $context = [
+            "graphic" => $dark_enabled ? "hollow_moon" : "filled_moon",
+        ];
+
+        return $this->render_from_template("/dark_mode", $context);
+    }
+
+    public function navbar_plugin_output(): string {
+        return (parent::navbar_plugin_output()) . $this->render_dark_selector();
+    }
+  
     public function get_blocked_themes()
     {
         global $COURSE, $DB;
