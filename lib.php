@@ -88,7 +88,8 @@ function theme_moove_get_pre_scss($theme)
         "secondary-menu-color-2" => adjustBrightness($theme->settings->secondarymenucolor, -10),
     ];
 
-
+    // Use SASS to calculate the values for us, since we cannot reliably
+    // account for float point precision / rounding ourselves
     $exposedVars = array_merge($linkedVars, [
         "primary-2" => "lighten($primary, 50%)",
         "primary-3" => "lighten($primary, 40%)",
