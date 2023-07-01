@@ -40,13 +40,18 @@ use tool_usertours\tour as tourinstance;
  * @copyright  2022 Willian Mano {@link https://conecti.me}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class core_renderer extends \theme_boost\output\core_renderer {
+class core_renderer extends \theme_boost\output\core_renderer
+{
 
-    public function get_mode_stylesheet() {
+    public function get_mode_stylesheet()
+    {
         global $DB, $USER;
 
-        $record = $DB->get_record('theme_moove', ['userid' => $USER->id], '*');
-        $dark_enabled = $record->dark_enabled;
+        $dark_enabled = false;
+
+        if ($record = $DB->get_record('theme_moove', ['userid' => $USER->id], '*')) {
+            $dark_enabled = $record->dark_enabled;
+        }
 
         $mode = $dark_enabled ? 'dark' : 'normal';
 
@@ -61,7 +66,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
      * @return string HTML fragment.
      */
 
-    public function standard_head_html() {
+    public function standard_head_html()
+    {
 
 
         // Load standard
@@ -77,10 +83,10 @@ class core_renderer extends \theme_boost\output\core_renderer {
          */
 
         $theme = theme_config::load("moove");
-        $output .= '<link rel="stylesheet" type="text/css" href="' .  $this->get_mode_stylesheet() . '">';
+        $output .= '<link rel="stylesheet" type="text/css" href="' . $this->get_mode_stylesheet() . '">';
 
         $google_analytics_code = (
-            "<script
+        "<script
                 async
                 src='https://www.googletagmanager.com/gtag/js?id=GOOGLE-ANALYTICS-CODE'>
             </script>
@@ -509,149 +515,162 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $current_language = current_language();
 
         //if Oracle settings have not been set
-        if (!$CFG->yorktasks_sishost || !$CFG->yorktasks_sisport || !$CFG->yorktasks_sissid || !$CFG->yorktasks_sisuser || !$CFG->yorktasks_sispass) {
-            return '';
+        if (isset($CFG->yorktasks_sishost)) {
+            if (!$CFG->yorktasks_sishost || !$CFG->yorktasks_sisport || !$CFG->yorktasks_sissid || !$CFG->yorktasks_sisuser || !$CFG->yorktasks_sispass) {
+                return '';
+            }
         }
         //If watson seetings have not been set
 
         // EAM - Added watson integration... kinda
         if ($USER->idnumber) {
-            $watsondata = array();
-
-
-            if ($coursedata = $DB->get_records('svadata', array('sisid' => $USER->idnumber))){
-
-                //found course data so set 'registeredactive' to true, then process the courses
-                $watsondata['registeredactive'] = 'true';
-                $courses = array();
-                $subjects = array();
-
-                foreach ($coursedata as $course){
-                    $userinfo = $course;
-                    $courses[] = array(
-                        'uniqueid' => htmlentities($course->uniqueid) ,
-                        'id' => htmlentities($course->courseid) ,
-                        'title' => htmlentities($course->title) ,
-                        'campus' => htmlentities($course->campus) ,
-                        'period' => htmlentities($course->period) ,
-                        'session' => htmlentities($course->studysession) . htmlentities($course->academicyear) ,
-                        'faculty' => htmlentities($course->faculty)
-                    );
-                    $subjects[$course->seqpersprog] = array(
-                        'desc' => $course->description,
-                        'title1' => $course->subtitle1,
-                        'subject1' => $course->subject1,
-                        'unit1' => $course->unit1,
-                        'subject1facultydesc' => $course->subject1facultydesc,
-                        'subject1faculty' => $course->subject1faculty,
-                        'title2' => $course->subtitle2,
-                        'subject2' => $course->subject2,
-                        'unit2' => $course->unit2,
-                        'subject2facultydesc' => $course->subject2facultydesc,
-                        'subject2faculty' => $course->subject2faculty,
-                    );
-                    // ED Sep 9th, 2020 putting this here on purpose, just care about the last progfaculty to get set, adding progfaculty for the EU faculty name change just until 2021
-                    $watsondata['progfaculty'] = $course->progfaculty;
+            // Check to see if yorktasks plugin is installed
+            $plugins = \core_plugin_manager::instance()->get_plugins_of_type('local');
+            $yorktasks_exists = false;
+            foreach ($plugins as $plugin => $pluginobject) {
+                if ($plugin == 'yorktasks') {
+                    $yorktasks_exists = true;
                 }
-                //sort subjects from most recent to oldest
-                krsort($subjects);
+            }
+            // If yortaks plugin is installed, then use it to get the data
+            if ($yorktasks_exists) {
+                $watsondata = array();
+                if ($coursedata = $DB->get_records('svadata', array('sisid' => $USER->idnumber))) {
 
-                if (count($subjects) == 1){
-                    //only one found, don't pass a comma for the json data
-                    $watsondata['onesubject'] = true;
-                    $tempsubjects = array();
-                    foreach ($subjects as $k => $v) {
-                        $tempsubjects[] = $v;
+                    //found course data so set 'registeredactive' to true, then process the courses
+                    $watsondata['registeredactive'] = 'true';
+                    $courses = array();
+                    $subjects = array();
+
+                    foreach ($coursedata as $course) {
+                        $userinfo = $course;
+                        $courses[] = array(
+                            'uniqueid' => htmlentities($course->uniqueid),
+                            'id' => htmlentities($course->courseid),
+                            'title' => htmlentities($course->title),
+                            'campus' => htmlentities($course->campus),
+                            'period' => htmlentities($course->period),
+                            'session' => htmlentities($course->studysession) . htmlentities($course->academicyear),
+                            'faculty' => htmlentities($course->faculty)
+                        );
+                        $subjects[$course->seqpersprog] = array(
+                            'desc' => $course->description,
+                            'title1' => $course->subtitle1,
+                            'subject1' => $course->subject1,
+                            'unit1' => $course->unit1,
+                            'subject1facultydesc' => $course->subject1facultydesc,
+                            'subject1faculty' => $course->subject1faculty,
+                            'title2' => $course->subtitle2,
+                            'subject2' => $course->subject2,
+                            'unit2' => $course->unit2,
+                            'subject2facultydesc' => $course->subject2facultydesc,
+                            'subject2faculty' => $course->subject2faculty,
+                        );
+                        // ED Sep 9th, 2020 putting this here on purpose, just care about the last progfaculty to get set, adding progfaculty for the EU faculty name change just until 2021
+                        $watsondata['progfaculty'] = $course->progfaculty;
                     }
-                    $subjects = $tempsubjects;
-                } elseif (count($subjects) > 1) {
-                    //multiple found, make sure you pass a comma for all subjects except the last one
-                    $watsondata['moresubjects'] = true;
-                    $i = 1;
-                    $tempsubjects = array();
-                    foreach ($subjects as $k => $v) {
-                        if ($i == count($subjects)) {
-                            $lastsubject[] = $v;
-                            unset($subjects[$k]);
-                        } else {
+                    //sort subjects from most recent to oldest
+                    krsort($subjects);
+
+                    if (count($subjects) == 1) {
+                        //only one found, don't pass a comma for the json data
+                        $watsondata['onesubject'] = true;
+                        $tempsubjects = array();
+                        foreach ($subjects as $k => $v) {
                             $tempsubjects[] = $v;
+                        }
+                        $subjects = $tempsubjects;
+                    } elseif (count($subjects) > 1) {
+                        //multiple found, make sure you pass a comma for all subjects except the last one
+                        $watsondata['moresubjects'] = true;
+                        $i = 1;
+                        $tempsubjects = array();
+                        foreach ($subjects as $k => $v) {
+                            if ($i == count($subjects)) {
+                                $lastsubject[] = $v;
+                                unset($subjects[$k]);
+                            } else {
+                                $tempsubjects[] = $v;
+                            }
+                            $i++;
+                        }
+                        $subjects = $tempsubjects;
+                        $watsondata['lastsubject'] = $lastsubject;
+                    }
+                    $watsondata['subjects'] = $subjects;
+                    $i = 1;
+                    foreach ($courses as $k => $v) {
+                        if ($i == count($courses)) {
+                            $lastcourse[] = $v;
+                            unset($courses[$k]);
                         }
                         $i++;
                     }
-                    $subjects = $tempsubjects;
-                    $watsondata['lastsubject'] = $lastsubject;
+                } else {
+                    //no course data found in svadata so set 'registeredactive' to false and pass empty subjects data
+                    $watsondata['registeredactive'] = 'false';
+                    $watsondata['subjects'] = '';
                 }
-                $watsondata['subjects'] = $subjects;
-                $i = 1;
-                foreach ($courses as $k => $v) {
-                    if ($i == count($courses)) {
-                        $lastcourse[] = $v;
-                        unset($courses[$k]);
+                if ($USER->profile['facultyaffiliaton'] === 'GL' && ($current_language == 'fr' || $current_language == 'fr_ca')) {
+                    $lang = 'fr';
+                    $brand = $CFG->yorktasks_watsonbrandfr;
+                    $adabrand = $CFG->yorktasks_adabrandfr;
+                    $bigimg = $OUTPUT->image_url('bigsvaiconfr', 'theme');
+                } else {
+                    $lang = 'en';
+                    $brand = $CFG->yorktasks_watsonbranden;
+                    $adabrand = $CFG->yorktasks_adabranden;
+                    $bigimg = $OUTPUT->image_url('bigsvaicon', 'theme');
+                }
+                $smallimg = $OUTPUT->image_url('smallsvaicon', 'theme');
+                $endpoint = $CFG->yorktasks_watsonapiendpoint . $CFG->yorktasks_watsonfilepath;
+                $watsondata['userid'] = $USER->id;
+                $watsondata['apikey'] = $CFG->yorktasks_watsonapikey;
+                $watsondata['endpointurl'] = $endpoint;
+                $watsondata['moodleid'] = hash("sha256", $USER->idnumber) ?? '';
+                //make this detect automatically?
+                $watsondata['isglendon'] = false;
+                $watsondata['firstname'] = $USER->firstname;
+                $watsondata['commonname'] = $userinfo->commonname ?? ''; //If isset write info otherwise blank
+                $watsondata['idnumber'] = preg_replace("/[^0-9]/", "", hash("sha256", $USER->idnumber));
+
+                $watsondata['isinternational'] = $userinfo->isinternational ?? '';
+                $watsondata['studylevel'] = $userinfo->studylevel ?? '';
+                //$watsondata['language'] = $userinfo->language ?? '';
+                $watsondata['collegeaffiliation'] = $userinfo->collegeaffiliation ?? '';
+                $watsondata['courses'] = $courses ?? '';
+                $watsondata['lastcourse'] = $lastcourse ?? '';
+                $watsondata['language'] = $lang;
+                $watsondata['smallwatsonicon'] = $smallimg;
+                $watsondata['unsupported_browser'] = get_string('unsupported_browser', 'theme_edyucate');
+                $watsondata['popup_enabled_text'] = get_string('popup_enabled_text', 'theme_edyucate');
+                $watsondata['quiz_help'] = get_string('quiz_help', 'theme_edyucate');
+
+
+                if (isset($USER->profile['usertypes'])) {
+                    if (strpos($USER->profile['usertypes'], 'student') !== false) {
+                        $watsondata['usertype'] = 'student';
+                    } elseif (strpos($USER->profile['usertypes'], 'professor') !== false) {
+                        $watsondata['usertype'] = 'professor';
+                    } elseif (strpos($USER->profile['usertypes'], 'staff') !== false) {
+                        $watsondata['usertype'] = 'staff';
+                    } else {
+                        $watsondata['usertype'] = 'student';
                     }
-                    $i++;
-                }
-            } else {
-                //no course data found in svadata so set 'registeredactive' to false and pass empty subjects data
-                $watsondata['registeredactive'] = 'false';
-                $watsondata['subjects'] = '';
-            }
-            if ($USER->profile['facultyaffiliaton'] === 'GL' && ($current_language == 'fr' || $current_language == 'fr_ca')) {
-                $lang = 'fr';
-                $brand = $CFG->yorktasks_watsonbrandfr;
-                $adabrand = $CFG->yorktasks_adabrandfr;
-                $bigimg = $OUTPUT->image_url('bigsvaiconfr', 'theme');
-            } else {
-                $lang = 'en';
-                $brand = $CFG->yorktasks_watsonbranden;
-                $adabrand = $CFG->yorktasks_adabranden;
-                $bigimg = $OUTPUT->image_url('bigsvaicon', 'theme');
-            }
-            $smallimg = $OUTPUT->image_url('smallsvaicon', 'theme');
-            $endpoint = $CFG->yorktasks_watsonapiendpoint . $CFG->yorktasks_watsonfilepath;
-            $watsondata['userid'] = $USER->id;
-            $watsondata['apikey'] = $CFG->yorktasks_watsonapikey;
-            $watsondata['endpointurl'] = $endpoint;
-            $watsondata['moodleid'] = hash("sha256", $USER->idnumber) ??'';
-            //make this detect automatically?
-            $watsondata['isglendon'] = false;
-            $watsondata['firstname'] = $USER->firstname;
-            $watsondata['commonname'] = $userinfo->commonname ?? ''; //If isset write info otherwise blank
-            $watsondata['idnumber'] = preg_replace("/[^0-9]/", "", hash("sha256", $USER->idnumber));
-
-            $watsondata['isinternational'] = $userinfo->isinternational ?? '';
-            $watsondata['studylevel'] = $userinfo->studylevel ?? '';
-            //$watsondata['language'] = $userinfo->language ?? '';
-            $watsondata['collegeaffiliation'] = $userinfo->collegeaffiliation ?? '';
-            $watsondata['courses'] = $courses ?? '';
-            $watsondata['lastcourse'] = $lastcourse ?? '';
-            $watsondata['language'] = $lang;
-            $watsondata['smallwatsonicon'] = $smallimg;
-            $watsondata['unsupported_browser'] = get_string('unsupported_browser', 'theme_edyucate');
-            $watsondata['popup_enabled_text'] = get_string('popup_enabled_text', 'theme_edyucate');
-            $watsondata['quiz_help'] = get_string('quiz_help', 'theme_edyucate');
-
-
-            if (isset($USER->profile['usertypes'])){
-                if (strpos($USER->profile['usertypes'], 'student') !== false){
-                    $watsondata['usertype'] = 'student';
-                } elseif (strpos($USER->profile['usertypes'], 'professor') !== false){
-                    $watsondata['usertype'] = 'professor';
-                } elseif (strpos($USER->profile['usertypes'], 'staff') !== false){
-                    $watsondata['usertype'] = 'staff';
                 } else {
                     $watsondata['usertype'] = 'student';
                 }
-            } else {
-                $watsondata['usertype'] = 'student';
+                $watsondata['brand'] = $brand;
+                $watsondata['bigwatsonicon'] = $bigimg;
+                $output .= $this->render_from_template('/need_watson', $watsondata);
             }
-            $watsondata['brand'] = $brand;
-            $watsondata['bigwatsonicon'] = $bigimg;
-            $output .= $this->render_from_template('/need_watson', $watsondata);
+            return $output;
         }
-        return $output;
+        return false;
     }
 
-      public function render_dark_selector() {
+    public function render_dark_selector()
+    {
 
         // Must be logged in
         global $USER, $DB;
@@ -659,8 +678,10 @@ class core_renderer extends \theme_boost\output\core_renderer {
             return "";
         }
 
-        $record = $DB->get_record('theme_moove', ['userid' => $USER->id], '*');
-        $dark_enabled = $record->dark_enabled;
+        $dark_enabled = false;
+        if ($record = $DB->get_record('theme_moove', ['userid' => $USER->id], '*')) {
+            $dark_enabled = $record->dark_enabled;
+        }
 
         $context = [
             "graphic" => $dark_enabled ? "hollow_moon" : "filled_moon",
@@ -669,10 +690,11 @@ class core_renderer extends \theme_boost\output\core_renderer {
         return $this->render_from_template("/dark_mode", $context);
     }
 
-    public function navbar_plugin_output(): string {
+    public function navbar_plugin_output(): string
+    {
         return (parent::navbar_plugin_output()) . $this->render_dark_selector();
     }
-  
+
     public function get_blocked_themes()
     {
         global $COURSE, $DB;
@@ -855,7 +877,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
             // Clean path match
             $tour_pathmathch = str_replace('%', '', $tour->get_pathmatch());
             // Set path name based on pathmatch
-            switch($tour_pathmathch) {
+            switch ($tour_pathmathch) {
                 case 'FRONTPAGE':
                     $path_name = '/';
                     break;
