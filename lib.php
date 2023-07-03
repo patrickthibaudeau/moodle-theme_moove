@@ -354,6 +354,7 @@ function theme_moove_build_secondary_menu($items)
 
     // Put tab items into one variable
     $tabs = $items[0][0];
+
     // Menus is the obkect that will be returned
     $menus = new stdClass();
     // Build primary menu
@@ -380,6 +381,17 @@ function theme_moove_build_secondary_menu($items)
             $i++;
         }
     }
+    // Loop through menu. If item 0 does not equal course home, add course home to the beginning of the menu.
+    if ($menu[0]['id'] != 'coursehome') {
+        $course_home = new stdClass();
+        $course_home->id = 'coursehome';
+        $course_home->name = get_string('course');
+        $course_home->url = $CFG->wwwroot . '/course/view.php?id=' . $COURSE->id;
+        $course_home->format = $COURSE->format;
+        $course_home->icon = 'fa fa-bookmark';
+        array_unshift($menu, $course_home);
+    }
+
     // Build more menu
     $more_menu = [];
     $m = 0;
