@@ -62,26 +62,33 @@ class core_renderer extends \theme_boost\output\core_renderer
         return $dark_enabled;
     }
 
-    public function clear_override_styles($dark_enabled) {
-        if (!$dark_enabled) {
-            return '';
-        }
+    public function theme_mode_inject_script($dark_enabled) {
 
-        return ('
-           <script id="clear-styles">
-                function clearStyles() {
-                    let contentRegion = document.querySelector("#topofscroll.main-inner");
+        $mode = $dark_enabled ? 'dark' : 'default';
+        $enabled = $dark_enabled ? 'true' : 'false';
+
+        return ("
+           <script id='clear-styles'>
+           
+                function addBodyTag() {
+                    let body = document.querySelector('body');
+                    body.setAttribute('theme-mode', '$mode')
+                }
+           
+                function clearStyles(enabled = false) {
+                    if (!enabled) return;
+                    
+                    let contentRegion = document.querySelector('#topofscroll.main-inner');
                     let targets = [
-                        contentRegion.querySelectorAll(\'[style*="color:"]\'),
-                        contentRegion.querySelectorAll(\'[style*="background:"]\'),
-                        contentRegion.querySelectorAll(\'[style*="background-color:"]\'),
+                        contentRegion.querySelectorAll('[style*=\'color:\']'),
+                        contentRegion.querySelectorAll('[style*=\'background-color:\']'),
                     ];
         
                     for (let target of targets) {
                         Array.prototype.forEach.call(target, function(element){
-                            element.style.background = "";
-                            element.style.color = "";
-                            element.style.backgroundColor = "";
+                            element.style.background = '';
+                            element.style.color = '';
+                            element.style.backgroundColor = '';
                         });
                     }
                 }
@@ -90,8 +97,9 @@ class core_renderer extends \theme_boost\output\core_renderer
                 let timeCurr = 0;
                 let timeMax = 10000;
                 let interval = setInterval(function() {
-                    if (document.querySelector("#topofscroll.main-inner")) {
-                        clearStyles();
+                    if (document.querySelector('#topofscroll.main-inner')) {
+                        clearStyles($enabled);
+                        addBodyTag();
                         clearInterval(interval);
                     }
                     timeCurr += timePer;
@@ -100,9 +108,10 @@ class core_renderer extends \theme_boost\output\core_renderer
                     }
                 }, timePer);
                 
-                document.getElementById("clear-styles").remove();
+                document.getElementById('clear-styles').remove();
            </script>
-        ');
+        
+        ");
     }
     /**
      * The standard tags (meta tags, links to stylesheets and JavaScript, etc.)
@@ -130,7 +139,7 @@ class core_renderer extends \theme_boost\output\core_renderer
 
         $theme = theme_config::load("moove");
         $dark_enabled = $this->get_dark_enabled();
-        $output .= $this->clear_override_styles($dark_enabled);
+        $output .= $this->theme_mode_inject_script($dark_enabled);
         $output .= '<link rel="stylesheet" type="text/css" href="' . $this->get_mode_stylesheet($dark_enabled) . '">';
 
         $google_analytics_code = (
@@ -141,7 +150,7 @@ class core_renderer extends \theme_boost\output\core_renderer
             <script>
                 window.dataLayer = window.dataLayer || [];
                 function gtag() {
-                dataLayer.push(arguments);
+                    dataLayer.push(arguments);
                 }
                 gtag('js', new Date());
                 gtag('config', 'GOOGLE-ANALYTICS-CODE');
