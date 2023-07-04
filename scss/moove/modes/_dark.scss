@@ -111,11 +111,14 @@ Scrollbar End
 
 .card {
   background-color: inherit !important;
+  -webkit-box-shadow: 0 0 35px 0 rgba(0, 0, 0, 40%);
+  box-shadow: 0 0 35px 0 rgba(0, 0, 0, 40%);
 }
 
 .btn-primary:focus, .btn-primary.focus {
   outline: none !important;
 }
+
 .drawer {
   background-color: $background-drawer !important;
 
@@ -513,4 +516,23 @@ input {
     }
   }
 
+}
+
+.block .block-controls a.dropdown-toggle {
+  color: inherit !important;
+}
+
+.editor_atto_toolbar button:active, .editor_atto_toolbar button.highlight {
+  i.icon  {
+    color: #262626;
+  }
+}
+
+.table-hover tbody tr:hover {
+  color: var(--nav-font-3) !important;
+}
+
+
+div.course-description-item {
+  mix-blend-mode: initial !important;
 }
