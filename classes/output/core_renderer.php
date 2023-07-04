@@ -43,8 +43,14 @@ use tool_usertours\tour as tourinstance;
 class core_renderer extends \theme_boost\output\core_renderer
 {
 
-    public function get_mode_stylesheet()
+    public function get_mode_stylesheet($dark_enabled)
     {
+
+        $mode = $dark_enabled ? 'dark' : 'normal';
+        return "/theme/moove/layout/theme_css.php?mode=$mode";
+    }
+
+    public function get_dark_enabled() {
         global $DB, $USER;
 
         $dark_enabled = false;
@@ -53,11 +59,51 @@ class core_renderer extends \theme_boost\output\core_renderer
             $dark_enabled = $record->dark_enabled;
         }
 
-        $mode = $dark_enabled ? 'dark' : 'normal';
-
-        return "/theme/moove/layout/theme_css.php?mode=$mode";
+        return $dark_enabled;
     }
 
+    public function clear_override_styles($dark_enabled) {
+        if (!$dark_enabled) {
+            return '';
+        }
+
+        return ('
+           <script id="clear-styles">
+                function clearStyles() {
+                    let contentRegion = document.querySelector("#topofscroll.main-inner");
+                    let targets = [
+                        contentRegion.querySelectorAll(\'[style*="color:"]\'),
+                        contentRegion.querySelectorAll(\'[style*="background:"]\'),
+                        contentRegion.querySelectorAll(\'[style*="background-color:"]\'),
+                    ];
+        
+                    for (let target of targets) {
+                        Array.prototype.forEach.call(target, function(element){
+                            element.style.background = "";
+                            element.style.color = "";
+                            element.style.backgroundColor = "";
+                        });
+                    }
+                }
+                
+                let timePer = 10;
+                let timeCurr = 0;
+                let timeMax = 10000;
+                let interval = setInterval(function() {
+                    if (document.querySelector("#topofscroll.main-inner")) {
+                        clearStyles();
+                        clearInterval(interval);
+                    }
+                    timeCurr += timePer;
+                    if (timeCurr >= timeMax) {
+                        clearInterval(interval);
+                    }
+                }, timePer);
+                
+                document.getElementById("clear-styles").remove();
+           </script>
+        ');
+    }
     /**
      * The standard tags (meta tags, links to stylesheets and JavaScript, etc.)
      * that should be included in the <head> tag. Designed to be called in theme
@@ -65,7 +111,6 @@ class core_renderer extends \theme_boost\output\core_renderer
      *
      * @return string HTML fragment.
      */
-
     public function standard_head_html()
     {
 
@@ -82,8 +127,11 @@ class core_renderer extends \theme_boost\output\core_renderer
          * $output = preg_replace('/http:\/\/.*\/moove\/.*\/all/', '', $output);
          */
 
+
         $theme = theme_config::load("moove");
-        $output .= '<link rel="stylesheet" type="text/css" href="' . $this->get_mode_stylesheet() . '">';
+        $dark_enabled = $this->get_dark_enabled();
+        $output .= $this->clear_override_styles($dark_enabled);
+        $output .= '<link rel="stylesheet" type="text/css" href="' . $this->get_mode_stylesheet($dark_enabled) . '">';
 
         $google_analytics_code = (
         "<script
@@ -112,7 +160,6 @@ class core_renderer extends \theme_boost\output\core_renderer
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/css2?family=
         ') . $sitefont . ':ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">';
-
 
         return $output;
     }
@@ -685,6 +732,7 @@ class core_renderer extends \theme_boost\output\core_renderer
 
         $context = [
             "graphic" => $dark_enabled ? "hollow_moon" : "filled_moon",
+            "darkEnabled" => $dark_enabled
         ];
 
         return $this->render_from_template("/dark_mode", $context);
