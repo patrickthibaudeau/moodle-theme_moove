@@ -2,8 +2,8 @@
 
 body {
 
-  --primary: #a1a5b3 !important;
-  --brand-primary: #a1a5b3 !important;
+  --primary: #7f828c !important;
+  --brand-primary: #7f828c !important;
   --brand-primary-2: #8e93a3 !important; // Values like this are 10% darker (https://pinetools.com/darken-color)
   --secondary-menu-color: #51545C !important;
   --secondary-menu-color-2: #484b52 !important;
@@ -128,10 +128,23 @@ Scrollbar End
   .drawertoggle {
     color: $nav-font-2 !important;
   }
+
+  .courseindex-section:focus {
+    box-shadow: none;
+  }
+
   .courseindex .courseindex-item {
+
+
     .courseindex-link, .courseindex-chevron {
       color: $nav-font-2 !important;
     }
+
+    &:hover, &:focus {
+      background: var(--primary) !important;
+      color: inherit;
+    }
+
     .courseindex-link:hover, .courseindex-link:focus, .courseindex-chevron:hover, .courseindex-chevron:focus {
       color: $nav-font-1 !important;
     }
@@ -293,6 +306,15 @@ div.editor_atto_toolbar button:hover {
 
 .btn.btn-icon:hover, .btn.btn-icon:focus {
   background-color: $background-primary !important;
+}
+
+div[data-region='footer-container-popover'] {
+  .btn.btn-icon {
+    background-color: var(--secondary-menu-color) !important;
+  }
+  .btn.btn-icon:hover, .btn.btn-icon:focus {
+    background-color: var(--background-navbar) !important;
+  }
 }
 
 .list-group-item {
@@ -486,7 +508,7 @@ input {
 }
 
 .nav-tabs:not(.more-nav) .nav-link,.nav-pills .nav-link {
-  background: $background-navbar !important;
+  background: $background-primary !important;
   border: 0;
   margin: .125rem
 }
@@ -535,4 +557,85 @@ input {
 
 div.course-description-item {
   mix-blend-mode: initial !important;
+}
+
+div.activity-item:not(.activityinline) {
+  background: var(--background-primary);
+  border: none;
+  -webkit-box-shadow: 0 0 35px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 35px 0 rgba(0, 0, 0, 0.4);
+}
+
+.coursecontentblocks .card {
+  background-color: $background-primary !important;
+}
+
+.activity-item.hiddenactivity {
+  background-color: inherit !important;
+
+
+  div.activityname > a.aalink {
+    color: #383838 !important;
+  }
+}
+
+.border-bottom {
+  border-bottom: 1px solid var(--secondary-menu-color-2) !important;
+}
+
+.maincalendar .calendarmonth td.today span.day-number-circle {
+  background-color: var(--background-primary);
+}
+
+div.alert-info {
+  color: var(--nav-font-1);
+  background-color: var(--primary-5);
+}
+
+.moodle-dialogue-exception .param-stacktrace label {
+  background-color: inherit !important;
+}
+
+.moodle-dialogue-exception .param-stacktrace pre {
+  background-color: inherit !important;
+  color: var(--font-primary) !important;
+}
+
+.fp-repo-items {
+  -webkit-box-shadow: 0 0 35px 0 rgba(0, 0, 0, 40%);
+  box-shadow: 0 0 35px 0 rgba(0, 0, 0, 40%);
+  border-radius: 10px;
+  padding: 5px;
+
+  .fp-pathbar, .fp-content, .fp-navbar {
+      box-shadow: none !important;
+      -webkit-box-shadow: none !important;
+    }
+}
+
+.fp-viewbar.disabled {
+  cursor: not-allowed;
+}
+
+.mform fieldset {
+  border-color: var(--nav-font-4);
+}
+
+.navbar .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+.form-autocomplete-suggestions {
+  background-color: var(--background-action-menu) !important;
+  border: none !important;
+  padding-left: 10px !important;
+  border-radius: 5px;
+}
+
+#sticky-footer {
+  border-top: none !important;
+}
+
+.course-manage > a.btn.btn-link:hover {
+  background-color: var(--secondary-menu-color) !important;
 }

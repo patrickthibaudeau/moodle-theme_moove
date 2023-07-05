@@ -93,9 +93,10 @@
   /*background-color: #C10828;*/
   /*Montreal Canadians Red*/
   /*background-color: #222D32; Dark*/
-  background-color: #ff851b; /*Orange*/
+  background-color: transparent; /*Orange*/
   width: 100%;
 
+  max-width: 100% !important;
   .boxes li {
     cursor: pointer;
     display: inline;
@@ -118,17 +119,45 @@
             }*/
 
     a {
+      width: 100%;
+      height: 100%;
       color: #fff;
       text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 
+  .boxes li:has(div.dropdown.show) {
+      background: var(--secondary-menu-color-2);
+  }
+
+  h2 {
+    margin-bottom: 5px;
+    line-height: unset;
+  }
+
   ul {
+    margin-left: 0;
+    padding-left: 0;
     margin-bottom: 0px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
   }
 
   .course-menu-text {
     font-size: 0.8em;
+  }
+
+  .course-menu-label, .dropdown, #theme-moove-course-visibility {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .course-menu-icon {
@@ -136,13 +165,18 @@
   }
 
   .dropdown-menu {
+
+    // Sizes bar when screen is big to appropriate width
+    // Don't ask, because I don't know. - Isaac
+    min-width: calc(100% + 10px);
+
     top: 6px !important;
     left: -5px !important;
-
+    margin-top: -1px;
     border: none !important;
     background-color: $background-action-menu;
-    -webkit-box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.37);
-    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.37);
+    -webkit-box-shadow: 0px 5px 15px 5px rgba(0, 0, 0, 0.37);
+    box-shadow: 0px 5px 15px 5px rgba(0, 0, 0, 0.37);
 
 
     border-top-left-radius: 0px;
@@ -153,7 +187,6 @@
     -moz-border-radius-topright: 0px;
     -webkit-border-top-left-radius: 0px;
     -webkit-border-top-right-radius: 0px;
-    width: auto;
   }
 
   .dropdown-item {
@@ -165,6 +198,18 @@
     width: 20rem !important;
   }
 
+  div[data-toggle="dropdown"] {
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+
+    div {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+  }
   .theme_moove_bg {
     background-color: #E31837;
     color: #ffffff;
@@ -177,10 +222,30 @@
   @media(max-width: 1279px) {
     .boxes li {
       height: 50px;
+
+      h2 {
+        margin-bottom: 0;
+      }
     }
     .course-menu-text {
       display: none;
     }
+  }
+}
+
+#topofscroll {
+  margin-top: 0 !important;
+  @media (max-width: 1279px) {
+    margin-top: 15px !important;
+  }
+  @media (max-width: 768px) {
+    padding-top: 10px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .fcontainer > .ml-2_6 {
+    margin-left: 0 !important;
   }
 }
 
@@ -196,5 +261,38 @@
 @include media-breakpoint-down(sm) {
   .activity-navigation {
     display: none;
+  }
+}
+
+.description .course-description-item {
+  background-color: var(--background-primary);
+}
+
+.course-content {
+  ul.menutab, .single-section > ul, ul.section {
+    padding-left: 0;
+    margin-left: 0;
+  }
+}
+
+li.course-section {
+  border-bottom: 15px solid transparent;
+}
+
+ul.section {
+  li.activity.label {
+    div.activity-item {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row-reverse;
+
+      .activity-basis {
+        margin-top: 3px;
+      }
+
+      h2 {
+        margin-bottom: 0;
+      }
+    }
   }
 }

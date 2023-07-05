@@ -222,7 +222,11 @@
 
     @media only screen and (max-width: 578px) {
         .tool_dataprivacy {
-            margin-top: 155px !important;
+            margin-top: 5px !important;
+            text-align: center;
+        }
+
+        #theme_switch_link {
             text-align: center;
         }
     }
