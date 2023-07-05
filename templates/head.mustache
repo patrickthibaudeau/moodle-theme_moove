@@ -26,6 +26,18 @@
 {{{ output.doctype }}}
 <html {{{ output.htmlattributes }}}>
 <head>
+
+    {{^secondarymoremenu}}
+        <style>
+            #page {
+                margin-top: 60px !important;
+            }
+            #page-content {
+                padding-top: 15px !important;
+            }
+        </style>
+    {{/secondarymoremenu}}
+
     <title>{{{ output.page_title }}}</title>
     <link rel="shortcut icon" href="{{{ output.favicon }}}"/>
     {{{ output.standard_head_html }}}

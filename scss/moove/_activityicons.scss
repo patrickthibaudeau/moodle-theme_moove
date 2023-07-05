@@ -1,5 +1,10 @@
 .activity-item:not(.activityinline) {
-padding: .5rem;
+  padding: 0.7rem;
+
+  .action-menu {
+    margin-top: -3px;
+  }
+
   .activityiconcontainer {
     height: 24px !important;
     width: 24px !important;

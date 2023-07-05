@@ -21,7 +21,7 @@
     .main-inner {
         margin-top: 0;
         margin-bottom: 2rem;
-        padding: 1.5rem;
+        padding: 0 1.5rem 1.5rem;
     }
 
     &.show-drawer-left {
@@ -68,6 +68,7 @@
     top: 80px;
 
     .btn {
+        padding-left: 10px;
         background-color: $brand-primary;
         color: #fff;
     }
@@ -105,6 +106,12 @@ body.has-secondarynavigation {
     }
 }
 
+li.courseindex-item {
+    i.fa-circe-thin, i.fa-circle {
+        opacity: 0;
+    }
+}
+
 @include media-breakpoint-down(md) {
     .drawer-left,
     .drawer-right {
@@ -112,3 +119,4 @@ body.has-secondarynavigation {
         height: 100vh;
     }
 }
+

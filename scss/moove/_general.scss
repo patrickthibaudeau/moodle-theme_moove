@@ -149,8 +149,8 @@ body {
 
 .card {
   border: none;
-  -webkit-box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
-  box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
+  -webkit-box-shadow: 0 0 15px 5px rgb(188 188 188 / 30%);
+  box-shadow: 0 0 15px 5px rgb(188 188 188 / 30%);
 }
 
 .moove-container-fluid,
@@ -223,6 +223,7 @@ a {
 
 // Footer fix
 #page {
+  padding-top: 10px !important;
   flex-grow: 1;
 }
 
@@ -407,3 +408,114 @@ a.btn-primary.disabled, .btn-primary:disabled {
   }
 }
 
+div.navitem {
+  a.btn.btn-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+#id_startdate_calendar, #id_enddate_calendar {
+  margin-bottom: 15px;
+  margin-left: 5px;
+}
+
+.coursecontentblocks:has(#block-region-content) {
+  margin-top: 15px;
+}
+
+.course-content ul.topics li.section, .course-content ul.weeks li.section {
+  padding-top: 0 !important;
+}
+
+.jsenabled #page-footer .footer-content-popover {
+  display: none;
+}
+
+.navbar .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+
+/*
+Fix for mobile causing doubled page length
+ */
+@media(max-width: 991.98px) {
+  #page {
+    overflow: visible !important;
+  }
+}
+
+@media(max-width: 480px) {
+
+  .filemanager-container {
+    min-height: 170px;
+  }
+}
+
+div.gradeparent {
+  overflow-x: scroll;
+  background: var(--background-primary);
+
+  table {
+    width: 100%;
+  }
+  .gradereport-grader-table, td, th {
+    border: none !important;
+  }
+
+  tr:nth-child(odd):not(:last-child) {
+    background-color: var(--background-primary-2) !important;
+  }
+
+  #studentheader {
+    background-color: var(--background-primary) !important;
+  }
+
+  tr.userrow.odd {
+    th {
+      background-color: var(--background-primary-2) !important;
+    }
+  }
+  tr.userrow.even {
+    th {
+      background-color: var(--background-primary) !important;
+    }
+  }
+
+  tr.lastrow > th.header {
+    background-color: var(--background-primary) !important;
+  }
+
+  a.username > span.userinitials {
+    margin-right: 10px;
+  }
+
+}
+
+#userfilesform {
+  .ml-2_6.fitem {
+    margin-left: 0 !important;
+  }
+}
+
+.simplesearchform button.btn.btn-primary[type='submit'] {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
+
+@media (max-width: 767.98px) {
+
+  div.header-action.ml-2:has(.simplesearchform) {
+    margin-left: 0 !important;
+    margin-top: 15px;
+    margin-bottom: -15px;
+  }
+
+  .mform {
+    width: 100%;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+}
