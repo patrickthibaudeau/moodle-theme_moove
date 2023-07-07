@@ -113,6 +113,32 @@
     <div class="secondary-navigation d-print-none moove">
         <div class="moove-container-fluid">
             {{> core/moremenu}}
+            <!--
+
+            This is incredibly cursed
+
+            The #page media query overrides the one in courses.scss bc. the special menu here changes things
+            The .simplesearchform adds extra spacing between the hr and the form
+
+            -->
+            <style>
+                body.has-secondarynavigation #page, body.has-secondarynavigation #page.drawers {
+                    margin-top: 120px;
+                }
+
+                @media(max-width: 1279.2px) {
+                    body.has-secondarynavigation #page, body.has-secondarynavigation #page.drawers {
+                        margin-top: 120px !important;
+                    }
+                }
+
+                @media (max-width: 576px) {
+                    .simplesearchform {
+                        margin-top: 5px;
+                    }
+                }
+            </style>
+
         </div>
     </div>
 {{/secondarymoremenu}}
@@ -121,14 +147,14 @@
 <!--    On my dashboar or my courses page-->
         {{#is_mycourses_page}}
 <!--        User is staff-->
-            {{#is_staff}}
+                {{#is_staff}}
                 <div id="course-management" class="moove-container-fluid">
                     <ul class="boxes">
 <!--                    Sandbox plugin is installed-->
-                        {{#sandbox_installed}}
+                         {{#sandbox_installed}}
                             <li>
-                                <div title="Playground">
-                                    <a href="{{config.wwwroot}}/local/sandbox/index.php"
+                                <div class="course-menu-label" title="Playground">
+                                    <a class="course-label-link" href="{{config.wwwroot}}/local/sandbox/index.php"
                                        title="{{#str}}createsandbox, local_sandbox{{/str}}">
                                         <div>
                                             <h2><i class="fa fa-plus-square-o" aria-hidden="true"></i></h2>
@@ -141,7 +167,7 @@
                         {{/sandbox_installed}}
                     </ul>
                 </div>
-            {{/is_staff}}
+              {{/is_staff}}
         {{/is_mycourses_page}}
     </div>
 {{/secondarymoremenu}}
