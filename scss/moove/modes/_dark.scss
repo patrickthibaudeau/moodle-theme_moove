@@ -57,6 +57,7 @@ Scrollbar Start
 ::-webkit-scrollbar-track-piece {
   width: 15px;
   background: $background-primary !important;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -74,11 +75,22 @@ Scrollbar Start
 }
 
 ::-webkit-scrollbar-corner {
-
 background-color: $background-primary;
 }
 
+// Drawer Scrollbar
+.drawer {
 
+  ::-webkit-scrollbar-track-piece {
+    background: var(--background-drawer) !important;
+    border-radius: 0px !important;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-color: var(--background-drawer) !important;
+    background: $background-primary !important;
+  }
+}
 
 /*
 Scrollbar End
