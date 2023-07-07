@@ -233,11 +233,18 @@
   }
 }
 
+
+
+
+@media (max-width: 1279px) {
+  #page {
+    margin-top: 110px !important;
+  }
+}
+
+
 #topofscroll {
   margin-top: 0 !important;
-  @media (max-width: 1279px) {
-    margin-top: 15px !important;
-  }
   @media (max-width: 768px) {
     padding-top: 10px !important;
   }
@@ -295,4 +302,9 @@ ul.section {
       }
     }
   }
+}
+
+.section .activity.indented+.indented .activity-item {
+  border-radius: 5px;
+  border-color: transparent;
 }

@@ -55,14 +55,14 @@ Scrollbar Start
 }
 
 ::-webkit-scrollbar-track-piece {
-  border-radius: 15px;
   width: 15px;
-  background: transparent !important;
-
+  background: $background-primary !important;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
   border: 5px solid;
+  border-radius: 15px;
   background: $background-navbar !important;
   border-color: $background-primary !important;  // Smaller effect
 }
@@ -75,13 +75,22 @@ Scrollbar Start
 }
 
 ::-webkit-scrollbar-corner {
-  /*
-  background-image: url(resources/corner.png);
-  background-repeat: no-repeat;
-  */
-  background-color: $background-primary;
+background-color: $background-primary;
 }
 
+// Drawer Scrollbar
+.drawer {
+
+  ::-webkit-scrollbar-track-piece {
+    background: var(--background-drawer) !important;
+    border-radius: 0px !important;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-color: var(--background-drawer) !important;
+    background: $background-primary !important;
+  }
+}
 
 /*
 Scrollbar End
@@ -156,7 +165,7 @@ Scrollbar End
   background-color: $background-primary !important;
 }
 
-[data-region='no-events-empty-message'] > img {
+[data-region='no-events-empty-message'] > img, img.empty-placeholder-image-lg  {
   filter: brightness(0.7);
 }
 
@@ -345,6 +354,10 @@ button.btn-primary, input.btn-primary {
 }
 
 
+.generaltable th, .generaltable td, .generaltable thead th, .generaltable thead td {
+  border-color: var(--primary);
+}
+
 div.bg-light, div.bg-white {
   background-color: $background-navbar !important;
 }
@@ -373,8 +386,8 @@ div > a.text-dark {
   }
 }
 
-h2 > img.iconlarge, .modicon > .icon {
-  filter: invert(0.9);
+h2 > img.iconlarge, .modicon > .icon, .activity > img.icon, icon.activityicon, .card-text img.icon {
+  filter: invert(0.8);
 }
 
 .generaltable {
@@ -447,9 +460,7 @@ h2 > img.iconlarge, .modicon > .icon {
   background-color: transparent !important;
 }
 
-.activity > img.icon, icon.activityicon {
-  filter: invert(0.8);
-}
+
 
 input {
   background: inherit !important;
@@ -632,10 +643,35 @@ div.alert-info {
   border-radius: 5px;
 }
 
+
+
+
 #sticky-footer {
   border-top: none !important;
 }
 
 .course-manage > a.btn.btn-link:hover {
   background-color: var(--secondary-menu-color) !important;
+}
+
+// Feature assistant override (requires sleekplan)
+div.i-sl-button-inner.compact .i-sl-button-btn.active::after {
+  background-color: var(--background-navbar-2);
+}
+
+div.i-sl-button-btn {
+  background-color: var(--background-navbar-2);
+}
+
+
+.block.block_important_links .content li a:hover {
+  color: var(--background-primary);
+}
+
+#block-region-side-pre .card-text img.icon {
+  filter: invert(0.8);
+}
+
+#page .course-content .section-summary {
+  border-color: transparent !important;
 }

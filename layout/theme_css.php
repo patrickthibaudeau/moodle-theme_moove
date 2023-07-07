@@ -2,6 +2,7 @@
 
 require_once(__DIR__ . '/../../../config.php');
 header("Content-Type: text/css");
+header("Cache-Control: max-age=86400"); //30days (60sec * 60min * 24hours * 30days)
 
 function get_theme_mode_css(): string {
     global $CFG, $_GET;

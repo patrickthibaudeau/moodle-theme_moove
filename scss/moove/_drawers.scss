@@ -101,6 +101,11 @@ body.has-secondarynavigation {
         .drawer-left,
         .drawer-right {
             top: calc(130px + 1px);
+
+            @media(max-width: 1279px) {
+                top: calc(120px + 1px);
+            }
+
             height: calc(100vh - 130px);
         }
     }
@@ -120,3 +125,14 @@ li.courseindex-item {
     }
 }
 
+
+
+/*
+If both the blocks drawer and course drawer are open, the page header should go from 1.25rem auto to 1.25rem 0.
+ */
+div#theme_boost-drawers-courseindex.show + div#theme_boost-drawers-blocks.show ~ #page {
+
+    #page-header {
+        margin: 1.25rem 0;
+    }
+}

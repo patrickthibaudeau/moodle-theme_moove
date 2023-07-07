@@ -133,9 +133,10 @@ class core_renderer extends \theme_boost\output\core_renderer
          * Leave the stylesheet in there as a FALLBACK in case our inline one is missing some stuff
          * (It seems it is due to SCSS being added to the /all/ file somewhere in the moodle core out of our control)
          *
-         * $output = preg_replace('/http:\/\/.*\/moove\/.*\/all/', '', $output);
+         *
          */
 
+        $output = preg_replace('/http:\/\/.*\/moove\/.*\/all/', '', $output);
 
         $theme = theme_config::load("moove");
         $dark_enabled = $this->get_dark_enabled();
