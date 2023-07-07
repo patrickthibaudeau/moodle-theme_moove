@@ -44,11 +44,11 @@ body {
   text-decoration: none !important;
   color: #ffffff !important;
   background-color: $york-red;
-  border-color: #york-red;
+  //border-color: #york-red;
   &:hover {
     color: #ffffff !important;
     background-color: $york-red-medium;
-    border-color: #york-red-medium;
+    //border-color: #york-red-medium;
   }
 }
 
@@ -120,8 +120,10 @@ body {
 }
 
 #page-header {
+
   margin: 1.25rem auto;
   padding: 0;
+
 
   h1 {
     margin-bottom: 0;
@@ -300,7 +302,7 @@ nav.navbar {
 
 
 .custom-control-input:focus ~ .custom-control-label::before {
-  box-shadow: 0 0 0 0.2rem inherit;
+  box-shadow: 0 0 0 0.2rem;
 }
 
 .custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
@@ -456,41 +458,42 @@ Fix for mobile causing doubled page length
 
 div.gradeparent {
   overflow-x: scroll;
-  background: var(--background-primary);
+  background: var(--background-primary-2);
 
   table {
     width: 100%;
+    margin-bottom: 0 !important;
   }
   .gradereport-grader-table, td, th {
     border: none !important;
   }
 
-  tr:nth-child(odd):not(:last-child) {
-    background-color: var(--background-primary-2) !important;
+  a.username > span.userinitials {
+    margin-right: 10px;
   }
 
-  #studentheader {
-    background-color: var(--background-primary) !important;
-  }
+  tr:nth-child(even) {
+    background: var(--background-primary);
 
-  tr.userrow.odd {
-    th {
-      background-color: var(--background-primary-2) !important;
-    }
-  }
-  tr.userrow.even {
-    th {
+    th:first-child {
       background-color: var(--background-primary) !important;
     }
   }
 
-  tr.lastrow > th.header {
-    background-color: var(--background-primary) !important;
+  tr:nth-child(odd) th:first-child {
+    background-color: var(--background-primary-2) !important;
   }
 
-  a.username > span.userinitials {
-    margin-right: 10px;
+
+  th {
+    background-color: red !important;
   }
+
+
+  tr.lastrow > .cell {
+    padding: 20px;
+  }
+
 
 }
 
@@ -505,12 +508,14 @@ div.gradeparent {
   border-bottom-left-radius: 0px !important;
 }
 
+#page-content {
+  padding-top: 10px;
+}
+
 @media (max-width: 767.98px) {
 
   div.header-action.ml-2:has(.simplesearchform) {
     margin-left: 0 !important;
-    margin-top: 15px;
-    margin-bottom: -15px;
   }
 
   .mform {
@@ -518,4 +523,42 @@ div.gradeparent {
     padding-right: 0 !important;
     padding-left: 0 !important;
   }
+}
+
+#theme_switch_link {
+  display: flex;
+  justify-content: center;
+}
+
+li.section {
+  border-color: transparent;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
+.show>.btn-primary.dropdown-toggle {
+  background: var(--primary-5);
+  border-color: var(--primary-6);
+
+}
+
+@media(min-width: 768px) {
+  #region-main > .notifications:has(div.alert) {
+    margin-top: 5px;
+  }
+}
+
+.d-sm-flex-2 {
+  display: flex;
+}
+
+#theme_moove-drawers-primary .list-group-item {
+  border-color: var(--primary-5) !important;
+}
+.preferences-page-container > .preferences-container {
+  overflow-x: scroll;
+}
+
+.page-context-header {
+  align-items: center;
 }

@@ -135,8 +135,30 @@
         overflow: scroll;
     }
 
-    #moove-licenselinks {
+}
 
+@media(max-width: 568px) {
+    .maincalendar div.header {
+        justify-content: center;
     }
 
+    select.cal_courses_flt {
+        margin-right: 0 !important;
+        width: 75%;
+    }
+
+    button.btn[data-action='new-event-button'] {
+        width: 75%;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    h6.event-action {
+        padding-left: 0 !important;
+        margin-top: 0.6rem;
+    }
+}
+
+.list-group > .list-group-item {
+    padding-bottom: 1rem !important;
 }
