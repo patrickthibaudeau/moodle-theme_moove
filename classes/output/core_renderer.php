@@ -24,7 +24,7 @@
 
 namespace theme_moove\output;
 
-use core_scss;
+use cache;
 use theme_config;
 use context_course;
 use moodle_url;
@@ -43,11 +43,25 @@ use tool_usertours\tour as tourinstance;
 class core_renderer extends \theme_boost\output\core_renderer
 {
 
+    public function get_cache_num() {
+        $cache = cache::make('theme_moove', 'theme_mode');
+        $cachenum = $cache->get('cachenum');
+
+        if (!$cachenum) {
+            $cachenum = rand();
+            $cache->set('cachenum', $cachenum);
+            return $cachenum;
+        }
+
+        return $cachenum;
+    }
+
     public function get_mode_stylesheet($dark_enabled)
     {
+        $mode = $dark_enabled ? 'dark' : 'light';
+        $cachenum = $this->get_cache_num();
 
-        $mode = $dark_enabled ? 'dark' : 'normal';
-        return "/theme/moove/layout/theme_css.php?mode=$mode";
+        return "/theme/moove/layout/theme_css.php?mode=$mode&cache=$cachenum";
     }
 
     public function get_dark_enabled() {
@@ -64,7 +78,7 @@ class core_renderer extends \theme_boost\output\core_renderer
 
     public function theme_mode_inject_script($dark_enabled) {
 
-        $mode = $dark_enabled ? 'dark' : 'default';
+        $mode = $dark_enabled ? 'dark' : 'light';
         $enabled = $dark_enabled ? 'true' : 'false';
 
         return ("

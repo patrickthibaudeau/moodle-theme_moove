@@ -30,6 +30,7 @@
  * @return mixed|string New hex colour
  */
 function adjustBrightness($color, $percent) {
+
     // Check if the color is in RGB format
     if (preg_match('/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/', $color, $matches)) {
         $red = $matches[1];

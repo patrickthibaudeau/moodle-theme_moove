@@ -2,15 +2,14 @@
 
 require_once(__DIR__ . '/../../../config.php');
 header("Content-Type: text/css");
-header("Cache-Control: max-age=86400"); //30days (60sec * 60min * 24hours * 30days)
+header("Cache-Control: public, max-age=86400"); //30days (60sec * 60min * 24hours * 30days)
+header("Pragma: ");
 
-function get_theme_mode_css(): string {
-    global $CFG, $_GET;
-    $mode = $_GET['mode'];
+function get_theme_mode_css($mode): string {
+    global $CFG;
 
     switch ($mode) {
         case "dark":
-            echo ".mode-setting {mode: $mode}";
             $core = new core_scss();
             $core->set_file($CFG->dirroot . '/theme/moove/scss/moove/modes/_dark.scss');
             return $core->to_css();
@@ -84,17 +83,36 @@ function extractPropertiesFromClass($cssClassString): array
     return $propertiesArray;
 }
 
-function get_css_content(): string {
+function load_theme_modes($cache) {
     global $PAGE;
 
-    $css = $PAGE->theme->get_css_content();
+    foreach (["dark", "light"] as $mode) {
+        $css = $PAGE->theme->get_css_content();
+        $output = get_modified_css_content($css, ".sass-var-expose");
+        $output .= get_theme_mode_css($mode);
+        $cache->set($mode, $output);
+    }
+}
 
-    $output = get_modified_css_content($css, ".sass-var-expose");
-    $output .= get_theme_mode_css();
+/**
+ * @throws coding_exception
+ */
+function get_css_content(): string {
+    global $_GET;
+    $mode = $_GET['mode'];
+    $cache = cache::make('theme_moove', 'theme_mode');
 
-    return $output;
+    // If cached
+    $data = $cache->get($mode);
+    if ($data) {
+        return $data . "\n.cached-content {}\n";
+    }
+
+    // Load into cache
+    load_theme_modes($cache);
+
+    // Take from cache
+    return $cache->get($mode);
 }
 
 echo get_css_content();
-
-
