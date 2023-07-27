@@ -79,54 +79,21 @@ class core_renderer extends \theme_boost\output\core_renderer
     public function theme_mode_inject_script($dark_enabled) {
 
         $mode = $dark_enabled ? 'dark' : 'light';
-        $enabled = $dark_enabled ? 'true' : 'false';
 
         return ("
-           <script id='clear-styles'>
+           <script id='set-body-tag'>
            
                 function addBodyTag() {
                     let body = document.querySelector('body');
                     body.setAttribute('theme-mode', '$mode')
                 }
            
-                function clearStyles(enabled = false) {
-                    if (!enabled) return;
-                    
-                    let contentRegion = document.querySelector('#topofscroll.main-inner');
-                    let targets = [
-                        contentRegion.querySelectorAll('[style*=\'color:\']'),
-                        contentRegion.querySelectorAll('[style*=\'background-color:\']'),
-                    ];
-        
-                    for (let target of targets) {
-                        Array.prototype.forEach.call(target, function(element){
-                            element.style.background = '';
-                            element.style.color = '';
-                            element.style.backgroundColor = '';
-                        });
-                    }
-                }
-                
-                let timePer = 10;
-                let timeCurr = 0;
-                let timeMax = 10000;
-                let interval = setInterval(function() {
-                    if (document.querySelector('#topofscroll.main-inner')) {
-                        clearStyles($enabled);
-                        addBodyTag();
-                        clearInterval(interval);
-                    }
-                    timeCurr += timePer;
-                    if (timeCurr >= timeMax) {
-                        clearInterval(interval);
-                    }
-                }, timePer);
-                
-                document.getElementById('clear-styles').remove();
+                document.getElementById('set-body-tag').remove();
            </script>
         
         ");
     }
+
     /**
      * The standard tags (meta tags, links to stylesheets and JavaScript, etc.)
      * that should be included in the <head> tag. Designed to be called in theme
@@ -178,12 +145,11 @@ class core_renderer extends \theme_boost\output\core_renderer
 
         $sitefont = isset($theme->settings->fontsite) ? $theme->settings->fontsite : 'Roboto';
 
-
         $output .= ('
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=
-        ') . $sitefont . ':ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">';
+            <link href="https://fonts.googleapis.com/css2?family=')
+            . $sitefont . ':ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">';
 
         return $output;
     }

@@ -456,47 +456,6 @@ Fix for mobile causing doubled page length
   }
 }
 
-div.gradeparent {
-  overflow-x: scroll;
-  background: var(--background-primary-2);
-
-  table {
-    width: 100%;
-    margin-bottom: 0 !important;
-  }
-  .gradereport-grader-table, td, th {
-    border: none !important;
-  }
-
-  a.username > span.userinitials {
-    margin-right: 10px;
-  }
-
-  tr:nth-child(even) {
-    background: var(--background-primary);
-
-    th:first-child {
-      background-color: var(--background-primary) !important;
-    }
-  }
-
-  tr:nth-child(odd) th:first-child {
-    background-color: var(--background-primary-2) !important;
-  }
-
-
-  th {
-    background-color: red !important;
-  }
-
-
-  tr.lastrow > .cell {
-    padding: 20px;
-  }
-
-
-}
-
 #userfilesform {
   .ml-2_6.fitem {
     margin-left: 0 !important;
@@ -561,4 +520,12 @@ li.section {
 
 .page-context-header {
   align-items: center;
+}
+
+body#page-question-type-multichoice  {
+  #id_answerhdr {
+    div.form-group {
+      padding: 10px;
+    }
+  }
 }
