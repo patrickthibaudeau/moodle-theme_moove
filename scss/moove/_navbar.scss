@@ -74,6 +74,14 @@
     }
 }
 
+// REF ID 2023SUMM1 (Search me for other related media query)
+@media(max-width: 1279px) {
+    .secondary-navigation.possibly-empty-navbar {
+        max-height: 50px;
+    }
+}
+
+
 .popover-region-notifications .popover-region-container {
     @extend .scale-up;
     top: 70px;

@@ -726,16 +726,25 @@ div.i-sl-button-btn {
 
 .user-report-container {
   background: var(--background-primary) !important;
+  border: none !important;
+
+  .user-grade tbody tr {
+    background: transparent !important;
+  }
 
   .grade-report-user .user-grade td.category {
     background: var(--background-navbar) !important;
+    border: none !important;
   }
 
   .grade-report-user .user-grade td, td, th {
     background: var(--background-primary) !important;
     border-color: transparent !important;
+    border: none !important;
+
   }
   .grade-report-user .user-grade td.item {
+    border: none !important;
     background: var(--background-primary) !important;
   }
 
