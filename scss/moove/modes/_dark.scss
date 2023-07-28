@@ -37,6 +37,22 @@ body {
 }
 
 /*
+When in dark mode, override the WYSWG editor colours on elements.
+Only overrides them within activities, section info, etc.
+If it is found one is not included here, simply add the class it locates in.
+*/
+.main-inner {
+  .activity, .content, .section, .activity-header, .que .content {
+    // If they set color, background, OR background-color
+    [style*='color'], [style*='background'] {
+      color: inherit !important;
+      background-color: inherit !important;
+    }
+  }
+}
+
+
+/*
 Scrollbar Start
  */
 
@@ -386,7 +402,7 @@ div > a.text-dark {
   }
 }
 
-h2 > img.iconlarge, .modicon > .icon, .activity > img.icon, icon.activityicon, .card-text img.icon {
+h2 > img.iconlarge, .modicon > .icon, .activity > img.icon, icon.activityicon, .card-text img.icon, .qtype > img.icon {
   filter: invert(0.8);
 }
 
@@ -481,7 +497,7 @@ input {
   border: none !important;
 }
 
-.icon.itemicon, .dragicon > .icon.fa {
+.icon.itemicon, .icon.activityicon, .dragicon > .icon.fa {
   filter: invert(0.65);
 }
 
@@ -541,6 +557,8 @@ input {
 
   .inplaceeditable {
     border-radius: 3px;
+    background-color: var(--background-primary);
+    color: var(--primary) !important;
   }
 
   ul.slots li.activity div.activityinstance {
@@ -674,4 +692,61 @@ div.i-sl-button-btn {
 
 #page .course-content .section-summary {
   border-color: transparent !important;
+}
+
+#format_menutab_home_page_image {
+  color: inherit !important;
+}
+.que {
+
+  div.content {
+    border-radius: 5px;
+  }
+
+  div.info {
+    background-color: var(--background-primary);
+    border-radius: 5px;
+    color: inherit;
+    border: none;
+  }
+
+  div.formulation {
+    background-color: var(--background-primary);
+    color: inherit;
+  }
+}
+
+.path-mod-quiz {
+  .gradedattempt, tr.gradedattempt > td, .highlight {
+    color: var(--background-navbar) !important;
+    background-color: var(--nav-font-1) !important;
+    border-color: var(--nav-font-1) !important;
+  }
+}
+
+.user-report-container {
+  background: var(--background-primary) !important;
+
+  .grade-report-user .user-grade td.category {
+    background: var(--background-navbar) !important;
+  }
+
+  .grade-report-user .user-grade td, td, th {
+    background: var(--background-primary) !important;
+    border-color: transparent !important;
+  }
+  .grade-report-user .user-grade td.item {
+    background: var(--background-primary) !important;
+  }
+
+}
+
+div.forumpost, div.forumpost.border {
+  background: var(--background-primary);
+  border-color: transparent !important;
+}
+
+
+[data-region="loading-placeholder"] .bg-pulse-grey {
+  background: var(--background-primary-2) !important;
 }
