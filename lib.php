@@ -284,7 +284,9 @@ function theme_moove_get_teachers()
 
         $teachers[$i] = new stdClass();
         $teachers[$i]->fullname = fullname($u);
-        $teachers[$i]->email = $u->email;
+        if ($user->maildisplay > 0){
+            $teachers[$i]->email = $u->email;
+        }
         $teachers[$i]->image = $moodle_url->out();
         $teachers[$i]->id = $u->id;
         $i++;

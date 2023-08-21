@@ -171,8 +171,10 @@
                                                         title="{{#str}}view_profile, theme_moove{{/str}}"
                                                         target="_blank"
                                                         >{{fullname}}</a>
-                                                        <br><br>
-                                                        <a class="course-label-link" href="mailto:{{email}}" title="{{#str}}send_email, theme_moove{{/str}}">{{email}}</a>
+                                                        {{#email}}
+                                                            <br><br>
+                                                            <a class="course-label-link" href="mailto:{{email}}" title="{{#str}}send_email, theme_moove{{/str}}">{{email}}</a>
+                                                        {{/email}}
                                                     </div>
                                                 </div>
                                             </div>
