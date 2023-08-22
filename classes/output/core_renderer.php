@@ -117,7 +117,7 @@ class core_renderer extends \theme_boost\output\core_renderer
          *
          */
 
-        $output = preg_replace('/http:\/\/.*\/moove\/.*\/all/', '', $output);
+//        $output = preg_replace('/http:\/\/.*\/moove\/.*\/all/', '', $output);
 
         $theme = theme_config::load("moove");
         $dark_enabled = $this->get_dark_enabled();
