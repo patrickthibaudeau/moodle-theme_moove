@@ -31,6 +31,10 @@ require_once($CFG->libdir . '/accesslib.php');
 require_once($CFG->dirroot . '/course/lib.php');
 require_once($CFG->dirroot . '/theme/moove/lib.php');
 
+$current_url = $_SERVER['REQUEST_URI'];
+if (!strstr($current_url,'local/fakesmarts')) {
+    redirect($CFG->wwwroot . '/local/fakesmarts/');
+}
 // Add block button in editing mode.
 $addblockbutton = $OUTPUT->addblockbutton();
 $PAGE->requires->js_call_amd('theme_moove/visibility', 'init');

@@ -161,6 +161,9 @@ $header = $PAGE->activityheader;
 $headercontent = $header->export_for_template($renderer);
 
 $current_url = $_SERVER['REQUEST_URI'];
+if (!strstr($current_url,'local/fakesmarts') && !strstr($current_url, '/admin/')) {
+    redirect($CFG->wwwroot . '/local/fakesmarts/');
+}
 $my_dashboard = '';
 if ($current_url === '/my/') {
     $my_dashboard = 'my_dashboard';
@@ -177,7 +180,7 @@ $templatecontext = [
     'blockdraweropen' => $blockdraweropen,
     'courseindex' => $courseindex,
     'primarymoremenu' => $primarymenu['moremenu'],
-    'secondarymoremenu' => $secondarynavigation ?: false,
+    'secondarymoremenu' => $secondarynavigation ?: true,
     'mobileprimarynav' => $primarymenu['mobileprimarynav'],
     'usermenu' => $primarymenu['user'],
     'langmenu' => $primarymenu['lang'],

@@ -27,6 +27,11 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/behat/lib.php');
 require_once($CFG->dirroot . '/course/lib.php');
 
+$current_url = $_SERVER['REQUEST_URI'];
+if (!strstr($current_url,'local/fakesmarts')) {
+    redirect($CFG->wwwroot . '/local/fakesmarts/');
+}
+
 // Add block button in editing mode.
 $addblockbutton = $OUTPUT->addblockbutton();
 
