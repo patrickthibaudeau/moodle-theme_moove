@@ -32,8 +32,10 @@ require_once($CFG->dirroot . '/course/lib.php');
 require_once($CFG->dirroot . '/theme/moove/lib.php');
 
 $current_url = $_SERVER['REQUEST_URI'];
-if (!strstr($current_url,'local/fakesmarts')) {
-    redirect($CFG->wwwroot . '/local/fakesmarts/');
+if (!is_siteadmin()) {
+    if (!strstr($current_url,'local/fakesmarts') && !strstr($current_url, '/admin/')) {
+        redirect($CFG->wwwroot . '/local/fakesmarts/');
+    }
 }
 // Add block button in editing mode.
 $addblockbutton = $OUTPUT->addblockbutton();
@@ -54,7 +56,7 @@ if (isloggedin()) {
 if (defined('BEHAT_SITE_RUNNING')) {
     $blockdraweropen = true;
 }
-
+CONTEXT
 $teachers = theme_moove_get_teachers();
 
 // Is course format menutab?

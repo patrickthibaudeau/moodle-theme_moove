@@ -7,6 +7,58 @@ body {
   }
 }
 
+// Remove top navbar items
+[data-key="mycourses"] {
+  display: none;
+}
+[data-key="myhome"] {
+  display: none;
+}
+[data-key="home"] {
+  display: none;
+}
+
+[data-region="popover-region-messages"] {
+  display: none;
+}
+
+#nav-notification-popover-container {
+  display: none;
+}
+
+.editmode-switch-form{
+  display: none !important;
+}
+
+//User menu
+a[href*='grade/report/overview/index.php'] {
+  display: none;
+}
+a[href*='calendar/view.php'] {
+  display: none;
+}
+
+a[href*='message/index.php'] {
+  display: none;
+}
+
+a[href*='user/files.php'] {
+  display: none;
+}
+
+a[href*='reportbuilder/index.php'] {
+  display: none;
+}
+
+a[href*='user/preferences.php'] {
+  display: none;
+}
+
+a[href*='course/switchrole.php'] {
+  display: none;
+}
+
+
 //
 .editmode-note {
   display: block !important;
@@ -121,7 +173,7 @@ body {
 
 #page-header {
 
-  margin: 1.25rem auto;
+  margin: 0.2rem auto;
   padding: 0;
 
 
@@ -157,7 +209,7 @@ body {
 
 .moove-container-fluid,
 .container-fluid {
-  max-width: 85%;
+  max-width: 100% !important;
   padding-right: 15px;
   padding-left: 15px;
   margin-right: auto;
@@ -166,6 +218,10 @@ body {
 
 .container-fluid.tertiary-navigation {
   max-width: 100%;
+}
+
+.pagelayout-standard #page.drawers .main-inner, body.limitedwidth #page.drawers .main-inner, #page.drawers .main-inner, .moove-container-fluid, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+  max-width: 100% !important;
 }
 
 a {
