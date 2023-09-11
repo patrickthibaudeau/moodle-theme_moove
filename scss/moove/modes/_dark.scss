@@ -759,3 +759,31 @@ div.forumpost, div.forumpost.border {
 [data-region="loading-placeholder"] .bg-pulse-grey {
   background: var(--background-primary-2) !important;
 }
+
+table.quizreviewsummary {
+
+  th.cell, td.cell {
+    background: var(--background-action-menu) !important;
+
+  }
+}
+
+
+#page-mod-quiz-view table.quizattemptsummary tr.bestrow td {
+  border-color: inherit !important;
+  background: var(--background-action-menu) !important;
+}
+
+#page-mod-quiz-edit .slotnumber {
+  background-color: inherit !important;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.btn-primary:not(:disabled):not(.disabled).active:focus,
+.show>.btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem var(--primary-5) !important;
+}
+
+#quiz-timer-wrapper #quiz-timer {
+  background-color: #9d4646 !important;
+}
