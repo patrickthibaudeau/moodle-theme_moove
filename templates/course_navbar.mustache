@@ -55,7 +55,7 @@
         ]
     }
 }}
-<nav class="navbar fixed-top navbar-light bg-white navbar-expand shadow"
+<nav class="navbar fixed-top moove-navbar moove-background-secondary navbar-expand shadow"
      aria-label="{{#str}}sitemenubar, admin{{/str}}">
 
     <button class="navbar-toggler aabtn d-block d-md-none px-1 my-1 border-0" data-toggler="drawers"
@@ -117,8 +117,8 @@
                 {{#courseid}}
                     {{#main_menu}}
                         <li>
-                            <div title="{{name}}">
-                                <a href="{{url}}" title="{{name}}">
+                            <div class="course-menu-label" title="{{name}}">
+                                <a class="course-label-link" href="{{url}}" title="{{name}}">
                                     <div>
                                         <h2><i class="course-menu-icon {{icon}}"></i></h2>
                                         <span class="course-menu-text">{{name}}</span>
@@ -131,8 +131,10 @@
                         <div class="dropdown" title="Assignments">
                             <div id="courseAssignments" data-toggle="dropdown" aria-haspopup="true"
                                  aria-expanded="false">
-                                <h2><i class="course-menu-icon fa fa-file-text"></i></h2>
-                                <span class="course-menu-text">{{#str}}activities, core{{/str}}</span>
+                                <div>
+                                    <h2><i class="course-menu-icon fa fa-file-text"></i></h2>
+                                    <span class="course-menu-text">{{#str}}activities, core{{/str}}</span>
+                                </div>
                             </div>
                             <div class="dropdown-menu" aria-labelledby="courseAssignments">
                                 {{#course_mods}}
@@ -143,14 +145,16 @@
                             </div>
                         </div>
                     </li>
-                    <!--                Only show students-->
+                    <!--              Only show students-->
                     {{^edit_settings}}
                         <li>
                             <div class="dropdown" title="Professor(s)">
                                 <div id="courseTeacher" data-toggle="dropdown" aria-haspopup="true"
                                      aria-expanded="false">
-                                    <h2><i class="course-menu-icon fa fa-user-circle-o"></i></h2>
-                                    <span class="course-menu-text">{{#str}}teachers, core{{/str}}</span>
+                                    <div>
+                                        <h2><i class="course-menu-icon fa fa-user-circle-o"></i></h2>
+                                        <span class="course-menu-text">{{#str}}teachers, core{{/str}}</span>
+                                    </div>
                                 </div>
                                 <div class="dropdown-menu teacher" aria-labelledby="courseTeacher">
                                     {{#teachers}}
@@ -163,12 +167,14 @@
                                                 </div>
                                                 <div class="col-md-8 d-flex justify-content-start align-items-center ">
                                                     <div class="card-text">
-                                                        <a href="{{config.wwwroot}}/user/view.php?id={{id}}&course={{courseid}}"
+                                                        <a class="course-label-link" href="{{config.wwwroot}}/user/view.php?id={{id}}&course={{courseid}}"
                                                         title="{{#str}}view_profile, theme_moove{{/str}}"
                                                         target="_blank"
                                                         >{{fullname}}</a>
-                                                        <br><br>
-                                                        <a href="mailto:{{email}}" title="{{#str}}send_email, theme_moove{{/str}}">{{email}}</a>
+                                                        {{#email}}
+                                                            <br><br>
+                                                            <a class="course-label-link" href="mailto:{{email}}" title="{{#str}}send_email, theme_moove{{/str}}">{{email}}</a>
+                                                        {{/email}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -184,8 +190,10 @@
                             <div class="dropdown" title="Settings">
                                 <div id="courseManagement" data-toggle="dropdown" aria-haspopup="true"
                                      aria-expanded="false">
-                                    <h2><i class="course-menu-icon fa fa-list-alt"></i></h2>
-                                    <span class="course-menu-text">{{#str}}more, core{{/str}}</span>
+                                    <div>
+                                        <h2><i class="course-menu-icon fa fa-list-alt"></i></h2>
+                                        <span class="course-menu-text">{{#str}}more, theme_moove{{/str}}</span>
+                                    </div>
                                 </div>
                                 <div class="dropdown-menu" aria-labelledby="courseAssignments">
                                     {{#more_menu}}
@@ -199,7 +207,7 @@
                     {{/has_more_menu}}
                     <!--Only show if the page has access to the course administration node-->
                     <!--                <li>-->
-                    <!--                    <a href="{{config.wwwroot}}/course/view.php?id={{courseid}}&sesskey={{sesskey}}&edit=on"-->
+                    <!--                    <a class="course-label-link" href="{{config.wwwroot}}/course/view.php?id={{courseid}}&sesskey={{sesskey}}&edit=on"-->
                     <!--                    title="Turn editing on">-->
                     <!--                    <div id="turnEditingOn">-->
                     <!--                        <h2><i class="course-menu-icon fa fa-pencil-square-o"></i></h2>-->
@@ -210,9 +218,9 @@
                     <!--                Only show if is teacher-->
                     {{#edit_settings}}
                         <li>
-                            <a id="theme-moove-course-visibility" href="#" data-courseid="{{courseid}}"
+                            <a id="theme-moove-course-visibility" class="course-label-link" href="#" data-courseid="{{courseid}}"
                                data-visibility="{{visibility}}"
-                               title="Hide course">
+                               title="Hide Course">
                                 <div id="activateCourse">
                                     <h2>
                                         <i class="course-menu-icon fa {{#visibility}}fa-eye{{/visibility}}{{^visibility}}fa-eye-slash{{/visibility}}"></i>

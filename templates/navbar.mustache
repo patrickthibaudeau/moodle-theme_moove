@@ -55,14 +55,7 @@
         ]
     }
 }}
-{{#is_mycourses_page}}
-    <style>
-        body.has-secondarynavigation #page, body.has-secondarynavigation #page.drawers {
-            margin-top: 130px;
-        }
-    </style>
-{{/is_mycourses_page}}
-<nav class="navbar fixed-top navbar-light bg-white navbar-expand shadow"
+<nav class="navbar fixed-top moove-navbar moove-background-secondary navbar-expand shadow"
      aria-label="{{#str}}sitemenubar, admin{{/str}}">
 
     <button class="navbar-toggler aabtn d-block d-md-none px-1 my-1 border-0" data-toggler="drawers"
@@ -106,6 +99,7 @@
             <div class="divider border-left h-75 align-self-center mx-1"></div>
         {{/langmenu}}
         {{{ output.navbar_plugin_output }}}
+
         <div class="d-flex align-items-stretch usermenu-container" data-region="usermenu">
             {{#usermenu}}
                 {{> core/user_menu }}
@@ -119,6 +113,32 @@
     <div class="secondary-navigation d-print-none moove">
         <div class="moove-container-fluid">
             {{> core/moremenu}}
+            <!--
+
+            This is incredibly cursed
+
+            The #page media query overrides the one in courses.scss bc. the special menu here changes things
+            The .simplesearchform adds extra spacing between the hr and the form
+
+            -->
+            <style>
+                body.has-secondarynavigation #page, body.has-secondarynavigation #page.drawers {
+                    margin-top: 120px;
+                }
+
+                @media(max-width: 1279.2px) {
+                    body.has-secondarynavigation #page, body.has-secondarynavigation #page.drawers {
+                        margin-top: 120px !important;
+                    }
+                }
+
+                @media (max-width: 576px) {
+                    .simplesearchform {
+                        margin-top: 5px;
+                    }
+                }
+            </style>
+
         </div>
     </div>
 {{/secondarymoremenu}}
@@ -127,7 +147,6 @@
     <div class="secondary-navigation d-print-none moove">
                 <div id="course-management" class="moove-container-fluid">
                     <ul class="boxes">
-                        <li></li>
 <!--                    Sandbox plugin is installed-->
                         {{#sandbox_installed}}
                             <li>

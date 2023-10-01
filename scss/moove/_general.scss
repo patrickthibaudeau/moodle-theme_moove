@@ -1,5 +1,6 @@
 body {
-  background-color: $background !important; /* stylelint-disable-line */
+  background-color: $background-primary !important; /* stylelint-disable-line */
+  color: $font-primary;
   // used to align forms
   .ml-2_6 {
     margin-left: 2.7rem !important;
@@ -43,17 +44,16 @@ body {
   text-decoration: none !important;
   color: #ffffff !important;
   background-color: $york-red;
-  border-color: #york-red;
+  //border-color: #york-red;
   &:hover {
     color: #ffffff !important;
     background-color: $york-red-medium;
-    border-color: #york-red-medium;
+    //border-color: #york-red-medium;
   }
 }
 
 #user-action-menu {
-  background-color: $york-red;
-  border-color: $york-red-dark;
+  background-color: $background-action-menu;
   //border-width: 1px;
   -webkit-box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.37);
   box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.37);
@@ -63,7 +63,7 @@ body {
   }
 
   .dropdown-item:hover {
-    background-color: $york-red-medium !important;
+    background-color: $background-action-menu-2 !important;
   }
 }
 
@@ -73,7 +73,8 @@ body {
 }
 
 .btn-group .dropdown-menu {
-  background-color: $york-grey-dark;
+  background-color: $brand-primary-2;
+  color: $font-primary !important;
 
   a {
     color: #fff;
@@ -84,8 +85,8 @@ body {
   }
 
   :hover {
-    background-color: $york-red-dark;
-    color: #fff;
+    background-color: $primary;
+    color: #ffffff;
   }
 }
 
@@ -119,8 +120,10 @@ body {
 }
 
 #page-header {
+
   margin: 1.25rem auto;
   padding: 0;
+
 
   h1 {
     margin-bottom: 0;
@@ -148,8 +151,8 @@ body {
 
 .card {
   border: none;
-  -webkit-box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
-  box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
+  -webkit-box-shadow: 0 0 15px 5px rgb(188 188 188 / 30%);
+  box-shadow: 0 0 15px 5px rgb(188 188 188 / 30%);
 }
 
 .moove-container-fluid,
@@ -174,7 +177,7 @@ a {
 .dropdown-item:hover,
 .dropdown-item:focus,
 .dropdown-item:focus-within {
-  background-color: darken($brand-primary, 10%);
+  background-color: $brand-primary-2;
 }
 
 .shadow {
@@ -219,6 +222,182 @@ a {
   }
 }
 
+
+// Footer fix
+#page {
+  padding-top: 10px !important;
+  flex-grow: 1;
+}
+
+.modal-content {
+  background-color: $background-drawer !important;
+}
+
+.activity-add,
+.block-add,
+.activity-add > .pluscontainer,
+.block-add > .pluscontainer
+
+{
+  background-color: inherit !important;
+  border-color: var(--primary-3);
+}
+
+.popover-region-container, .popover-region-footer-container {
+  background-color: $background-navbar;
+  border: 1px solid #ddd;
+
+}
+
+nav.navbar {
+  background-color: $background-navbar;
+}
+
+.popover-region-footer-container {
+  border: none !important;
+  border-top: 1px solid white !important;
+
+}
+
+.popover-region-toggle::after, .popover-region-toggle::before {
+  border-color: $background-navbar !important;
+}
+
+.message-app {
+  background-color: $background-drawer;
+}
+
+.list-group-item, .simplesearchform .btn-submit {
+  background-color: transparent !important;
+}
+
+.table, .list-group-item-action {
+  color: inherit !important;
+}
+
+
+.modal-content  {
+
+  .modal-footer {
+    background-color: inherit !important;
+  }
+
+  .nav-tabs {
+    .nav-link.active, .nav-item.show .nav-link {
+      color: inherit !important;
+      background-color: inherit !important;
+    }
+  }
+}
+
+
+.modchoosercontainer ,  {
+  background-color: inherit !important;
+  .optionscontainer .option .optioninfo a,
+  .searchresultitemscontainer .option .optioninfo a {
+    background-color: inherit !important;
+    color: inherit !important;
+  }
+}
+
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: 0 0 0 0.2rem;
+}
+
+.custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
+  border-color: inherit;
+}
+
+.custom-control-input:not(:disabled):active ~ .custom-control-label::before {
+  color: #fff;
+  background-color: #b3d7ff;
+  border-color: #b3d7ff;
+}
+
+.custom-control-input[disabled] ~ .custom-control-label, .custom-control-input:disabled ~ .custom-control-label {
+  color: inherit;
+}
+
+.custom-control-input[disabled] ~ .custom-control-label::before, .custom-control-input:disabled ~ .custom-control-label::before {
+  background-color: #e9ecef;
+}
+
+.wp-block-social-links {
+  background-color: transparent !important;
+}
+
+.page-link:hover, a:hover {
+  color: var(--primary-5);
+}
+
+.fp-thumbnail {
+  background-color: $white !important;
+}
+
+.editmode-switch-form {
+  margin-bottom: 0 !important;
+}
+
+div > div[role='application'].tox {
+  min-height: 250px !important;
+}
+
+div.fcontainer collapseable collapse show > .form-group row  fitem   {
+  display: block;
+}
+
+div.form-checkbox-container {
+  display: block;
+}
+
+div.col-form-label {
+  padding-left: 0;
+}
+
+.fcontainer > div.moreless-actions {
+  margin-left: 2.7rem;
+  margin-bottom: 2.7rem;
+}
+
+#form-advanced-div > div.advanced.show {
+  display: block !important;
+}
+
+textarea.tiny_equation_equation {
+  background-color: inherit !important;
+  color: inherit !important;
+}
+
+#page-mod-quiz-edit ul.slots li.section li.activity,
+#page-mod-quiz-edit ul.slots li.section li.activity .instancemaxmarkcontainer {
+  background-color: inherit !important;
+}
+
+.changenumsections {
+  border-color: var(--primary-3) !important;
+}
+
+
+a.btn-primary:hover {
+  test-prop: 3;
+  color: #fff;
+  background-color: var(--primary-5) !important;
+  border-color: var(--primary-6) !important;
+}
+
+a.btn-primary:focus, .btn-primary.focus {
+  color: #fff;
+  background-color: var(--primary-5) !important;
+  border-color: var(--primary-6) !important;
+}
+
+a.btn-primary.disabled, .btn-primary:disabled {
+  color: #fff;
+  background-color: var(--primary-5) !important;
+  border-color: var(--primary-6) !important;
+}
+
 // Fix for Dropdown menu on dashboard cards
 // This puts the dropdown menu left of the button (dots)
 .card-deck.dashboard-card-deck {
@@ -229,4 +408,133 @@ a {
     top: 0px !important;
     left: 0px !important;
   }
+}
+
+div.navitem {
+  a.btn.btn-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+#id_startdate_calendar, #id_enddate_calendar {
+  margin-bottom: 15px;
+  margin-left: 5px;
+}
+
+.coursecontentblocks:has(#block-region-content) {
+  margin-top: 15px;
+}
+
+.course-content ul.topics li.section, .course-content ul.weeks li.section {
+  padding-top: 0 !important;
+}
+
+.jsenabled #page-footer .footer-content-popover {
+  display: none;
+}
+
+.navbar .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+
+/*
+Fix for mobile causing doubled page length
+ */
+@media(max-width: 991.98px) {
+  #page {
+    overflow: visible !important;
+  }
+}
+
+@media(max-width: 480px) {
+
+  .filemanager-container {
+    min-height: 170px;
+  }
+}
+
+#userfilesform {
+  .ml-2_6.fitem {
+    margin-left: 0 !important;
+  }
+}
+
+.simplesearchform button.btn.btn-primary[type='submit'] {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
+
+#page-content {
+  padding-top: 10px;
+}
+
+@media (max-width: 767.98px) {
+
+  div.header-action.ml-2:has(.simplesearchform) {
+    margin-left: 0 !important;
+  }
+
+  .mform {
+    width: 100%;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+}
+
+#theme_switch_link {
+  display: flex;
+  justify-content: center;
+}
+
+li.section {
+  border-color: transparent;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
+.show>.btn-primary.dropdown-toggle {
+  background: var(--primary-5);
+  border-color: var(--primary-6);
+
+}
+
+@media(min-width: 768px) {
+  #region-main > .notifications:has(div.alert) {
+    margin-top: 5px;
+  }
+}
+
+.d-sm-flex-2 {
+  display: flex;
+}
+
+#theme_moove-drawers-primary .list-group-item {
+  border-color: var(--primary-5) !important;
+}
+.preferences-page-container > .preferences-container {
+  overflow-x: scroll;
+}
+
+.page-context-header {
+  align-items: center;
+}
+
+body#page-question-type-multichoice  {
+  #id_answerhdr {
+    div.form-group {
+      padding: 10px;
+    }
+  }
+}
+
+.mobilelink {
+  text-align: center;
+}
+
+#page-h5p-embed.pagelayout-embedded #page {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }

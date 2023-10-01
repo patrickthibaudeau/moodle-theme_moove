@@ -24,7 +24,7 @@
         background-color: $brand-primary;
 
         &:hover {
-            background-color: darken($brand-primary, 10%);
+            background-color: $brand-primary-2;
         }
 
         .text-dark {
@@ -35,7 +35,7 @@
 
 //YorkU Modifications
 #page, #page.drawers {
-    margin-top: 0px;
+    //margin-top: 0px;
 }
 .drawer-toggles .drawer-toggler {
     position: fixed;

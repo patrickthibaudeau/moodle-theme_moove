@@ -25,7 +25,7 @@
     align-items: stretch;
     padding-top: 0;
     padding-bottom: 0;
-    z-index: 1021;
+    z-index: 1000;
     background-color: $secondary-menu-color;
     filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.5));
     position: fixed;
@@ -67,12 +67,20 @@
 
                 &:hover,
                 &:focus {
-                    background-color: darken($brand-primary, 10%);
+                    background-color: $secondary-menu-color-2;
                 }
             }
         }
     }
 }
+
+// REF ID 2023SUMM1 (Search me for other related media query)
+@media(max-width: 1279px) {
+    .secondary-navigation.possibly-empty-navbar {
+        max-height: 50px;
+    }
+}
+
 
 .popover-region-notifications .popover-region-container {
     @extend .scale-up;
@@ -170,7 +178,111 @@
 
     .footer-container {
         padding: .5rem 0;
-        background-color: #fff;
+        background-color: inherit;
         color: #1d2125;
     }
 }
+
+
+
+.moove-navbar {
+
+    .navbar-brand {
+        color: $nav-font-1;
+
+        &:hover, &:focus {
+            color: $nav-font-1;
+        }
+    }
+
+    .navbar-nav {
+
+        .nav-link {
+            color: $nav-font-2;
+
+            &:hover, &:focus {
+                color: $nav-font-2;
+            }
+
+            .disabled {
+                color: $nav-font-4;
+            }
+        }
+
+        .show > .nav-link, .active > .nav-link, .nav-link.show, .nav-link.active {
+            color: $nav-font-1;
+        }
+
+    }
+
+    .navbar-toggler {
+        color: $nav-font-2;
+        border-color: $nav-font-5;
+    }
+
+    .navbar-text {
+        color: $nav-font-2;
+
+        a {
+            color: $nav-font-1;
+
+            &:hover, &:focus {
+                color: $nav-font-1;
+
+            }
+        }
+    }
+
+}
+
+.primary-navigation {
+    .moremenu .nav-link.active:focus,
+    .moremenu .nav-link.active:hover,
+    .moremenu .nav-link:hover,
+    .moremenu .nav-link:focus{
+        background-color: $background-navbar-2;
+    }
+}
+
+#moove-dark-mode-switch {
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 8px 0;
+    cursor: pointer;
+
+    &:focus, &:active {
+        box-shadow: 0 0 0 0.2rem $primary;
+        transition-duration: 50ms;
+    }
+
+    .mode-svg {
+        background: $nav-font-2 no-repeat 50% 50%;
+        mask-size: contain;
+        mask-position: center;
+        mask-repeat: no-repeat;
+        -webkit-mask-size: contain;
+        -webkit-mask-position: center;
+        -webkit-mask-repeat: no-repeat;
+    }
+
+    .hollow_moon {
+        height: 16px;
+        width: 16px;
+        mask-image: url('[[pix:theme|moon]]');
+        -webkit-mask-image: url('[[pix:theme|moon]]');
+    }
+
+    .filled_moon {
+        height: 16px;
+        width: 16px;
+        mask-image: url('[[pix:theme|moon2]]');
+        -webkit-mask-image: url('[[pix:theme|moon2]]');
+    }
+
+}
+
+
+
+
+

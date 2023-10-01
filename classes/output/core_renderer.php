@@ -24,12 +24,14 @@
 
 namespace theme_moove\output;
 
+use cache;
 use theme_config;
 use context_course;
 use moodle_url;
 use html_writer;
 use theme_moove\output\core_course\activity_navigation;
 use tool_usertours\tour as tourinstance;
+
 
 /**
  * Renderers to align Moodle's HTML with that expected by Bootstrap
@@ -40,6 +42,58 @@ use tool_usertours\tour as tourinstance;
  */
 class core_renderer extends \theme_boost\output\core_renderer
 {
+
+    public function get_cache_num() {
+        $cache = cache::make('theme_moove', 'theme_mode');
+        $cachenum = $cache->get('cachenum');
+
+        if (!$cachenum) {
+            $cachenum = rand();
+            $cache->set('cachenum', $cachenum);
+            return $cachenum;
+        }
+
+        return $cachenum;
+    }
+
+    public function get_mode_stylesheet($dark_enabled)
+    {
+        $mode = $dark_enabled ? 'dark' : 'light';
+        $cachenum = $this->get_cache_num();
+
+        return "/theme/moove/layout/theme_css.php?mode=$mode&cache=$cachenum";
+    }
+
+    public function get_dark_enabled() {
+        global $DB, $USER;
+
+        $dark_enabled = false;
+
+        if ($record = $DB->get_record('theme_moove', ['userid' => $USER->id], '*')) {
+            $dark_enabled = $record->dark_enabled;
+        }
+
+        return $dark_enabled;
+    }
+
+    public function theme_mode_inject_script($dark_enabled) {
+
+        $mode = $dark_enabled ? 'dark' : 'light';
+
+        return ("
+           <script id='set-body-tag'>
+           
+                function addBodyTag() {
+                    let body = document.querySelector('body');
+                    body.setAttribute('theme-mode', '$mode')
+                }
+           
+                document.getElementById('set-body-tag').remove();
+           </script>
+        
+        ");
+    }
+
     /**
      * The standard tags (meta tags, links to stylesheets and JavaScript, etc.)
      * that should be included in the <head> tag. Designed to be called in theme
@@ -49,34 +103,52 @@ class core_renderer extends \theme_boost\output\core_renderer
      */
     public function standard_head_html()
     {
+
+
+        // Load standard
         $output = parent::standard_head_html();
 
-        $googleanalyticscode = "<script
-                                    async
-                                    src='https://www.googletagmanager.com/gtag/js?id=GOOGLE-ANALYTICS-CODE'>
-                                </script>
-                                <script>
-                                    window.dataLayer = window.dataLayer || [];
-                                    function gtag() {
-                                        dataLayer.push(arguments);
-                                    }
-                                    gtag('js', new Date());
-                                    gtag('config', 'GOOGLE-ANALYTICS-CODE');
-                                </script>";
+        /*
+         * This commented line was left in to note what NOT to do.
+         * Removing the /all/ base stylesheet will break certain things (file picker, color picker, etc.).
+         * Leave the stylesheet in there as a FALLBACK in case our inline one is missing some stuff
+         * (It seems it is due to SCSS being added to the /all/ file somewhere in the moodle core out of our control)
+         *
+         *
+         */
+        //$output = preg_replace('/http(s)*:\/\/.*\/moove\/.*\/all/', '', $output);
 
-        $theme = theme_config::load('moove');
+        $theme = theme_config::load("moove");
+        $dark_enabled = $this->get_dark_enabled();
+        $output .= $this->theme_mode_inject_script($dark_enabled);
+        $output .= '<link rel="stylesheet" type="text/css" href="' . $this->get_mode_stylesheet($dark_enabled) . '">';
+
+        $google_analytics_code = (
+        "<script
+                async
+                src='https://www.googletagmanager.com/gtag/js?id=GOOGLE-ANALYTICS-CODE'>
+            </script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag() {
+                    dataLayer.push(arguments);
+                }
+                gtag('js', new Date());
+                gtag('config', 'GOOGLE-ANALYTICS-CODE');
+            </script>"
+        );
 
         if (!empty($theme->settings->googleanalytics)) {
-            $output .= str_replace("GOOGLE-ANALYTICS-CODE", trim($theme->settings->googleanalytics), $googleanalyticscode);
+            $output .= str_replace("GOOGLE-ANALYTICS-CODE", trim($theme->settings->googleanalytics), $google_analytics_code);
         }
 
         $sitefont = isset($theme->settings->fontsite) ? $theme->settings->fontsite : 'Roboto';
 
-        $output .= '<link rel="preconnect" href="https://fonts.googleapis.com">
-                       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                       <link href="https://fonts.googleapis.com/css2?family='
-            . $sitefont .
-            ':ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">';
+        $output .= ('
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=')
+            . $sitefont . ':ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">';
 
         return $output;
     }
@@ -450,6 +522,7 @@ class core_renderer extends \theme_boost\output\core_renderer
         return $output;
     }
 
+
     public function render_watson()
     {
         global $CFG, $USER, $OUTPUT, $DB;
@@ -478,142 +551,185 @@ class core_renderer extends \theme_boost\output\core_renderer
         $current_language = current_language();
 
         //if Oracle settings have not been set
-        if (!$CFG->yorktasks_sishost || !$CFG->yorktasks_sisport || !$CFG->yorktasks_sissid || !$CFG->yorktasks_sisuser || !$CFG->yorktasks_sispass) {
-            return '';
+        if (isset($CFG->yorktasks_sishost)) {
+            if (!$CFG->yorktasks_sishost || !$CFG->yorktasks_sisport || !$CFG->yorktasks_sissid || !$CFG->yorktasks_sisuser || !$CFG->yorktasks_sispass) {
+                return '';
+            }
         }
         //If watson seetings have not been set
-        // if (!$CFG->yorktasks_watsonapiendpoint || !$CFG->yorktasks_watsonapikey || !$CFG->yorktasks_watsonchecksrc) {
-        //     return '';
-        // }
+
         // EAM - Added watson integration... kinda
         if ($USER->idnumber) {
-            $watsondata = array();
-
-            if ($coursedata = $DB->get_records('svadata', array('sisid' => $USER->idnumber))) {
-                //found course data so set 'registeredactive' to true, then process the courses
-                $watsondata['registeredactive'] = 'true';
-                $courses = array();
-                $subjects = array();
-                foreach ($coursedata as $course) {
-                    $userinfo = $course;
-                    $courses[] = array(
-                        'uniqueid' => htmlentities($course->uniqueid),
-                        'id' => htmlentities($course->courseid),
-                        'title' => htmlentities($course->title),
-                        'campus' => htmlentities($course->campus),
-                        'period' => htmlentities($course->period),
-                        'session' => htmlentities($course->studysession) . htmlentities($course->academicyear),
-                        'faculty' => htmlentities($course->faculty)
-                    );
-                    $subjects[$course->seqpersprog] = array(
-                        'desc' => $course->description,
-                        'title1' => $course->subtitle1,
-                        'subject1' => $course->subject1,
-                        'unit1' => $course->unit1,
-                        'subject1facultydesc' => $course->subject1facultydesc,
-                        'subject1faculty' => $course->subject1faculty,
-                        'title2' => $course->subtitle2,
-                        'subject2' => $course->subject2,
-                        'unit2' => $course->unit2,
-                        'subject2facultydesc' => $course->subject2facultydesc,
-                        'subject2faculty' => $course->subject2faculty,
-                    );
-                    // ED Sep 9th, 2020 putting this here on purpose, just care about the last progfaculty to get set, adding progfaculty for the EU faculty name change just until 2021
-                    $watsondata['progfaculty'] = $course->progfaculty;
+            // Check to see if yorktasks plugin is installed
+            $plugins = \core_plugin_manager::instance()->get_plugins_of_type('local');
+            $yorktasks_exists = false;
+            foreach ($plugins as $plugin => $pluginobject) {
+                if ($plugin == 'yorktasks') {
+                    $yorktasks_exists = true;
                 }
-                //sort subjects from most recent to oldest
-                krsort($subjects);
-                if (count($subjects) == 1) {
-                    //only one found, don't pass a comma for the json data
-                    $watsondata['onesubject'] = true;
-                    $tempsubjects = array();
-                    foreach ($subjects as $k => $v) {
-                        $tempsubjects[] = $v;
+            }
+            // If yortaks plugin is installed, then use it to get the data
+            if ($yorktasks_exists) {
+                $watsondata = array();
+                if ($coursedata = $DB->get_records('svadata', array('sisid' => $USER->idnumber))) {
+
+                    //found course data so set 'registeredactive' to true, then process the courses
+                    $watsondata['registeredactive'] = 'true';
+                    $courses = array();
+                    $subjects = array();
+
+                    foreach ($coursedata as $course) {
+                        $userinfo = $course;
+                        $courses[] = array(
+                            'uniqueid' => htmlentities($course->uniqueid),
+                            'id' => htmlentities($course->courseid),
+                            'title' => htmlentities($course->title),
+                            'campus' => htmlentities($course->campus),
+                            'period' => htmlentities($course->period),
+                            'session' => htmlentities($course->studysession) . htmlentities($course->academicyear),
+                            'faculty' => htmlentities($course->faculty)
+                        );
+                        $subjects[$course->seqpersprog] = array(
+                            'desc' => $course->description,
+                            'title1' => $course->subtitle1,
+                            'subject1' => $course->subject1,
+                            'unit1' => $course->unit1,
+                            'subject1facultydesc' => $course->subject1facultydesc,
+                            'subject1faculty' => $course->subject1faculty,
+                            'title2' => $course->subtitle2,
+                            'subject2' => $course->subject2,
+                            'unit2' => $course->unit2,
+                            'subject2facultydesc' => $course->subject2facultydesc,
+                            'subject2faculty' => $course->subject2faculty,
+                        );
+                        // ED Sep 9th, 2020 putting this here on purpose, just care about the last progfaculty to get set, adding progfaculty for the EU faculty name change just until 2021
+                        $watsondata['progfaculty'] = $course->progfaculty;
                     }
-                    $subjects = $tempsubjects;
-                } elseif (count($subjects) > 1) {
-                    //multiple found, make sure you pass a comma for all subjects except the last one
-                    $watsondata['moresubjects'] = true;
-                    $i = 1;
-                    $tempsubjects = array();
-                    foreach ($subjects as $k => $v) {
-                        if ($i == count($subjects)) {
-                            $lastsubject[] = $v;
-                            unset($subjects[$k]);
-                        } else {
+                    //sort subjects from most recent to oldest
+                    krsort($subjects);
+
+                    if (count($subjects) == 1) {
+                        //only one found, don't pass a comma for the json data
+                        $watsondata['onesubject'] = true;
+                        $tempsubjects = array();
+                        foreach ($subjects as $k => $v) {
                             $tempsubjects[] = $v;
+                        }
+                        $subjects = $tempsubjects;
+                    } elseif (count($subjects) > 1) {
+                        //multiple found, make sure you pass a comma for all subjects except the last one
+                        $watsondata['moresubjects'] = true;
+                        $i = 1;
+                        $tempsubjects = array();
+                        foreach ($subjects as $k => $v) {
+                            if ($i == count($subjects)) {
+                                $lastsubject[] = $v;
+                                unset($subjects[$k]);
+                            } else {
+                                $tempsubjects[] = $v;
+                            }
+                            $i++;
+                        }
+                        $subjects = $tempsubjects;
+                        $watsondata['lastsubject'] = $lastsubject;
+                    }
+                    $watsondata['subjects'] = $subjects;
+                    $i = 1;
+                    foreach ($courses as $k => $v) {
+                        if ($i == count($courses)) {
+                            $lastcourse[] = $v;
+                            unset($courses[$k]);
                         }
                         $i++;
                     }
-                    $subjects = $tempsubjects;
-                    $watsondata['lastsubject'] = $lastsubject;
+                } else {
+                    //no course data found in svadata so set 'registeredactive' to false and pass empty subjects data
+                    $watsondata['registeredactive'] = 'false';
+                    $watsondata['subjects'] = '';
                 }
-                $watsondata['subjects'] = $subjects;
-                $i = 1;
-                foreach ($courses as $k => $v) {
-                    if ($i == count($courses)) {
-                        $lastcourse[] = $v;
-                        unset($courses[$k]);
-                    }
-                    $i++;
+                if ($USER->profile['facultyaffiliaton'] === 'GL' && ($current_language == 'fr' || $current_language == 'fr_ca')) {
+                    $lang = 'fr';
+                    $brand = $CFG->yorktasks_watsonbrandfr;
+                    $adabrand = $CFG->yorktasks_adabrandfr;
+                    $bigimg = $OUTPUT->image_url('bigsvaiconfr', 'theme');
+                } else {
+                    $lang = 'en';
+                    $brand = $CFG->yorktasks_watsonbranden;
+                    $adabrand = $CFG->yorktasks_adabranden;
+                    $bigimg = $OUTPUT->image_url('bigsvaicon', 'theme');
                 }
-            } else {
-                //no course data found in svadata so set 'registeredactive' to false and pass empty subjects data
-                $watsondata['registeredactive'] = 'false';
-                $watsondata['subjects'] = '';
-            }
-            if ($USER->profile['facultyaffiliaton'] === 'GL' && ($current_language == 'fr' || $current_language == 'fr_ca')) {
-                $lang = 'fr';
-                $brand = $CFG->yorktasks_watsonbrandfr;
-                $adabrand = $CFG->yorktasks_adabrandfr;
-                $bigimg = $OUTPUT->image_url('bigsvaiconfr', 'theme');
-            } else {
-                $lang = 'en';
-                $brand = $CFG->yorktasks_watsonbranden;
-                $adabrand = $CFG->yorktasks_adabranden;
-                $bigimg = $OUTPUT->image_url('bigsvaicon', 'theme');
-            }
-            $smallimg = $OUTPUT->image_url('smallsvaicon', 'theme');
-            $endpoint = $CFG->yorktasks_watsonapiendpoint . $CFG->yorktasks_watsonfilepath;
-            $watsondata['userid'] = $USER->id;
-            $watsondata['apikey'] = $CFG->yorktasks_watsonapikey;
-            $watsondata['endpointurl'] = $endpoint;
-            $watsondata['moodleid'] = hash("sha256", $USER->idnumber) ?? '';
-            //make this detect automatically?
-            $watsondata['isglendon'] = false;
-            $watsondata['firstname'] = $USER->firstname;
-            $watsondata['commonname'] = $userinfo->commonname ?? ''; //If isset write info otherwise blank
-            $watsondata['idnumber'] = preg_replace("/[^0-9]/", "", hash("sha256", $USER->idnumber));
-            $watsondata['isinternational'] = $userinfo->isinternational ?? '';
-            $watsondata['studylevel'] = $userinfo->studylevel ?? '';
-            //$watsondata['language'] = $userinfo->language ?? '';
-            $watsondata['collegeaffiliation'] = $userinfo->collegeaffiliation ?? '';
-            $watsondata['courses'] = $courses ?? '';
-            $watsondata['lastcourse'] = $lastcourse ?? '';
-            $watsondata['language'] = $lang;
-            $watsondata['smallwatsonicon'] = $smallimg;
-            $watsondata['unsupported_browser'] = get_string('unsupported_browser', 'theme_edyucate');
-            $watsondata['popup_enabled_text'] = get_string('popup_enabled_text', 'theme_edyucate');
-            $watsondata['quiz_help'] = get_string('quiz_help', 'theme_edyucate');
+                $smallimg = $OUTPUT->image_url('smallsvaicon', 'theme');
+                $endpoint = $CFG->yorktasks_watsonapiendpoint . $CFG->yorktasks_watsonfilepath;
+                $watsondata['userid'] = $USER->id;
+                $watsondata['apikey'] = $CFG->yorktasks_watsonapikey;
+                $watsondata['endpointurl'] = $endpoint;
+                $watsondata['moodleid'] = hash("sha256", $USER->idnumber) ?? '';
+                //make this detect automatically?
+                $watsondata['isglendon'] = false;
+                $watsondata['firstname'] = $USER->firstname;
+                $watsondata['commonname'] = $userinfo->commonname ?? ''; //If isset write info otherwise blank
+                $watsondata['idnumber'] = preg_replace("/[^0-9]/", "", hash("sha256", $USER->idnumber));
 
-            if (isset($USER->profile['usertypes'])) {
-                if (strpos($USER->profile['usertypes'], 'student') !== false) {
-                    $watsondata['usertype'] = 'student';
-                } elseif (strpos($USER->profile['usertypes'], 'professor') !== false) {
-                    $watsondata['usertype'] = 'professor';
-                } elseif (strpos($USER->profile['usertypes'], 'staff') !== false) {
-                    $watsondata['usertype'] = 'staff';
+                $watsondata['isinternational'] = $userinfo->isinternational ?? '';
+                $watsondata['studylevel'] = $userinfo->studylevel ?? '';
+                //$watsondata['language'] = $userinfo->language ?? '';
+                $watsondata['collegeaffiliation'] = $userinfo->collegeaffiliation ?? '';
+                $watsondata['courses'] = $courses ?? '';
+                $watsondata['lastcourse'] = $lastcourse ?? '';
+                $watsondata['language'] = $lang;
+                $watsondata['smallwatsonicon'] = $smallimg;
+                $watsondata['unsupported_browser'] = get_string('unsupported_browser', 'theme_edyucate');
+                $watsondata['popup_enabled_text'] = get_string('popup_enabled_text', 'theme_edyucate');
+                $watsondata['quiz_help'] = get_string('quiz_help', 'theme_edyucate');
+
+
+                if (isset($USER->profile['usertypes'])) {
+                    if (strpos($USER->profile['usertypes'], 'student') !== false) {
+                        $watsondata['usertype'] = 'student';
+                    } elseif (strpos($USER->profile['usertypes'], 'professor') !== false) {
+                        $watsondata['usertype'] = 'professor';
+                    } elseif (strpos($USER->profile['usertypes'], 'staff') !== false) {
+                        $watsondata['usertype'] = 'staff';
+                    } else {
+                        $watsondata['usertype'] = 'student';
+                    }
                 } else {
                     $watsondata['usertype'] = 'student';
                 }
-            } else {
-                $watsondata['usertype'] = 'student';
+                $watsondata['brand'] = $brand;
+                $watsondata['bigwatsonicon'] = $bigimg;
+                $output .= $this->render_from_template('/need_watson', $watsondata);
             }
-            $watsondata['brand'] = $brand;
-            $watsondata['bigwatsonicon'] = $bigimg;
-            $output .= $this->render_from_template('/need_watson', $watsondata);
+            return $output;
         }
-        return $output;
+        return false;
+    }
+
+    public function render_dark_selector()
+    {
+
+        // Must be logged in
+        global $USER, $DB;
+        if (!($USER->id)) {
+            return "";
+        }
+
+        $dark_enabled = false;
+        if ($record = $DB->get_record('theme_moove', ['userid' => $USER->id], '*')) {
+            $dark_enabled = $record->dark_enabled;
+        }
+
+        $context = [
+            "graphic" => $dark_enabled ? "hollow_moon" : "filled_moon",
+            "darkEnabled" => $dark_enabled
+        ];
+
+        return $this->render_from_template("/dark_mode", $context);
+    }
+
+    public function navbar_plugin_output(): string
+    {
+        return (parent::navbar_plugin_output()) . $this->render_dark_selector();
     }
 
     public function get_blocked_themes()
@@ -798,7 +914,7 @@ class core_renderer extends \theme_boost\output\core_renderer
             // Clean path match
             $tour_pathmathch = str_replace('%', '', $tour->get_pathmatch());
             // Set path name based on pathmatch
-            switch($tour_pathmathch) {
+            switch ($tour_pathmathch) {
                 case 'FRONTPAGE':
                     $path_name = '/';
                     break;

@@ -26,22 +26,19 @@
 {{{ output.doctype }}}
 <html {{{ output.htmlattributes }}}>
 <head>
+
+    {{^secondarymoremenu}}
+        <style>
+            div.secondary-navigation:not(.york-red-seperator):not(:has(li)) ~ #page {
+                margin-top: 60px !important;
+            }
+        </style>
+    {{/secondarymoremenu}}
+
     <title>{{{ output.page_title }}}</title>
     <link rel="shortcut icon" href="{{{ output.favicon }}}"/>
     {{{ output.standard_head_html }}}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--    If not my courses page-->
-    {{^is_mycourses_page}}
-<!--        and no secondary menu-->
-        {{^secondarymoremenu}}
-            <style>
-                #page-header {
-                    margin-top: 140px;
-                }
-            </style>
-        {{/secondarymoremenu}}
-    {{/is_mycourses_page}}
-
     {{^output.user_is_editing}}
         <!-- this text shoudl show up-->
         <style>

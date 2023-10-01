@@ -1,0 +1,66 @@
+$primary: var(--primary);
+
+$brand-primary: var(--brand-primary);
+$brand-primary-2: var(--brand-primary-2);
+
+$secondary-menu-color: var(--secondary-menu-color);
+$secondary-menu-color-2: var(--secondary-menu-color-2);
+
+$background-primary: var(--background-primary);
+$background-primary-2: var(--background-primary-2);
+
+$background-navbar: var(--background-navbar);
+$background-navbar-2: var(--background-navbar-2);
+
+$background-action-menu: var(--background-action-menu);
+$background-action-menu-2: var(--background-action-menu-2);
+
+$nav-font-1: var(--nav-font-1);
+$nav-font-2: var(--nav-font-2);
+$nav-font-3: var(--nav-font-3);
+$nav-font-4: var(--nav-font-4);
+$nav-font-5: var(--nav-font-5);
+
+$font-primary: var(--font-primary);
+$font-secondary: var(--font-secondary);
+$background-drawer: var(--background-drawer);
+$background-footer: var(--background-footer);
+
+:root {
+
+  --primary: #0066ff; // Overridden
+
+  --brand-primary: #0066ff; // Overriden
+  --brand-primary-2: #005be5; // Overridden
+
+  --secondary-menu-color: #0066ff; // Overridden
+  --secondary-menu-color-2: #005be5; // Overridden
+
+  --background-primary: #f2f3f7 !important;
+  --background-primary-2: #d3d7e4;
+
+  --background-navbar: #ffffff;
+  --background-navbar-2: #e5e5e5;
+
+  --background-action-menu: #e31837;
+  --background-action-menu-2: #cc1531;
+
+  --background-drawer: #ffffff;
+  --background-footer: #e31837;
+  --font-primary: #1d2125;
+  --font-secondary: #2b3036;
+
+  --nav-font-1: rgba(0, 0, 0, 0.9);
+  --nav-font-2: rgba(0, 0, 0, 0.7);
+  --nav-font-3: rgba(0, 0, 0, 0.5);
+  --nav-font-4: rgba(0, 0, 0, 0.3);
+  --nav-font-5: rgba(0, 0, 0, 0.1);
+
+  --primary-2: #fac1c5; // 50% lighter
+  --primary-3: #ef4e59; // 40% lighter
+  --primary-4: rgba(175, 15, 26, 0.75); // .75 rgba
+  --primary-5: #69080f; // 40% darker
+  --primary-6: #57070c; // 50% darker
+}
+
+

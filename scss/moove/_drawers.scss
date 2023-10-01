@@ -1,6 +1,6 @@
 #page,
 #page.drawers {
-    margin-top: 70px;
+    margin-top: 130px; //70px;
 }
 
 //YorkU Modifications
@@ -21,7 +21,7 @@
     .main-inner {
         margin-top: 0;
         margin-bottom: 2rem;
-        padding: 1.5rem;
+        padding: 0 1.5rem 1.5rem;
     }
 
     &.show-drawer-left {
@@ -68,6 +68,7 @@
     top: 80px;
 
     .btn {
+        padding-left: 10px;
         background-color: $brand-primary;
         color: #fff;
     }
@@ -100,8 +101,19 @@ body.has-secondarynavigation {
         .drawer-left,
         .drawer-right {
             top: calc(130px + 1px);
+
+            @media(max-width: 1279px) {
+                top: calc(120px + 1px);
+            }
+
             height: calc(100vh - 130px);
         }
+    }
+}
+
+li.courseindex-item {
+    i.fa-circe-thin, i.fa-circle {
+        opacity: 0;
     }
 }
 
@@ -110,5 +122,17 @@ body.has-secondarynavigation {
     .drawer-right {
         top: 0;
         height: 100vh;
+    }
+}
+
+
+
+/*
+If both the blocks drawer and course drawer are open, the page header should go from 1.25rem auto to 1.25rem 0.
+ */
+div#theme_boost-drawers-courseindex.show + div#theme_boost-drawers-blocks.show ~ #page {
+
+    #page-header {
+        margin: 1.25rem 0;
     }
 }
