@@ -121,7 +121,7 @@ if (is_dir($CFG->dirroot . '/local/sandbox')) {
 include_once($CFG->dirroot . '/theme/moove/layout/navigation.php');
 
 
-$secondarynavigation = false;
+$secondarynavigation = true;
 $overflow = '';
 $main_menu = '';
 $more_menu = '';
