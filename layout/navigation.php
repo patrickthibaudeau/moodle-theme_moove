@@ -30,7 +30,7 @@ foreach ($activePositions as $ap) {
     if ($isManager) {
         $PAGE->primarynav->add(
             get_string('my_team', 'local_yulearn'),
-            new moodle_url("/local/yulearn/reports/employee_training_history.php")
+            new moodle_url("/local/yulearn/admin/my_team.php")
         );
         break;
     }
