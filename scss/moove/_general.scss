@@ -538,3 +538,8 @@ body#page-question-type-multichoice  {
   margin-top: 0 !important;
   padding-top: 0 !important;
 }
+
+//Update for calendar position
+#dateselector-calendar-panel {
+  z-index: 999999 !important;
+}
