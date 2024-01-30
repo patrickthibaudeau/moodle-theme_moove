@@ -147,6 +147,21 @@ $regionmainsettingsmenu = $buildregionmainsettings ? $OUTPUT->region_main_settin
 $header = $PAGE->activityheader;
 $headercontent = $header->export_for_template($renderer);
 
+$strikemessaging = false;
+if ($CFG->yorktasks_hideinstructors == 1){
+    if (isset($PAGE->course->id)){
+        //great this is a course
+        if ($strikeinfo = $DB->get_record('strike_feed', array('moodleid' => $PAGE->course->id))){
+            //only display data if we have it
+            if ($strikeinfo->messagetype == "suspend"){
+                $strikemessaging = "<div id='strikenotification' class='alert alert-danger'>" . $strikeinfo->message . "</div>";
+            } elseif ($strikeinfo->messagetype == "active") {
+                $strikemessaging = "<div id='strikenotification' class='alert alert-success'>" . $strikeinfo->message . "</div>";
+            }
+        }
+    }
+}
+
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
@@ -173,6 +188,7 @@ $templatecontext = [
     'view_reports' => $view_reports,
     'visibility' => $PAGE->course->visible,
     'courseid' => $PAGE->course->id,
+    'strikemessaging' => $strikemessaging,
     'is_menutab_format' => $is_menutab_format,
     'teachers' => $teachers,
     'course_mods' => get_current_course_mods(),
