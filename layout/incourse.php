@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-global $USER;
+global $USER, $DB;
 
 require_once($CFG->libdir . '/behat/lib.php');
 require_once($CFG->libdir . '/accesslib.php');
