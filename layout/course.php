@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+global $DB;
+
 require_once($CFG->libdir . '/behat/lib.php');
 require_once($CFG->dirroot . '/course/lib.php');
 require_once($CFG->dirroot . '/theme/moove/lib.php');
