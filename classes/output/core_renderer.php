@@ -301,7 +301,7 @@ class core_renderer extends \theme_boost\output\core_renderer
      * @param array $customattribs Array of custom attributes for the support email anchor tag.
      * @return string The html code for the support email link.
      */
-    public function supportemail(array $customattribs = []): string
+    public function supportemail(array $customattribs = [], bool $embed = false): string
     {
         global $CFG;
 
