@@ -538,3 +538,31 @@ body#page-question-type-multichoice  {
   margin-top: 0 !important;
   padding-top: 0 !important;
 }
+
+/* ATTO editor does not use a z-index value for fullscreen mode, so we need to set it here */
+.editor_atto {
+  z-index: 1001;
+}
+
+//Remove user-action-menu items
+#user-action-menu {
+  a[href*="calendar/view.php"] {
+    display: none;
+  }
+
+  a[href*="grade/report/overview/index.php"] {
+    display: none;
+  }
+
+  a[href*="message/index.php"] {
+    display: none;
+  }
+
+  a[href*="user/files.php"] {
+    display: none;
+  }
+
+  a[href*="reportbuilder/index.php"] {
+YULRN-541    display: none;
+  }
+}
