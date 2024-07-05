@@ -543,3 +543,8 @@ body#page-question-type-multichoice  {
 #dateselector-calendar-panel {
   z-index: 999999 !important;
 }
+
+/* ATTO editor does not use a z-index value for fullscreen mode, so we need to set it here */
+.editor_atto {
+  z-index: 1001;
+}
