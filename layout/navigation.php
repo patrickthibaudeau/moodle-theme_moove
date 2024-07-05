@@ -36,6 +36,14 @@ foreach ($activePositions as $ap) {
     }
 }
 
+// If user has capability HRBP, Add HRBP link
+if (user_has_role_assignment($USER->id, $hrbpRole->id, $context->id)) {
+    $PAGE->primarynav->add(
+        get_string('hrbp_view', 'local_yulearn'),
+        new moodle_url("/local/yulearn/admin/hrbp_employees.php")
+    );
+}
+
 // If user has YU Learn settings, add administration link
 if (
     has_capability('local/yulearn:course_view', $context) ||
@@ -46,14 +54,6 @@ if (
     $PAGE->primarynav->add(
         get_string('program_administration', 'local_yulearn'),
         new moodle_url("/local/yulearn/admin/scheduledcourses.php")
-    );
-}
-
-// If user has capability HRBP, Add HRBP link
-if (user_has_role_assignment($USER->id, $hrbpRole->id, $context->id)) {
-    $PAGE->primarynav->add(
-        get_string('hrbp_view', 'local_yulearn'),
-        new moodle_url("/local/yulearn/admin/hrbp_employees.php")
     );
 }
 
