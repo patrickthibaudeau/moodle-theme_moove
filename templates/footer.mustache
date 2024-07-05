@@ -110,12 +110,12 @@
 
         {{# output.has_popover_links }}
             <div class="footer-section p-3 border-bottom">
-                <a href="https://lthelp.yorku.ca/moodle"
+                <a href="{{config.wwwroot}}/?redirect=0"
                    class="btn btn-york-red w-100"
                    target="_blank"
-                    title="{{#str}}moodledocslink, core{{/str}}"
+                    title="{{#str}}help_documentation, theme_moove{{/str}}"
                 >
-                    {{#str}}moodledocslink, core{{/str}}
+                    {{#str}}help_documentation, theme_moove{{/str}}
                 </a>
                 <!-- {{# output.page_doc_link }}
                     <div>{{{ output.page_doc_link }}}</div>
