@@ -5,8 +5,8 @@ body {
   --primary: #7e8c9d !important;
   --brand-primary: #7e8c9d !important;
   --brand-primary-2: #6a7685 !important; // Values like this are 10% darker (https://pinetools.com/darken-color)
-  --secondary-menu-color: #151b23 !important;
-  --secondary-menu-color-2: #1b232d !important;
+  --secondary-menu-color: #12161b !important;
+  --secondary-menu-color-2: #1f262f !important;
 
   --background-primary: #0d1117;
   --background-primary-2: #26282c;
@@ -17,7 +17,7 @@ body {
   --background-action-menu: #212830;
   --background-action-menu-2: #2b343f;
 
-  --background-drawer: #151b23;
+  --background-drawer: #12161b;
   --background-footer: #18191A;
   --font-primary: #ece7e7;
   --font-secondary: #dad7d7;
@@ -244,7 +244,7 @@ div.header-container > [data-region='view-conversation'], [data-region='content-
 
 .dashboard-card {
   background-color: $background-primary !important;
-  border: none !important;
+  border: 1px solid var(--border-primary-2) !important;
 
   div.course-category {
     background-color: $background-primary !important;
