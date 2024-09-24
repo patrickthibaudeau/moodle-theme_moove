@@ -136,3 +136,10 @@ div#theme_boost-drawers-courseindex.show + div#theme_boost-drawers-blocks.show ~
         margin: 1.25rem 0;
     }
 }
+
+// Should not have a margin-right
+@media (min-width: 576px) {
+    #page.drawers .drawer-right-toggle {
+        margin-right: 0rem;
+    }
+}
