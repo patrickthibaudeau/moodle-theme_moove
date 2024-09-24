@@ -2,25 +2,30 @@
 
 body {
 
-  --primary: #7f828c !important;
-  --brand-primary: #7f828c !important;
-  --brand-primary-2: #8e93a3 !important; // Values like this are 10% darker (https://pinetools.com/darken-color)
-  --secondary-menu-color: #51545C !important;
-  --secondary-menu-color-2: #484b52 !important;
+  --primary: #7e8c9d !important;
+  --brand-primary: #7e8c9d !important;
+  --brand-primary-2: #6a7685 !important; // Values like this are 10% darker (https://pinetools.com/darken-color)
+  --secondary-menu-color: #151b23 !important;
+  --secondary-menu-color-2: #1b232d !important;
 
-  --background-primary: #2B2D31;
+  --background-primary: #0d1117;
   --background-primary-2: #26282c;
 
-  --background-navbar: #18191A;
+  --background-navbar: #010409;
   --background-navbar-2: #151617;
 
-  --background-action-menu: #2B2D31;
-  --background-action-menu-2: #26282c;
+  --background-action-menu: #212830;
+  --background-action-menu-2: #2b343f;
 
-  --background-drawer: #1E1F22;
+  --background-drawer: #151b23;
   --background-footer: #18191A;
   --font-primary: #ece7e7;
   --font-secondary: #dad7d7;
+  --background-primary-button: #212830;
+  --border-primary-0: #4f5864;
+  --border-primary-1: #3d444d;
+  --border-primary-2: #282d32;
+
 
   --nav-font-1: rgba(255, 255, 255, 0.9);
   --nav-font-2: rgba(255, 255, 255, 0.7);
@@ -28,11 +33,11 @@ body {
   --nav-font-4: rgba(255, 255, 255, 0.3);
   --nav-font-5: rgba(255, 255, 255, 0.1);
 
-  --primary-2: rgba(255, 255, 255, 0.9); // 50% lighter
-  --primary-3: rgba(255, 255, 255, 0.7); // 40% lighter
-  --primary-4: rgba(255, 255, 255, 0.5); // .75 RGBA
-  --primary-5: rgba(255, 255, 255, 0.4); // 40% darker
-  --primary-6: rgba(255, 255, 255, 0.1); // 50% darker
+  --primary-2: rgba(57, 73, 95, 0.9); // 50% lighter
+  --primary-3: rgba(57, 73, 95, 0.7); // 40% lighter
+  --primary-4: rgba(57, 73, 95, 0.5); // .75 RGBA
+  --primary-5: rgba(57, 73, 95, 0.4); // 40% darker
+  --primary-6: rgba(57, 73, 95, 0.1); // 50% darker
 
 }
 
@@ -42,6 +47,8 @@ Only overrides them within activities, section info, etc.
 If it is found one is not included here, simply add the class it locates in.
 */
 .main-inner {
+  border: 1px solid var(--border-primary-2);
+
   .activity, .content, .section, .activity-header, .que .content {
     // If they set color, background, OR background-color
     [style*='color'], [style*='background'] {
@@ -56,6 +63,20 @@ If it is found one is not included here, simply add the class it locates in.
 Scrollbar Start
  */
 
+.btn-secondary {
+  background-color: var(--background-primary-button) !important;
+  border-color: var(--border-primary-1)
+}
+
+.btn-secondary:hover {
+  border-color: var(--border-primary-0);
+}
+
+#course-management .boxes  {
+  li, a {
+    color: var(--nav-font-1) !important;
+  }
+}
 
 ::-webkit-scrollbar {
   position: fixed;
@@ -66,6 +87,7 @@ Scrollbar Start
   border-radius: 15px;
 
 }
+
 ::-webkit-scrollbar-button {
   display: none;
 }
@@ -94,6 +116,9 @@ Scrollbar Start
 background-color: $background-primary;
 }
 
+.drawerheader {
+  border-top: 1px solid var(--border-primary-1)
+}
 // Drawer Scrollbar
 .drawer {
 
@@ -106,6 +131,11 @@ background-color: $background-primary;
     border-color: var(--background-drawer) !important;
     background: $background-primary !important;
   }
+}
+
+.drawer-toggles .drawer-toggler .btn {
+    background-color: var(--background-drawer) !important;
+    border-color: var(--border-primary-2) !important;
 }
 
 /*
@@ -126,6 +156,9 @@ Scrollbar End
   }
 }
 
+.navbar.fixed-top .primary-navigation .navigation .nav-link.active, .secondary-navigation .moremenu .nav-tabs .nav-link.active {
+  border-color: var(--border-primary-0);
+}
 .moove-background-secondary, {
   background-color: $background-navbar !important;
 }
@@ -138,6 +171,11 @@ Scrollbar End
   background-color: inherit !important;
   -webkit-box-shadow: 0 0 35px 0 rgba(0, 0, 0, 40%);
   box-shadow: 0 0 35px 0 rgba(0, 0, 0, 40%);
+}
+
+
+nav.navbar {
+  box-shadow: none !important;
 }
 
 .btn-primary:focus, .btn-primary.focus {
@@ -201,17 +239,40 @@ div.header-container > [data-region='view-conversation'], [data-region='content-
 
 .btn-secondary {
   color: inherit !important;
-  background-color: inherit !important;
+  background-color: var(--background-primary-button) !important;
 }
 
 .dashboard-card {
   background-color: $background-primary !important;
-  border: none !important;
+  border: 1px solid var(--border-primary-2) !important;
 
   div.course-category {
     background-color: $background-primary !important;
   }
 
+}
+
+
+
+#page-my-index.page-mycourses .header-actions-container .header-action .btn-group>.btn:not(:last-child):not(.dropdown-toggle) {
+  background-color: var(--background-primary-button);
+}
+
+#cria-launcher {
+  filter: grayscale(1) invert(0.9) !important;
+}
+
+.activityiconcontainer.content {
+  background-color: var(--background-action-menu);
+  border: 1px solid var(--border-primary-1);
+}
+
+.activityiconcontainer.assessment {
+    background-color: #aa0a52;
+}
+
+.activityiconcontainer.collaboration {
+  background-color: #b13422;
 }
 
 .block .block-cards .dashboard-card-footer.menu .btn.btn-link.btn-icon {
@@ -232,13 +293,13 @@ div.header-container > [data-region='view-conversation'], [data-region='content-
 [data-region='loading-placeholder-content'],
 .message-app {
   .bg-pulse-grey {
-    background-color: $background-primary !important;
+    background-color: $background-action-menu !important;
   }
   .bg-light,  {
-    background-color: $background-primary-2 !important;
+    background-color: $background-action-menu !important;
   }
   .bg-white {
-    background-color: $background-primary-2 !important;
+    background-color: $background-action-menu !important;
   }
 }
 
@@ -343,7 +404,7 @@ div[data-region='footer-container-popover'] {
 }
 
 .list-group-item {
-  border-color: $font-primary;
+  border-color: var(--border-primary-1);
 }
 
 .modal-header > .close {
@@ -352,6 +413,16 @@ div[data-region='footer-container-popover'] {
 
 .dropdown-item {
   color: $nav-font-1 !important;
+}
+
+.secondary-navigation {
+  filter: none !important;
+  border-top: 1px solid var(--border-primary-2);
+  border-bottom: 1px solid var(--border-primary-2);
+}
+
+.navbar.fixed-top .divider {
+  border-color: var(--border-primary-2) !important;
 }
 
 .fp-pathbar .fp-path-folder, .fp-path-folder > .aalink {
@@ -375,7 +446,7 @@ button.btn-primary, input.btn-primary {
 }
 
 div.bg-light, div.bg-white {
-  background-color: $background-navbar !important;
+  background-color: $background-drawer !important;
 }
 
 .page-link {
@@ -589,10 +660,13 @@ div.course-description-item {
 }
 
 div.activity-item:not(.activityinline) {
-  background: var(--background-primary);
-  border: none;
+  background: var(--background-primary-button);
+  border: 0.5px solid var(--border-primary-1);
+
+  /*
   -webkit-box-shadow: 0 0 35px 0 rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 35px 0 rgba(0, 0, 0, 0.4);
+   */
 }
 
 .coursecontentblocks .card {
@@ -619,6 +693,19 @@ div.activity-item:not(.activityinline) {
 div.alert-info {
   color: var(--nav-font-1);
   background-color: var(--primary-5);
+}
+
+.popover {
+  background: var(--background-primary);
+}
+
+.popover-body .footer-section, .popover-body .footer-section a {
+  color: var(--nav-font-1) !important;
+}
+
+div.alert button {
+  text-shadow: none;
+  color: var(--font-primary);
 }
 
 .moodle-dialogue-exception .param-stacktrace label {
@@ -679,6 +766,10 @@ div.i-sl-button-inner.compact .i-sl-button-btn.active::after {
 
 div.i-sl-button-btn {
   background-color: var(--background-navbar-2);
+}
+
+.page-link:hover, a:hover {
+  color: var(--brand-primary-2);
 }
 
 
