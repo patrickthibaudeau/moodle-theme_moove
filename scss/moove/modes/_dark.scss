@@ -244,7 +244,7 @@ div.header-container > [data-region='view-conversation'], [data-region='content-
 
 .dashboard-card {
   background-color: $background-primary !important;
-  border: 1px solid var(--border-primary-2) !important;
+  border: none !important;
 
   div.course-category {
     background-color: $background-primary !important;
