@@ -432,4 +432,29 @@ if ($ADMIN->fulltree) {
     $page->add($setting);
 
     $settings->add($page);
+
+    $page = new admin_settingpage('theme_moove_savy', get_string('savysettings', 'theme_moove'));
+
+    // cria_embed_url setting.
+    $name = 'theme_moove/cria_embed_url';
+    $title = get_string('cria_embed_url', 'theme_moove');
+    $description = get_string('cria_embed_url_desc', 'theme_moove');
+    $setting = new admin_setting_configtext($name, $title, $description, '');
+    $page->add($setting);
+
+    // savy bot id setting
+    $name = 'theme_moove/savy_bot_id';
+    $title = get_string('savy_bot_id', 'theme_moove');
+    $description = get_string('savy_bot_id_desc', 'theme_moove');
+    $setting = new admin_setting_configtext($name, $title, $description, '');
+    $page->add($setting);
+
+    // embed api key setting
+    $name = 'theme_moove/savy_cria_api_key';
+    $title = get_string('savy_cria_api_key', 'theme_moove');
+    $description = get_string('savy_cria_api_key', 'theme_moove');
+    $setting = new admin_setting_configtext($name, $title, $description, '');
+    $page->add($setting);
+
+    $settings->add($page);
 }

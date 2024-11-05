@@ -69,5 +69,13 @@ $functions = array(
         'description' => 'Switch between dark & light versions of the theme',
         'type' => 'write',
         'ajax' => true
-    )
+    ),
+    'theme_moove_launchsavy' => array(
+        'classname' => 'theme_moove\api\launch_savy',
+        'classpath' => 'theme_moove/classes/api/launch_savy',
+        'methodname' => 'launch_savy',
+        'description' => 'Launch Savy',
+        'type' => 'write',
+        'ajax' => true
+    ),
 );
