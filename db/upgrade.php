@@ -84,7 +84,7 @@ function xmldb_theme_moove_upgrade($oldversion = 0) {
         upgrade_plugin_savepoint(true, 2023051402, 'theme', 'moove');
     }
 
-    if ($oldversion < 2024_11_04_0004) {  // Replace YYYYMMDDXX with the actual version date and increment.
+    if ($oldversion < 2024_11_04_0005) {  // Replace YYYYMMDDXX with the actual version date and increment.
 
         // Set default values for the new settings if needed.
 
@@ -97,8 +97,11 @@ function xmldb_theme_moove_upgrade($oldversion = 0) {
         // Add default for 'embed_api_key'.
         set_config('savy_cria_api_key', '', 'theme_moove');
 
+        // Add default for 'savy_anonymous'.
+        set_config('savy_anonymous', '', 'theme_moove');
+
         // Moodle needs to know that config was updated.
-        upgrade_plugin_savepoint(true, 2024_11_04_0004, 'theme', 'moove');
+        upgrade_plugin_savepoint(true, 2024_11_04_0005, 'theme', 'moove');
     }
 
     return true;

@@ -533,7 +533,7 @@ class core_renderer extends \theme_boost\output\core_renderer
         $savy_data = [];
 
         // Set anonymous for test mode
-        $savy_data['anonymous'] = boolval(1);
+        $savy_data['anonymous'] = boolval(get_config('theme_moove', 'savy_anonymous'));
 
         // Get the language
         $current_language = current_language();

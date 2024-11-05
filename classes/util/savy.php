@@ -151,7 +151,6 @@ class savy
             }
         }
         //If watson settings have not been set
-
         // EAM - Added watson integration... kinda
         if ($USER->idnumber) {
             // Check to see if yorktasks plugin is installed

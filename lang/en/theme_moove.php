@@ -167,6 +167,8 @@ $string['savy_bot_id'] = "Cria Savy Bot ID";
 $string['savy_bot_id_desc'] = "The Cria Bot ID for Savy";
 $string['savy_cria_api_key'] = "The API key for the Savy Cria bot";
 $string['savy_cria_api_key'] = "Cria Savy API Key";
+$string['savy_anonymous'] = "Anonymous Mode";
+$string['savy_anonymous_desc'] = "Whether to load SAVY anonymously (for testing)";
 
 // Mypublic page.
 $string['aboutme'] = 'About me';
