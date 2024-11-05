@@ -134,6 +134,8 @@ $string['faqcountdesc'] = 'Select how many questions you want to add <strong>the
 $string['faqquestion'] = 'FAQ question {$a}';
 $string['faqanswer'] = 'FAQ answer {$a}';
 
+$string['savysettings'] = 'Savy';
+
 // Footer settings tab.
 $string['footersettings'] = 'Footer';
 $string['website'] = 'Website URL';
@@ -158,6 +160,15 @@ $string['telegram'] = 'Telegram';
 $string['telegramdesc'] = 'Enter your Telegram contact or group link.';
 $string['contactus'] = 'Contact us';
 $string['followus'] = 'Follow us';
+
+$string['cria_embed_url'] = 'Cria Embed URL';
+$string['cria_embed_url_desc'] = "The URL for the Cria Embed API";
+$string['savy_bot_id'] = "Cria Savy Bot ID";
+$string['savy_bot_id_desc'] = "The Cria Bot ID for Savy";
+$string['savy_cria_api_key'] = "The API key for the Savy Cria bot";
+$string['savy_cria_api_key'] = "Cria Savy API Key";
+$string['savy_anonymous'] = "Anonymous Mode";
+$string['savy_anonymous_desc'] = "Whether to load SAVY anonymously (for testing)";
 
 // Mypublic page.
 $string['aboutme'] = 'About me';

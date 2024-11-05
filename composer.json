@@ -2,7 +2,8 @@
     "name": "willianmano/moodle-theme_moove",
     "type": "moodle-theme",
     "require": {
-        "composer/installers": "~1.0"
+        "composer/installers": "~1.0",
+      "ext-curl": "*"
     },
     "extra": {
         "installer-name": "moove"

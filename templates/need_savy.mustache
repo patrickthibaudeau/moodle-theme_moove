@@ -1,0 +1,10 @@
+<div>
+    <img id="savy-btn" src="{{watson-button-icon}}" class="watson-btn" alt="{{#str}}watson_logo, theme_moove{{/str}}">
+    <div class="count-container hidden" data-region="count-container"></div>
+    <div id="savy-container"></div>
+</div>
+{{#js}}
+    require(['theme_moove/need_savy'], function(mod) {
+    mod.init();
+    });
+{{/js}}
