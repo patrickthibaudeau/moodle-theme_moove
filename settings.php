@@ -463,5 +463,12 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configselect($name, $title, $description, 0, array(0 => get_string('no'), 1 => get_string('yes')));
     $page->add($setting);
 
+    // Savy json encode data (bool)
+    $name = 'theme_moove/savy_json_encode';
+    $title = get_string('savy_json_encode', 'theme_moove');
+    $description = get_string('savy_json_encode_desc', 'theme_moove');
+    $setting = new admin_setting_configselect($name, $title, $description, 0, array(0 => get_string('no'), 1 => get_string('yes')));
+    $page->add($setting);
+
     $settings->add($page);
 }

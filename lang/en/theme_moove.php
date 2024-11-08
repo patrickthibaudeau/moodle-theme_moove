@@ -169,6 +169,8 @@ $string['savy_cria_api_key'] = "The API key for the Savy Cria bot";
 $string['savy_cria_api_key'] = "Cria Savy API Key";
 $string['savy_anonymous'] = "Anonymous Mode";
 $string['savy_anonymous_desc'] = "Whether to load SAVY anonymously (for testing)";
+$string['savy_json_encode'] = "JSON ENCODE the payload";
+$string['savy_json_encode_desc'] = "Your server configuration may need to JSON ENCODE the payload. If SAVY is not working, turn this feature on.";
 
 // Mypublic page.
 $string['aboutme'] = 'About me';

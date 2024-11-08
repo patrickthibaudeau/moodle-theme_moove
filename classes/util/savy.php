@@ -10,6 +10,10 @@ class savy
         // Get the plugin configuration
         $config = get_config('theme_moove');
 
+        if ($config->savy_json_encode) {
+            $payload = json_encode($payload);
+        }
+
         // Set the URL
         $bot_id = $config->savy_bot_id;
         $api_key = $config->savy_cria_api_key;
