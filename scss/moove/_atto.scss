@@ -1,0 +1,8 @@
+/* atto full screen fix */
+.atto-fullscreen .editor_atto_wrap div.editor_atto {
+    z-index: 1001;
+}
+
+.atto-fullscreen .editor_atto_wrap .CodeMirror-wrap {
+    z-index: 1001;
+}
