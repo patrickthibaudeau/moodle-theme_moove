@@ -41,6 +41,15 @@ body {
 
 }
 
+nav.navbar.bg-white {
+  background-color: unset !important;
+
+  .navbar-light .navbar-brand {
+    color: unset !important;
+  }
+}
+
+
 /*
 When in dark mode, override the WYSWG editor colours on elements.
 Only overrides them within activities, section info, etc.
@@ -49,13 +58,21 @@ If it is found one is not included here, simply add the class it locates in.
 .main-inner {
   border: 1px solid var(--border-primary-2);
 
-  .activity, .content, .section, .activity-header, .que .content {
+  .activity, .section, .activity-header {
+
     // If they set color, background, OR background-color
     [style*='color'], [style*='background'] {
       color: inherit !important;
       background-color: inherit !important;
     }
   }
+  .que .content {
+    p, span, code, a, blockquote, pre, li {
+      mix-blend-mode: screen;
+    }
+  }
+
+
 }
 
 
@@ -68,11 +85,16 @@ Scrollbar Start
   border-color: var(--border-primary-1)
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover:not(:disabled) {
   border-color: var(--border-primary-0);
 }
 
-#course-management .boxes  {
+body#page-question-type-shortanswer div[id^=fgroup_id_][id*=answeroptions_], body#page-question-type-shortanswer div[id^=fitem_id_][id*=feedback_] {
+  background: inherit;
+  border: none !important;
+}
+
+#course-management .boxes {
   li, a {
     color: var(--nav-font-1) !important;
   }
@@ -102,7 +124,7 @@ Scrollbar Start
   border: 5px solid;
   border-radius: 15px;
   background: $background-navbar !important;
-  border-color: $background-primary !important;  // Smaller effect
+  border-color: $background-primary !important; // Smaller effect
 }
 
 ::-webkit-scrollbar-track {
@@ -113,12 +135,13 @@ Scrollbar Start
 }
 
 ::-webkit-scrollbar-corner {
-background-color: $background-primary;
+  background-color: $background-primary;
 }
 
 .drawerheader {
   border-top: 1px solid var(--border-primary-1)
 }
+
 // Drawer Scrollbar
 .drawer {
 
@@ -134,8 +157,8 @@ background-color: $background-primary;
 }
 
 .drawer-toggles .drawer-toggler .btn {
-    background-color: var(--background-drawer) !important;
-    border-color: var(--border-primary-2) !important;
+  background-color: var(--background-drawer) !important;
+  border-color: var(--border-primary-2) !important;
 }
 
 /*
@@ -151,7 +174,7 @@ Scrollbar End
   .moremenu .nav-link.active:focus,
   .moremenu .nav-link.active:hover,
   .moremenu .nav-link:hover,
-  .moremenu .nav-link:focus{
+  .moremenu .nav-link:focus {
     background-color: $nav-font-5 !important;
   }
 }
@@ -159,6 +182,7 @@ Scrollbar End
 .navbar.fixed-top .primary-navigation .navigation .nav-link.active, .secondary-navigation .moremenu .nav-tabs .nav-link.active {
   border-color: var(--border-primary-0);
 }
+
 .moove-background-secondary, {
   background-color: $background-navbar !important;
 }
@@ -188,6 +212,7 @@ nav.navbar {
   .block_recentlyaccesseditems a.dashboard-card small {
     color: inherit !important;
   }
+
   .drawertoggle {
     color: $nav-font-2 !important;
   }
@@ -215,12 +240,24 @@ nav.navbar {
 
 }
 
+img[src*="monologo"] {
+  filter: invert(0.8);
+}
+
 .maincalendar .calendarmonth .clickable:hover {
   background-color: $background-primary !important;
 }
 
-[data-region='no-events-empty-message'] > img, img.empty-placeholder-image-lg  {
+[data-region='no-events-empty-message'] > img, img.empty-placeholder-image-lg {
   filter: brightness(0.7);
+}
+
+.block-region .block .card-title {
+  color: inherit;
+}
+
+[aria-labelledby='format-menutab-heading-one'] .row a.btn-secondary {
+  background: inherit !important;
 }
 
 div.header-container > [data-region='view-conversation'], [data-region='content-messages-footer-container'] {
@@ -253,8 +290,7 @@ div.header-container > [data-region='view-conversation'], [data-region='content-
 }
 
 
-
-#page-my-index.page-mycourses .header-actions-container .header-action .btn-group>.btn:not(:last-child):not(.dropdown-toggle) {
+#page-my-index.page-mycourses .header-actions-container .header-action .btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
   background-color: var(--background-primary-button);
 }
 
@@ -268,7 +304,7 @@ div.header-container > [data-region='view-conversation'], [data-region='content-
 }
 
 .activityiconcontainer.assessment {
-    background-color: #aa0a52;
+  background-color: #aa0a52;
 }
 
 .activityiconcontainer.collaboration {
@@ -295,9 +331,11 @@ div.header-container > [data-region='view-conversation'], [data-region='content-
   .bg-pulse-grey {
     background-color: $background-action-menu !important;
   }
-  .bg-light,  {
+
+  .bg-light, {
     background-color: $background-action-menu !important;
   }
+
   .bg-white {
     background-color: $background-action-menu !important;
   }
@@ -318,7 +356,7 @@ span[data-flexitour="container"][x-placement="bottom-start"] div[data-role="arro
   border-bottom: $background-action-menu;
 }
 
-i.text-info, i.text-info:hover, i.text-info:focus, .moodle-dialogue-hd  {
+i.text-info, i.text-info:hover, i.text-info:focus, .moodle-dialogue-hd {
   color: inherit !important;
 
   yui3-widget-hd > h3, .closebutton {
@@ -371,6 +409,7 @@ div.editor_atto_toolbar button:hover {
   img {
     filter: invert(0.9);
   }
+
   &:hover {
     background: #ebebeb;
 
@@ -398,6 +437,7 @@ div[data-region='footer-container-popover'] {
   .btn.btn-icon {
     background-color: var(--secondary-menu-color) !important;
   }
+
   .btn.btn-icon:hover, .btn.btn-icon:focus {
     background-color: var(--background-navbar) !important;
   }
@@ -405,6 +445,12 @@ div[data-region='footer-container-popover'] {
 
 .list-group-item {
   border-color: var(--border-primary-1);
+}
+
+.modal-content {
+  .modal-footer {
+    border-top: 1px solid var(--border-primary-1) !important;
+  }
 }
 
 .modal-header > .close {
@@ -430,16 +476,29 @@ div[data-region='footer-container-popover'] {
   color: white !important;
 }
 
-button.btn-primary, input.btn-primary {
-  background-color: $secondary-menu-color !important;
-  border-color: $secondary-menu-color !important;
+button.btn-primary, input.btn-primary, a.btn-primary, .btn-primary {
+  background-color: var(--background-primary-button) !important;
+  border: 0.5px solid var(--border-primary-1) !important;
 
   &:hover {
     background-color: $secondary-menu-color-2 !important;
-    border-color: $secondary-menu-color-2 !important;
+    border-color: var(--border-primary-0) !important;
   }
 }
 
+.alert-danger {
+  background: #c36b5f;
+  color: #000 !important;
+}
+
+.alert-warning,
+.environmenttable .warn,
+.que .outcome,
+.que .comment {
+  color: #bda582 !important;
+  background-color: #2a2822 !important;
+  border: 1px solid #bda5825c !important;
+}
 
 .generaltable th, .generaltable td, .generaltable thead th, .generaltable thead td {
   border-color: var(--primary);
@@ -452,6 +511,7 @@ div.bg-light, div.bg-white {
 .page-link {
   background-color: inherit !important;
 }
+
 .overlay-icon-container {
   background-color: $background-navbar;
 }
@@ -468,6 +528,7 @@ small.text-dark {
 
 div > a.text-dark {
   color: $nav-font-2 !important;
+
   &:hover, &:focus {
     color: $nav-font-3 !important;
   }
@@ -485,9 +546,6 @@ h2 > img.iconlarge, .modicon > .icon, .activity > img.icon, icon.activityicon, .
   }
 }
 
-#page-mod-quiz-edit ul.slots li.section .content {
-  background-color: inherit !important;
-}
 
 .path-grade-report-singleview div.reporttable {
   background-color: inherit !important;
@@ -501,11 +559,12 @@ h2 > img.iconlarge, .modicon > .icon, .activity > img.icon, icon.activityicon, .
   background-color: inherit !important;
 }
 
-.path-grade-report-singleview .reporttable tbody tr{
+.path-grade-report-singleview .reporttable tbody tr {
 
   &:nth-of-type(odd) {
     background-color: inherit !important;
   }
+
   &:nth-of-type(even) {
     background-color: inherit !important;
   }
@@ -543,10 +602,10 @@ h2 > img.iconlarge, .modicon > .icon, .activity > img.icon, icon.activityicon, .
 ::-webkit-resizer {
   background-color: $background-primary !important;
 }
+
 .description .course-description-item {
   background-color: transparent !important;
 }
-
 
 
 input {
@@ -557,12 +616,23 @@ input {
 }
 
 .form-control, .custom-select, .custom-select {
-  border-color: $primary !important;
   color: $primary !important;
   background-color: transparent !important;
 }
 
+div.editor_atto_toolbar,
+.form-control,
+.custom-select,
+.editor_atto_toolbar,
+.editor_atto_content_wrap,
+div.editor_atto_toolbar div.atto_group {
+  border-color: var(--border-primary-1) !important;
+}
 
+.path-backup .mform .root_setting:nth-of-type(even),
+.path-backup .mform .grouped_settings:nth-of-type(even) {
+  background-color: unset !important;
+}
 
 .popover-region-container, .popover-region-footer-container {
   border: none !important;
@@ -577,7 +647,7 @@ input {
   box-shadow: none;
 }
 
-.custom-switch .custom-control-input:disabled:checked~.custom-control-label::before {
+.custom-switch .custom-control-input:disabled:checked ~ .custom-control-label::before {
   background-color: var(--primary-4);
 }
 
@@ -605,39 +675,20 @@ input {
 
 }
 
-.nav-tabs:not(.more-nav) .nav-link,.nav-pills .nav-link {
+.nav-tabs:not(.more-nav) .nav-link, .nav-pills .nav-link {
   background: $background-primary !important;
   border: 0;
   margin: .125rem
 }
 
-.nav-tabs:not(.more-nav),.nav-pills {
-  margin: 0;
-  border: 0;
-  padding: .125rem;
+.nav-tabs:not(.more-nav), .nav-pills {
+  border-bottom: 2px solid;
+  border-color: var(--background-primary) !important;
   background-color: $background-primary !important;
-}
 
-#page-mod-quiz-edit .section .activity .actions {
-  background-color: $background-action-menu;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-#page-mod-quiz-edit {
-
-  .inplaceeditable {
-    border-radius: 3px;
-    background-color: var(--background-primary);
-    color: var(--primary) !important;
+  .nav-link {
+    margin-bottom: 0;
   }
-
-  ul.slots li.activity div.activityinstance {
-    .questionname, .questiontext {
-      color: inherit;
-    }
-  }
-
 }
 
 .block .block-controls a.dropdown-toggle {
@@ -645,7 +696,7 @@ input {
 }
 
 .editor_atto_toolbar button:active, .editor_atto_toolbar button.highlight {
-  i.icon  {
+  i.icon {
     color: #262626;
   }
 }
@@ -680,6 +731,10 @@ div.activity-item:not(.activityinline) {
   div.activityname > a.aalink {
     color: #383838 !important;
   }
+}
+
+.border, div.border {
+  color: var(--border-primary-1) !important;
 }
 
 .border-bottom {
@@ -724,9 +779,9 @@ div.alert button {
   padding: 5px;
 
   .fp-pathbar, .fp-content, .fp-navbar {
-      box-shadow: none !important;
-      -webkit-box-shadow: none !important;
-    }
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+  }
 }
 
 .fp-viewbar.disabled {
@@ -747,8 +802,6 @@ div.alert button {
   padding-left: 10px !important;
   border-radius: 5px;
 }
-
-
 
 
 #sticky-footer {
@@ -788,32 +841,6 @@ div.i-sl-button-btn {
 #format_menutab_home_page_image {
   color: inherit !important;
 }
-.que {
-
-  div.content {
-    border-radius: 5px;
-  }
-
-  div.info {
-    background-color: var(--background-primary);
-    border-radius: 5px;
-    color: inherit;
-    border: none;
-  }
-
-  div.formulation {
-    background-color: var(--background-primary);
-    color: inherit;
-  }
-}
-
-.path-mod-quiz {
-  .gradedattempt, tr.gradedattempt > td, .highlight {
-    color: var(--background-navbar) !important;
-    background-color: var(--nav-font-1) !important;
-    border-color: var(--nav-font-1) !important;
-  }
-}
 
 .user-report-container {
   background: var(--background-primary) !important;
@@ -834,6 +861,7 @@ div.i-sl-button-btn {
     border: none !important;
 
   }
+
   .grade-report-user .user-grade td.item {
     border: none !important;
     background: var(--background-primary) !important;
@@ -851,12 +879,108 @@ div.forumpost, div.forumpost.border {
   background: var(--background-primary-2) !important;
 }
 
+button.btn-footer-popover, .btn-group.course-manage > a {
+  border: 1px solid var(--primary-2);
+}
+
+div.alert > button.close {
+  color: unset;
+}
+
+.path-backup .backup-section {
+  background-color: unset !important;
+  border: 1px solid var(--border-primary-1) !important;
+}
+
+/*
+=============================================
+QUIZ OVERRIDES START
+=============================================
+ */
+
+#categoryquestions {
+  border: 1px solid var(--border-primary-1) !important;
+}
+
+#categoryquestions th {
+  padding-top: 10px !important;
+}
+
+#categoryquestions tr:last-child td {
+  padding-bottom: 10px !important;
+}
+
+#categoryquestions td:first-child {
+  padding-left: 20px !important;
+}
+
+#categoryquestions th:first-child {
+  padding-left: 20px !important;
+}
+
+#categoryquestions td:last-child, #categoryquestions th:last-child {
+  padding-right: 20px !important;
+}
+
+#categoryquestions > tbody > tr.r1, #categoryquestions > thead {
+  background-color: rgba(0, 0, 0, .09);
+}
+
+
+/* Invert colours on checkboxes & radios (only works on selected choice) */
+.path-mod-quiz input[type='checkbox']:not(:checked),
+.path-mod-quiz input[type='radio']:not(:checked),
+.path-mod-quiz input[type='checkbox']:disabled,
+.path-mod-quiz input[type='radio']:disabled {
+  filter: invert(1) drop-shadow(2px 4px 6px black);
+}
+
+.que.ddimageortext .group1, form.mform fieldset#id_previewareaheader .group1 {
+  background-color: unset !important;
+}
+
+
+.path-mod-quiz {
+  .gradedattempt, tr.gradedattempt > td, .highlight {
+    color: var(--background-navbar) !important;
+    background-color: var(--nav-font-1) !important;
+    border-color: var(--nav-font-1) !important;
+  }
+}
+
+#page-mod-quiz-edit ul.slots li.section .content {
+  background-color: inherit !important;
+}
+
+#page-mod-quiz-edit .section .activity .actions {
+  background-color: $background-action-menu;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+#page-mod-quiz-edit {
+
+  .inplaceeditable {
+    border-radius: 3px;
+    background-color: var(--background-primary);
+    color: var(--primary) !important;
+  }
+
+  ul.slots li.activity div.activityinstance {
+    .questionname, .questiontext {
+      color: inherit;
+    }
+  }
+
+}
+
 table.quizreviewsummary {
 
   th.cell, td.cell {
     background: var(--background-action-menu) !important;
-
   }
+
+  border: 1px solid var(--primary);
 }
 
 
@@ -871,10 +995,50 @@ table.quizreviewsummary {
 
 .btn-primary:not(:disabled):not(.disabled):active:focus,
 .btn-primary:not(:disabled):not(.disabled).active:focus,
-.show>.btn-primary.dropdown-toggle:focus {
+.show > .btn-primary.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem var(--primary-5) !important;
 }
 
 #quiz-timer-wrapper #quiz-timer {
   background-color: #9d4646 !important;
 }
+
+.path-mod-quiz #mod_quiz_navblock .qnbutton {
+  background-color: unset !important;
+}
+
+.que {
+
+  div.content {
+    border-radius: 5px;
+  }
+
+  div.info {
+    background-color: var(--background-primary);
+    border-radius: 5px;
+    color: inherit;
+    border: none;
+  }
+
+  div.formulation {
+    background-color: var(--background-primary);
+    color: inherit;
+  }
+}
+
+.path-mod-quiz #mod_quiz_navblock .qnbutton.notyetanswered .trafficlight,
+.path-mod-quiz #mod_quiz_navblock .qnbutton.invalidanswer .trafficlight {
+  background-color: var(--background-action-menu-2);
+}
+
+.qtext table {
+  td, th {
+    border-color: white !important;
+  }
+}
+
+/*
+=============================================
+QUIZ OVERRIDES END
+=============================================
+ */
