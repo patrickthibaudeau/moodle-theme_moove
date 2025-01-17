@@ -101,7 +101,7 @@ if (has_capability('moodle/site:viewreports', $PAGE->context)) {
 
 if (has_capability('local/earlyalert:access_early_alert', context_system::instance())) {
     $PAGE->primarynav->add(
-        get_string('earl_alert', 'local_earlyalert'),
+        get_string('early_alert', 'local_earlyalert'),
         new moodle_url("/local/earlyalert/tool_dashboard.php")
     );
 }
