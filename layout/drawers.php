@@ -110,6 +110,13 @@ if (substr($USER->idnumber,0,1) == 1) {
     $is_staff = true;
 }
 
+if (has_capability('local/earlyalert:access_early_alert', context_system::instance())) {
+    $PAGE->primarynav->add(
+        get_string('early_alert', 'local_earlyalert'),
+        new moodle_url("/local/earlyalert/tool_dashboard.php")
+    );
+}
+
 //Does the sandbox plugin exist
 $sandbox_installed = false;
 if (is_dir($CFG->dirroot . '/local/sandbox')) {

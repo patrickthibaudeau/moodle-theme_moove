@@ -99,6 +99,13 @@ if (has_capability('moodle/site:viewreports', $PAGE->context)) {
     $view_reports = true;
 }
 
+if (has_capability('local/earlyalert:access_early_alert', context_system::instance())) {
+    $PAGE->primarynav->add(
+        get_string('earl_alert', 'local_earlyalert'),
+        new moodle_url("/local/earlyalert/tool_dashboard.php")
+    );
+}
+
 $is_site_course = false;
 if ($PAGE->course->id == 1) {
     $is_site_course = true;

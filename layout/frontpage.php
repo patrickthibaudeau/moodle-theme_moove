@@ -61,6 +61,13 @@ if (!$courseindex) {
     $courseindexopen = false;
 }
 
+if (has_capability('local/earlyalert:access_early_alert', context_system::instance())) {
+    $PAGE->primarynav->add(
+        get_string('early_alert', 'local_earlyalert'),
+        new moodle_url("/local/earlyalert/tool_dashboard.php")
+    );
+}
+
 $forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
 
 $secondarynavigation = false;
