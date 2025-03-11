@@ -66,6 +66,7 @@ If it is found one is not included here, simply add the class it locates in.
       background-color: inherit !important;
     }
   }
+
   .que .content {
     p, span, code, a, blockquote, pre, li {
       mix-blend-mode: screen;
@@ -197,6 +198,16 @@ Scrollbar End
   box-shadow: 0 0 35px 0 rgba(0, 0, 0, 40%);
 }
 
+div.card.section.course-section:has(.card-body > .card-title > :not(a[title=''])) {
+  border: 1px solid var(--border-primary-2) !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
+div.card.section.course-section:has(.card-body > .card-title > a[title='']) {
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
 
 nav.navbar {
   box-shadow: none !important;
@@ -676,19 +687,41 @@ div.editor_atto_toolbar div.atto_group {
 }
 
 .nav-tabs:not(.more-nav) .nav-link, .nav-pills .nav-link {
-  background: $background-primary !important;
-  border: 0;
-  margin: .125rem
+  background: var(--background-primary-button) !important;
+  color: var(--brand-primary) !important;
+  border: 1px solid;
+  margin: .125rem;
+  border-color: var(--border-primary-2) !important;
 }
 
 .nav-tabs:not(.more-nav), .nav-pills {
-  border-bottom: 2px solid;
-  border-color: var(--background-primary) !important;
+  li.nav-item:first-child {
+    margin-left: -2px;
+  }
+
+  .nav-item:not(:first-child) {
+    margin-left: 2px;
+  }
+
+
+}
+
+.nav-tabs:not(.more-nav), .nav-pills {
+  border-bottom: 1px solid;
+  border-color: var(--border-primary-1) !important;
   background-color: $background-primary !important;
 
   .nav-link {
     margin-bottom: 0;
   }
+
+  .nav-link:not(.active) {
+    filter: opacity(0.6);
+  }
+}
+
+.card-image-top {
+  border-radius: 5px;
 }
 
 .block .block-controls a.dropdown-toggle {
@@ -926,6 +959,20 @@ QUIZ OVERRIDES START
   background-color: rgba(0, 0, 0, .09);
 }
 
+
+.path-mod-quiz {
+  .que {
+    .qtext, .answer {
+      p, span, a, pre, li {
+        color: var(--font-secondary) !important;
+      }
+    }
+  }
+}
+
+.path-mod-assign td.submissionnotgraded, .path-mod-assign div.submissionnotgraded {
+  color: inherit !important;
+}
 
 /* Invert colours on checkboxes & radios (only works on selected choice) */
 .path-mod-quiz input[type='checkbox']:not(:checked),
