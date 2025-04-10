@@ -306,7 +306,7 @@ class core_renderer extends \theme_boost\output\core_renderer
      * @param array $customattribs Array of custom attributes for the support email anchor tag.
      * @return string The html code for the support email link.
      */
-    public function supportemail(array $customattribs = []): string
+    public function supportemail(array $customattribs = [], $embed = false): string
     {
         global $CFG;
 
@@ -537,7 +537,15 @@ class core_renderer extends \theme_boost\output\core_renderer
 
         // Get the language
         $current_language = current_language();
-        $is_glendon = ($USER->profile['facultyaffiliaton'] === 'GL');
+        $is_glendon = false;
+        if (isset($USER->profile)) {
+            if (array_key_exists('facultyaffiliation', $USER->profile)) {
+                $is_glendon = ($USER->profile['facultyaffiliaton'] === 'GL');
+            } else {
+                $is_glendon = false;
+            }
+        }
+
         $savy_data['watson-button-icon'] = $OUTPUT->image_url($is_glendon && ($current_language == 'fr' || $current_language == 'fr_ca') ? 'bigsvaiconfr' : 'bigsvaicon', 'theme');
 
         // If not anon mode is disabled, you must have the sufficient data to form the payload
@@ -591,10 +599,23 @@ class core_renderer extends \theme_boost\output\core_renderer
         return (parent::navbar_plugin_output()) . $this->render_dark_selector();
     }
 
+    /**
+     * Returns list of plugins based on plugin type.
+     * @param $plugin_type
+     * @return array|false
+     */
+    private function get_plugin_list($plugin_type)
+    {
+        global $DB;
+        $plugins_list = \core\plugin_manager::standard_plugins_list($plugin_type);
+        return $plugins_list;
+    }
+
     public function get_blocked_themes()
     {
         global $COURSE, $DB;
         $blockedThemes = '';
+
         //We have to iterate through all categories because this could be a sub category
         $category = $DB->get_record('course_categories', ['id' => $COURSE->category]);
         if ($category) {
@@ -604,9 +625,10 @@ class core_renderer extends \theme_boost\output\core_renderer
             //First category to have plugins blocked overrides parent category
             foreach ($categoryPath as $key => $categoryId) {
                 $params = ['categoryid' => $categoryId, 'plugintype' => 'theme'];
-
-                if ($blockedThemes = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
-                    break;
+                if (in_array('category_admin', $this->get_plugin_list('tool'))) {
+                    if ($blockedThemes = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
+                        break;
+                    }
                 }
             }
             //Get blocked themes
@@ -635,8 +657,10 @@ class core_renderer extends \theme_boost\output\core_renderer
             foreach ($categoryPath as $key => $categoryId) {
                 $params = ['categoryid' => $categoryId, 'plugintype' => 'format'];
 
-                if ($blockedFormats = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
-                    break;
+                if (in_array('category_admin', $this->get_plugin_list('tool'))) {
+                    if ($blockedFormats = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
+                        break;
+                    }
                 }
             }
             //Get blocked themes
@@ -664,9 +688,10 @@ class core_renderer extends \theme_boost\output\core_renderer
             //First category to have plugins blocked overrides parent category
             foreach ($categoryPath as $key => $categoryId) {
                 $params = ['categoryid' => $categoryId, 'plugintype' => 'block'];
-
-                if ($blockedBlocks = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
-                    break;
+                if (in_array('category_admin', $this->get_plugin_list('tool'))) {
+                    if ($blockedBlocks = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
+                        break;
+                    }
                 }
             }
             //Get blocked themes
@@ -694,9 +719,10 @@ class core_renderer extends \theme_boost\output\core_renderer
             //First category to have plugins blocked overrides parent category
             foreach ($categoryPath as $key => $categoryId) {
                 $params = ['categoryid' => $categoryId, 'plugintype' => 'mod'];
-
-                if ($blockedMods = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
-                    break;
+                if (in_array('category_admin', $this->get_plugin_list('tool'))) {
+                    if ($blockedMods = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
+                        break;
+                    }
                 }
             }
             //Get blocked themes
@@ -724,9 +750,10 @@ class core_renderer extends \theme_boost\output\core_renderer
             //First category to have plugins blocked overrides parent category
             foreach ($categoryPath as $key => $categoryId) {
                 $params = ['categoryid' => $categoryId, 'plugintype' => 'atto'];
-
-                if ($blockedAttos = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
-                    break;
+                if (in_array('category_admin', $this->get_plugin_list('tool'))) {
+                    if ($blockedAttos = $DB->get_records('tool_catadmin_categoryplugin', $params)) {
+                        break;
+                    }
                 }
             }
             //Get blocked themes
@@ -744,11 +771,14 @@ class core_renderer extends \theme_boost\output\core_renderer
     public function is_staff()
     {
         global $USER;
-        if (substr($USER->idnumber, 0, 1) === '1' || substr($USER->idnumber, 0, 1) === '5') {
-            return true;
-        } else {
-            return false;
+        if (isset($USER->idnumber)) {
+            if (substr($USER->idnumber, 0, 1) === '1' || substr($USER->idnumber, 0, 1) === '5') {
+                return true;
+            } else {
+                return false;
+            }
         }
+        return false;
     }
 
     /**
@@ -810,11 +840,14 @@ class core_renderer extends \theme_boost\output\core_renderer
     public function get_sleekplanid()
     {
         global $CFG;
-        if (isset($CFG->yorktasks_sleekplanproductid) && !empty($CFG->yorktasks_sleekplanproductid)) {
-            return $CFG->yorktasks_sleekplanproductid;
-        } else {
-            return 'sleekplanidnotset';
+        if (in_array('yorktasks', $this->get_plugin_list('local'))) {
+            if (isset($CFG->yorktasks_sleekplanproductid) && !empty($CFG->yorktasks_sleekplanproductid)) {
+                return $CFG->yorktasks_sleekplanproductid;
+            } else {
+                return 'sleekplanidnotset';
+            }
         }
+        return 'sleekplanidnotset';
     }
 
 }

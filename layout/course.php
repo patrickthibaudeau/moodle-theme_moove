@@ -34,10 +34,6 @@ require_once($CFG->dirroot . '/theme/moove/lib.php');
 $addblockbutton = $OUTPUT->addblockbutton();
 $PAGE->requires->js_call_amd('theme_moove/visibility', 'init');
 
-user_preference_allow_ajax_update('drawer-open-nav', PARAM_ALPHA);
-user_preference_allow_ajax_update('drawer-open-index', PARAM_BOOL);
-user_preference_allow_ajax_update('drawer-open-block', PARAM_BOOL);
-
 if (isloggedin()) {
     $courseindexopen = (get_user_preferences('drawer-open-index', true) == true);
     $blockdraweropen = (get_user_preferences('drawer-open-block') == true);
@@ -99,11 +95,16 @@ if (has_capability('moodle/site:viewreports', $PAGE->context)) {
     $view_reports = true;
 }
 
-if (has_capability('local/earlyalert:access_early_alert', context_system::instance())) {
-    $PAGE->primarynav->add(
-        get_string('early_alert', 'local_earlyalert'),
-        new moodle_url("/local/earlyalert/tool_dashboard.php")
-    );
+// Check to see if plugin exists
+$plugins_list = \core\plugin_manager::instance()->get_plugins_of_type('block');
+//If earlyalert is in the list, then we can add the menu item
+if (in_array('earlyalert', $plugins_list)) {
+    if (has_capability('local/earlyalert:access_early_alert', context_system::instance())) {
+        $PAGE->primarynav->add(
+            get_string('early_alert', 'local_earlyalert'),
+            new moodle_url("/local/earlyalert/tool_dashboard.php")
+        );
+    }
 }
 
 $is_site_course = false;
@@ -154,15 +155,21 @@ $header = $PAGE->activityheader;
 $headercontent = $header->export_for_template($renderer);
 
 $strikemessaging = false;
-if ($CFG->yorktasks_hideinstructors == 1){
-    if (isset($PAGE->course->id)){
-        //great this is a course
-        if ($strikeinfo = $DB->get_record('strike_feed', array('moodleid' => $PAGE->course->id))){
-            //only display data if we have it
-            if ($strikeinfo->messagetype == "suspend"){
-                $strikemessaging = "<div id='strikenotification' class='alert alert-danger'>" . $strikeinfo->message . "</div>";
-            } elseif ($strikeinfo->messagetype == "active") {
-                $strikemessaging = "<div id='strikenotification' class='alert alert-success'>" . $strikeinfo->message . "</div>";
+
+// Check to see if plugin exists
+$plugins_list = \core\plugin_manager::instance()->get_plugins_of_type('local');
+
+if (in_array('yorktasks', $plugins_list)) {
+    if ($CFG->yorktasks_hideinstructors == 1) {
+        if (isset($PAGE->course->id)) {
+            //great this is a course
+            if ($strikeinfo = $DB->get_record('strike_feed', array('moodleid' => $PAGE->course->id))) {
+                //only display data if we have it
+                if ($strikeinfo->messagetype == "suspend") {
+                    $strikemessaging = "<div id='strikenotification' class='alert alert-danger'>" . $strikeinfo->message . "</div>";
+                } elseif ($strikeinfo->messagetype == "active") {
+                    $strikemessaging = "<div id='strikenotification' class='alert alert-success'>" . $strikeinfo->message . "</div>";
+                }
             }
         }
     }

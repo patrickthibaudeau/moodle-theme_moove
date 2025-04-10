@@ -100,13 +100,13 @@ body.has-secondarynavigation {
     body.has-secondarynavigation {
         .drawer-left,
         .drawer-right {
-            top: calc(130px + 1px);
+            top: calc(143px + 1px);
 
             @media(max-width: 1279px) {
                 top: calc(120px + 1px);
             }
 
-            height: calc(100vh - 130px);
+            height: calc(100vh - 143px);
         }
     }
 }
