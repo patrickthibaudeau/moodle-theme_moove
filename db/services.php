@@ -24,42 +24,34 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$functions = array(
-    'theme_moove_fontsize' => array(
+$functions = [
+    'theme_moove_fontsize' => [
         'classname' => 'theme_moove\api\accessibility',
         'classpath' => 'theme_moove/classes/api/accessibility.php',
         'methodname' => 'fontsize',
         'description' => 'Increase or decrease the site font size.',
         'type' => 'write',
-        'ajax' => true
-    ),
-    'theme_moove_sitecolor' => array(
+        'ajax' => true,
+    ],
+    'theme_moove_sitecolor' => [
         'classname' => 'theme_moove\api\accessibility',
         'methodname' => 'sitecolor',
         'description' => 'Changes the site color aspect.',
         'type' => 'write',
-        'ajax' => true
-    ),
-    'theme_moove_savethemesettings' => array(
+        'ajax' => true,
+    ],
+    'theme_moove_savethemesettings' => [
         'classname' => 'theme_moove\api\accessibility',
         'methodname' => 'savethemesettings',
         'description' => 'Store the user theme settings.',
         'type' => 'write',
-        'ajax' => true
-    ),
-    'theme_moove_getthemesettings' => array(
+        'ajax' => true,
+    ],
+    'theme_moove_getthemesettings' => [
         'classname' => 'theme_moove\api\accessibility',
         'methodname' => 'getthemesettings',
         'description' => 'Get the user theme settings.',
         'type' => 'read',
-        'ajax' => true
-    ),
-    'theme_moove_coursevisibility' => array(
-        'classname' => 'theme_moove\api\course_navbar',
-        'classpath' => 'theme_moove/classes/api/course_navbar',
-        'methodname' => 'visibility',
-        'description' => 'Change course visibility',
-        'type' => 'write',
-        'ajax' => true
-    )
-);
+        'ajax' => true,
+    ],
+];

@@ -55,24 +55,21 @@
         ]
     }
 }}
-<nav class="navbar fixed-top navbar-light bg-white navbar-expand shadow"
-     aria-label="{{#str}}sitemenubar, admin{{/str}}">
-
-    <button class="navbar-toggler aabtn d-block d-md-none px-1 my-1 border-0" data-toggler="drawers"
-            data-action="toggle" data-target="theme_moove-drawers-primary">
+<nav class="navbar fixed-top bg-body navbar-expand border-bottom px-2" aria-label="{{#str}}sitemenubar, admin{{/str}}">
+    <button class="navbar-toggler aabtn d-block d-md-none px-1 my-1 border-0" data-toggler="drawers" data-action="toggle" data-target="theme_boost-drawers-primary">
         <span class="navbar-toggler-icon"></span>
         <span class="sr-only">{{#str}}sidepanel, core{{/str}}</span>
     </button>
 
-    <a href="{{{ config.homeurl }}}" class="navbar-brand d-none d-md-flex align-items-center m-0 mr-4 p-0 aabtn">
+    <a href="{{{ config.homeurl }}}" class="navbar-brand d-none d-md-flex align-items-center m-0 me-4 p-0 aabtn">
+
         {{# output.should_display_logo }}
-            <img src="{{output.get_logo}}" class="logo mr-1" alt="{{sitename}}">
+            <img src="{{output.get_logo}}" class="logo me-1" alt="{{sitename}}">
         {{/ output.should_display_logo }}
         {{^ output.should_display_logo }}
             {{{ sitename }}}
         {{/ output.should_display_logo }}
     </a>
-
     {{#primarymoremenu}}
         <div class="primary-navigation">
             {{> core/moremenu}}
@@ -84,22 +81,14 @@
         {{{ output.page_heading_menu }}}
     </ul>
 
-    <div id="usernavigation" class="navbar-nav ml-auto">
-        <div class="navbarcallbacks">
-            {{{ output.get_navbar_callbacks_data }}}
-        </div>
-
+    <div id="usernavigation" class="navbar-nav ms-auto h-100">
         {{# output.search_box }}
             {{{ output.search_box }}}
-            <div class="divider border-left h-75 align-self-center mx-1"></div>
+            <div class="divider border-start h-75 align-self-center mx-1"></div>
         {{/output.search_box}}
-
-        <!-- watson cal -->
-        {{{output.render_watson}}}
-
         {{#langmenu}}
-            {{> theme_moove/language_menu }}
-            <div class="divider border-left h-75 align-self-center mx-1"></div>
+            {{> theme_boost/language_menu }}
+            <div class="divider border-start h-75 align-self-center mx-1"></div>
         {{/langmenu}}
         {{{ output.navbar_plugin_output }}}
         <div class="d-flex align-items-stretch usermenu-container" data-region="usermenu">
@@ -118,33 +107,5 @@
         </div>
     </div>
 {{/secondarymoremenu}}
-{{^secondarymoremenu}}
-    <div class="york-red-seperator secondary-navigation d-print-none moove">
-<!--    On my dashboar or my courses page-->
-        {{#is_mycourses_page}}
-<!--        User is staff-->
-            {{#is_staff}}
-                <div id="course-management" class="moove-container-fluid">
-                    <ul class="boxes">
-<!--                    Sandbox plugin is installed-->
-                        {{#sandbox_installed}}
-                            <li style="height: 60px; padding:15px">
-                                <div title="Playground">
-                                    <a href="{{config.wwwroot}}/local/sandbox/index.php"
-                                       title="{{#str}}createsandbox, local_sandbox{{/str}}">
-                                        <div>
-                                            <span class="course-menu-text">{{#str}}
-                                                createsandbox, local_sandbox{{/str}}</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
-                        {{/sandbox_installed}}
-                    </ul>
-                </div>
-            {{/is_staff}}
-        {{/is_mycourses_page}}
-    </div>
-{{/secondarymoremenu}}
 
-{{> theme_moove/primary-drawer-mobile }}
+{{> theme_boost/primary-drawer-mobile }}

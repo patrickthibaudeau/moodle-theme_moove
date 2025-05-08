@@ -24,10 +24,10 @@
 
 namespace theme_moove\privacy;
 
-use \core_privacy\local\metadata\collection;
-use \core_privacy\local\metadata\provider as baseprovider;
-use \core_privacy\local\request\user_preference_provider;
-use \core_privacy\local\request\writer;
+use core_privacy\local\metadata\collection;
+use core_privacy\local\metadata\provider as baseprovider;
+use core_privacy\local\request\user_preference_provider;
+use core_privacy\local\request\writer;
 
 /**
  * Privacy provider class
@@ -57,7 +57,7 @@ class provider implements
      * @param  collection $items The initialised item collection to add items to.
      * @return collection A listing of user data stored through this system.
      */
-    public static function get_metadata(collection $items) : collection {
+    public static function get_metadata(collection $items): collection {
         $items->add_user_preference(self::FONTSIZE, 'privacy:metadata:preference:accessibilitystyles_fontsizeclass');
         $items->add_user_preference(self::SITECOLOR, 'privacy:metadata:preference:accessibilitystyles_sitecolorclass');
         $items->add_user_preference(self::FONTTYPE, 'privacy:metadata:preference:thememoovesettings_fonttype');

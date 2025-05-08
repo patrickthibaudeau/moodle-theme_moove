@@ -45,7 +45,7 @@ class settings {
         'loginbg',
         'sliderimage1', 'sliderimage2', 'sliderimage3', 'sliderimage4', 'sliderimage5', 'sliderimage6',
         'sliderimage7', 'sliderimage8', 'sliderimage9', 'sliderimage10', 'sliderimage11', 'sliderimage12',
-        'marketing1icon', 'marketing2icon', 'marketing3icon', 'marketing4icon'
+        'marketing1icon', 'marketing2icon', 'marketing3icon', 'marketing4icon',
     ];
 
     /**
@@ -86,7 +86,7 @@ class settings {
 
         $settings = [
             'facebook', 'twitter', 'linkedin', 'youtube', 'instagram', 'whatsapp', 'telegram',
-            'website', 'mobile', 'mail'
+            'website', 'mobile', 'mail',
         ];
 
         foreach ($settings as $setting) {
@@ -142,15 +142,23 @@ class settings {
             $sliderimage = "sliderimage{$i}";
             $slidertitle = "slidertitle{$i}";
             $slidercap = "slidercap{$i}";
+            $slidercapcontent = $this->$slidercap ?: null;
 
+            $slidetitle = format_string($this->$slidertitle) ?: null;
+            $slidecontent = format_text($slidercapcontent, FORMAT_MOODLE, ['noclean' => false]) ?: null;
             $image = $this->$sliderimage;
+
+            $hascaption = isset($slidetitle) || isset($slidecontent);
 
             $templatecontext['slides'][$j]['key'] = $j;
             $templatecontext['slides'][$j]['active'] = $i === 1;
             $templatecontext['slides'][$j]['image'] = $image ?: $defaultimage->out();
-            $templatecontext['slides'][$j]['title'] = format_string($this->$slidertitle);
-            $templatecontext['slides'][$j]['caption'] = format_text($this->$slidercap);
+            $templatecontext['slides'][$j]['title'] = $slidetitle;
+            $templatecontext['slides'][$j]['caption'] = $slidecontent;
+            $templatecontext['slides'][$j]['hascaption'] = $hascaption;
         }
+
+        $templatecontext['slidersingleslide'] = $this->slidercount == 1;
 
         return $templatecontext;
     }
@@ -221,11 +229,12 @@ class settings {
                 $templatecontext['faq'][] = [
                     'id' => $i,
                     'question' => format_text($this->$faqquestion),
-                    'answer' => format_text($this->$faqanswer)
+                    'answer' => format_text($this->$faqanswer),
+                    'active' => $i === 1,
                 ];
             }
 
-            if (count($templatecontext['faq'])) {
+            if (!empty($templatecontext['faq'])) {
                 $templatecontext['faqenabled'] = true;
             }
         }

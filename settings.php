@@ -43,7 +43,7 @@ if ($ADMIN->fulltree) {
     $name = 'theme_moove/logo';
     $title = get_string('logo', 'theme_moove');
     $description = get_string('logodesc', 'theme_moove');
-    $opts = array('accepted_types' => array('.png', '.jpg', '.gif', '.webp', '.tiff', '.svg'), 'maxfiles' => 1);
+    $opts = ['accepted_types' => ['.png', '.jpg', '.gif', '.webp', '.tiff', '.svg'], 'maxfiles' => 1];
     $setting = new admin_setting_configstoredfile($name, $title, $description, 'logo', 0, $opts);
     $page->add($setting);
 
@@ -51,7 +51,7 @@ if ($ADMIN->fulltree) {
     $name = 'theme_moove/favicon';
     $title = get_string('favicon', 'theme_moove');
     $description = get_string('favicondesc', 'theme_moove');
-    $opts = array('accepted_types' => array('.ico'), 'maxfiles' => 1);
+    $opts = ['accepted_types' => ['.ico'], 'maxfiles' => 1];
     $setting = new admin_setting_configstoredfile($name, $title, $description, 'favicon', 0, $opts);
     $page->add($setting);
 
@@ -61,7 +61,7 @@ if ($ADMIN->fulltree) {
     $description = get_string('preset_desc', 'theme_moove');
     $default = 'default.scss';
 
-    $context = context_system::instance();
+    $context = \core\context\system::instance();
     $fs = get_file_storage();
     $files = $fs->get_area_files($context->id, 'theme_moove', 'preset', 0, 'itemid, filepath, filename', false);
 
@@ -92,14 +92,14 @@ if ($ADMIN->fulltree) {
     $description = get_string('presetfiles_desc', 'theme_moove');
 
     $setting = new admin_setting_configstoredfile($name, $title, $description, 'preset', 0,
-        array('maxfiles' => 10, 'accepted_types' => array('.scss')));
+        ['maxfiles' => 10, 'accepted_types' => ['.scss']]);
     $page->add($setting);
 
     // Login page background image.
     $name = 'theme_moove/loginbgimg';
     $title = get_string('loginbgimg', 'theme_moove');
     $description = get_string('loginbgimg_desc', 'theme_moove');
-    $opts = array('accepted_types' => array('.png', '.jpg', '.svg'));
+    $opts = ['accepted_types' => ['.png', '.jpg', '.svg']];
     $setting = new admin_setting_configstoredfile($name, $title, $description, 'loginbgimg', 0, $opts);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $page->add($setting);
@@ -123,6 +123,7 @@ if ($ADMIN->fulltree) {
     $page->add($setting);
 
     $fontsarr = [
+        'Moodle' => 'Moodle Font',
         'Roboto' => 'Roboto',
         'IBM Plex Sans' => 'IBM Plex Sans',
         'Poppins' => 'Poppins',
@@ -137,7 +138,7 @@ if ($ADMIN->fulltree) {
         'Oxygen' => 'Oxygen',
         'Manrope' => 'Manrope',
         'Sora' => 'Sora',
-        'Epilogue' => 'Epilogue'
+        'Epilogue' => 'Epilogue',
     ];
 
     $name = 'theme_moove/fontsite';
@@ -151,7 +152,15 @@ if ($ADMIN->fulltree) {
     $title = get_string('enablecourseindex', 'theme_moove');
     $description = get_string('enablecourseindex_desc', 'theme_moove');
     $default = 1;
-    $choices = array(0 => get_string('no'), 1 => get_string('yes'));
+    $choices = [0 => get_string('no'), 1 => get_string('yes')];
+    $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
+    $page->add($setting);
+
+    $name = 'theme_moove/enableclassicbreadcrumb';
+    $title = get_string('enableclassicbreadcrumb', 'theme_moove');
+    $description = get_string('enableclassicbreadcrumb_desc', 'theme_moove');
+    $default = 0;
+    $choices = [0 => get_string('no'), 1 => get_string('yes')];
     $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
     $page->add($setting);
 
@@ -185,6 +194,14 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');
     $page->add($setting);
 
+    // H5P custom CSS.
+    $setting = new admin_setting_configtextarea(
+        'theme_moove/hvpcss',
+        get_string('hvpcss', 'theme_moove'),
+        get_string('hvpcss_desc', 'theme_moove'),
+        '');
+    $page->add($setting);
+
     $settings->add($page);
 
     /*
@@ -199,7 +216,7 @@ if ($ADMIN->fulltree) {
     $title = get_string('disableteacherspic', 'theme_moove');
     $description = get_string('disableteacherspicdesc', 'theme_moove');
     $default = 1;
-    $choices = array(0 => get_string('no'), 1 => get_string('yes'));
+    $choices = [0 => get_string('no'), 1 => get_string('yes')];
     $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
     $page->add($setting);
 
@@ -208,7 +225,7 @@ if ($ADMIN->fulltree) {
     $title = get_string('slidercount', 'theme_moove');
     $description = get_string('slidercountdesc', 'theme_moove');
     $default = 0;
-    $options = array();
+    $options = [];
     for ($i = 0; $i < 13; $i++) {
         $options[$i] = $i;
     }
@@ -229,7 +246,7 @@ if ($ADMIN->fulltree) {
             $name = 'theme_moove/sliderimage' . $sliderindex;
             $title = get_string('sliderimage', 'theme_moove');
             $description = get_string('sliderimagedesc', 'theme_moove');
-            $opts = array('accepted_types' => array('.png', '.jpg', '.gif', '.webp', '.tiff', '.svg'), 'maxfiles' => 1);
+            $opts = ['accepted_types' => ['.png', '.jpg', '.gif', '.webp', '.tiff', '.svg'], 'maxfiles' => 1];
             $setting = new admin_setting_configstoredfile($name, $title, $description, $fileid, 0, $opts);
             $page->add($setting);
 
@@ -255,7 +272,7 @@ if ($ADMIN->fulltree) {
     $title = get_string('displaymarketingboxes', 'theme_moove');
     $description = get_string('displaymarketingboxesdesc', 'theme_moove');
     $default = 1;
-    $choices = array(0 => get_string('no'), 1 => get_string('yes'));
+    $choices = [0 => get_string('no'), 1 => get_string('yes')];
     $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
     $page->add($setting);
 
@@ -280,7 +297,7 @@ if ($ADMIN->fulltree) {
             $filearea = "marketing{$i}icon";
             $name = "theme_moove/$filearea";
             $title = get_string('marketingicon', 'theme_moove', $i . '');
-            $opts = array('accepted_types' => array('.png', '.jpg', '.gif', '.webp', '.tiff', '.svg'));
+            $opts = ['accepted_types' => ['.png', '.jpg', '.gif', '.webp', '.tiff', '.svg']];
             $setting = new admin_setting_configstoredfile($name, $title, '', $filearea, 0, $opts);
             $page->add($setting);
 
@@ -306,7 +323,7 @@ if ($ADMIN->fulltree) {
     $title = get_string('numbersfrontpage', 'theme_moove');
     $description = get_string('numbersfrontpagedesc', 'theme_moove');
     $default = 1;
-    $choices = array(0 => get_string('no'), 1 => get_string('yes'));
+    $choices = [0 => get_string('no'), 1 => get_string('yes')];
     $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
     $page->add($setting);
 
@@ -326,7 +343,7 @@ if ($ADMIN->fulltree) {
     $title = get_string('faqcount', 'theme_moove');
     $description = get_string('faqcountdesc', 'theme_moove');
     $default = 0;
-    $options = array();
+    $options = [];
     for ($i = 0; $i < 11; $i++) {
         $options[$i] = $i;
     }

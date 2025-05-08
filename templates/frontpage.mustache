@@ -49,7 +49,7 @@
         "addblockbutton": ""
     }
 }}
-{{> theme_moove/head }}
+{{> theme_boost/head }}
 
 <body {{{ bodyattributes }}}>
 {{> core/local/toast/wrapper}}
@@ -61,17 +61,45 @@
 
     <div id="page" data-region="mainpage" data-usertour="scroller" class="drawers drag-container bg-white">
         {{#slidercount}}
-            <div id="mooveslideshow" class="container-fluid" style="max-width: 100%;">
-                {{#slides}}
-                    <div class="row">
-                        <div class="col-12 px-0">
-                            <a href="https://www.yorku.ca/news/2022/04/27/york-reaches-worlds-top-35-in-times-higher-education-impact-rankings/"  title="York reaches world’s Top 35 in Times Higher Education Impact Rankings for meeting UN’s sustainable development goals">
-                                <img src="{{image}}" alt="{{slidertitle}}" class="img-fluid">
-                            </a>
+            <div id="mooveslideshow" class="container-fluid">
+                <div id="moove-carousel" class="carousel slide">
+                    {{^slidersingleslide}}
+                        <div class="carousel-indicators">
+                            {{#slides}}
+                                <button type="button" data-bs-target="#moove-carousel" data-bs-slide-to="{{{ key }}}" {{#active}}class="active" aria-current="true"{{/active}}  aria-label="{{slidertitle}}"></button>
+                            {{/slides}}
                         </div>
+                    {{/slidersingleslide}}
+                    <div class="carousel-inner">
+                        {{#slides}}
+                            <div class="carousel-item {{#active}}active{{/active}}">
+                                <img src="{{image}}" alt="{{slidertitle}}" class="d-block w-100">
+                                {{#hascaption}}
+                                    <div class="carousel-caption d-none d-md-block">
+                                        {{#title}}
+                                            <h5 class="title">{{.}}</h5>
+                                        {{/title}}
+                                        {{#caption}}
+                                            <div class="caption">
+                                                {{{.}}}
+                                            </div>
+                                        {{/caption}}
+                                    </div>
+                                {{/hascaption}}
+                            </div>
+                        {{/slides}}
                     </div>
-
-                {{/slides}}
+                    {{^slidersingleslide}}
+                        <button class="carousel-control-prev" type="button" data-bs-target="#moove-carousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">{{#str}}previous{{/str}}</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#moove-carousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">{{#str}}next{{/str}}</span>
+                        </button>
+                    {{/slidersingleslide}}
+                </div>
             </div>
         {{/slidercount}}
 
@@ -158,22 +186,16 @@
                 <div class="moove-container-fluid">
                     <h2>{{#str}}faq, theme_moove{{/str}}</h2>
 
-                    <div class="accordion" id="accordionFaq">
+                    <div class="accordion" id="accordion-faq">
                         {{#faq}}
-                            <div class="card shadow">
-                                <div class="card-header" id="heading-{{{id}}}">
-                                    <h2 class="mb-0">
-                                        <button class="btn btn-link btn-block text-left" type="button"
-                                                data-toggle="collapse" data-target="#collapse-{{{id}}}"
-                                                aria-expanded="false" aria-controls="collapse-{{{id}}}">
-                                            {{{question}}}
-                                        </button>
-                                    </h2>
-                                </div>
-
-                                <div id="collapse-{{{id}}}" class="collapse" aria-labelledby="heading-{{{id}}}"
-                                     data-parent="#accordionFaq">
-                                    <div class="card-body">
+                            <div class="accordion-item mb-1">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button {{^active}}collapsed{{/active}}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{{id}}}" aria-expanded="true" aria-controls="collapse-{{{id}}}">
+                                        {{{question}}}
+                                    </button>
+                                </h2>
+                                <div id="collapse-{{{id}}}" class="accordion-collapse collapse {{#active}}show{{/active}}" data-bs-parent="#accordion-faq">
+                                    <div class="accordion-body">
                                         {{{answer}}}
                                     </div>
                                 </div>
@@ -183,18 +205,24 @@
                 </div>
             </section>
         {{/faqenabled}}
-
-        {{> theme_moove/footer }}
     </div>
+    {{> theme_moove/footer }}
+
     {{{ output.standard_after_main_region_html }}}
 </div>
+
 
 </body>
 </html>
 {{#js}}
     M.util.js_pending('theme_boost/loader');
     require(['theme_boost/loader', 'theme_boost/drawer'], function(Loader, Drawer) {
-    Drawer.init();
-    M.util.js_complete('theme_boost/loader');
+        Drawer.init();
+        M.util.js_complete('theme_boost/loader');
+    });
+    require(['jquery'], function($) {
+        $('.carousel').carousel({
+            interval: 5000
+        });
     });
 {{/js}}

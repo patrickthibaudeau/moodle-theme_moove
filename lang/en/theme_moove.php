@@ -23,36 +23,24 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-$string['access'] = 'Access';
-$string['assignments'] = 'Assignments';
-$string['change_course_visibility'] = 'Change course visibility';
-$string['change_course_visibility_help'] = 'Are you sure you want to change the course visibility?';
+
+$string['pluginname'] = 'Moove';
 $string['configtitle'] = 'Moove';
-$string['content'] = 'Content';
-$string['course_home'] = 'Course home';
-$string['course_settings'] = 'Course settings';
-$string['table_of_contents'] = 'Table of contents';
 $string['choosereadme'] = 'Moove is a modern highly-customisable theme. This theme is intended to be used directly, or as a parent theme when creating new themes utilising Bootstrap 4.';
 
 $string['currentinparentheses'] = '(current)';
-$string['image_of'] = 'Image of ';
 $string['region-side-pre'] = 'Right';
 $string['prev_section'] = 'Previous section';
 $string['next_section'] = 'Next section';
-$string['themedevelopedby'] = 'This theme was developed by';
-$string['pluginname'] = 'Moove';
+$string['themedevelopedby'] = 'This theme was proudly developed by';
+$string['themedevelopedbyconectimepartner'] = 'a Brazilian Moodle Partner Company.';
+$string['needsupport'] = 'Need support for your Moodle site? ';
+$string['pleasuretohelp'] = 'It will be a pleasure to help you!';
+$string['access'] = 'Access';
 $string['prev_activity'] = 'Previous activity';
 $string['next_activity'] = 'Next activity';
 $string['donthaveanaccount'] = 'Don\'t have an account?';
 $string['signinwith'] = 'Sign in with';
-$string['yes'] = 'Yes';
-$string['hide_course'] = 'Course disabled';
-$string['show_course'] = 'Course open';
-$string['available'] = 'Available';
-$string['disabled'] = 'Disabled';
-$string['send_email'] = 'Send email';
-$string['view_profile'] = 'View profile';
-
 
 // General settings tab.
 $string['generalsettings'] = 'General';
@@ -70,8 +58,6 @@ $string['brandcolor'] = 'Brand colour';
 $string['brandcolor_desc'] = 'The accent colour.';
 $string['secondarymenucolor'] = 'Secondary menu color';
 $string['secondarymenucolor_desc'] = 'Secondary menu background color';
-$string['secondarymenuremoveitems'] = 'Remove Secondary menu items';
-$string['secondarymenuremoveitems_desc'] = 'If yes, all menu options except Course will be removed for students';
 $string['navbarbg'] = 'Navbar color';
 $string['navbarbg_desc'] = 'The left navbar color';
 $string['navbarbghover'] = 'Navbar hover color';
@@ -80,6 +66,8 @@ $string['fontsite'] = 'Site font';
 $string['fontsite_desc'] = 'Default font site. You can try out the fonts on <a href="https://fonts.google.com">Google Fonts site</a>.';
 $string['enablecourseindex'] = 'Enable course index';
 $string['enablecourseindex_desc'] = 'You can show/hide course index navigation';
+$string['enableclassicbreadcrumb'] = 'Enable classic breadcrumb';
+$string['enableclassicbreadcrumb_desc'] = 'This setting enables the classic breadcrumb, showing it on pages like course and categories.';
 
 // Advanced settings tab.
 $string['advancedsettings'] = 'Advanced';
@@ -89,6 +77,8 @@ $string['rawscss'] = 'Raw SCSS';
 $string['rawscss_desc'] = 'Use this field to provide SCSS or CSS code which will be injected at the end of the style sheet.';
 $string['googleanalytics'] = 'Google Analytics V4 Code';
 $string['googleanalyticsdesc'] = 'Please enter your Google Analytics V4 code to enable analytics on your website. The code format shold be like [G-XXXXXXXXXX]';
+$string['hvpcss'] = 'Raw H5P CSS';
+$string['hvpcss_desc'] = 'Use this field to provide a CSS file which will be injected on mod_hvp plugin pages.';
 
 // Frontpage settings tab.
 $string['frontpagesettings'] = 'Frontpage';
@@ -123,7 +113,7 @@ $string['numbersfrontpagecontentdefault'] = '<h2>Trusted by 25,000+ happy custom
                         a page without coding. Build your next website <br class="d-none d-sm-block d-md-none d-xl-block">
                         within few minutes.</p>';
 $string['numbersusers'] = 'Active users accessing our amazing resources';
-$string['numberscourses'] = 'Courses made for your that you can trust!';
+$string['numberscourses'] = 'Courses made for you that you can trust!';
 
 $string['faq'] = 'FAQ';
 $string['faqcount'] = 'FAQ questions';
@@ -191,3 +181,6 @@ $string['privacy:accessibilitystyles_fontsizeclass'] = 'The current preference f
 $string['privacy:accessibilitystyles_sitecolorclass'] = 'The current preference for the site color is: {$a}.';
 $string['privacy:thememoovesettings_fonttype'] = 'The current preference for the font type is: {$a}.';
 $string['privacy:thememoovesettings_enableaccessibilitytoolbar'] = 'The current preference for enable accessibility toolbar is to show it.';
+
+$string['redirectmessage'] = 'This page should automatically redirect.';
+$string['redirectbtntext'] = 'If nothing is happening please click here to continue.';

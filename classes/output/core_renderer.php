@@ -25,7 +25,7 @@
 namespace theme_moove\output;
 
 use theme_config;
-use context_course;
+use core\context\course as context_course;
 use moodle_url;
 use html_writer;
 use theme_moove\output\core_course\activity_navigation;
@@ -67,13 +67,15 @@ class core_renderer extends \theme_boost\output\core_renderer {
             $output .= str_replace("GOOGLE-ANALYTICS-CODE", trim($theme->settings->googleanalytics), $googleanalyticscode);
         }
 
-        $sitefont = isset($theme->settings->fontsite) ? $theme->settings->fontsite : 'Roboto';
+        $sitefont = isset($theme->settings->fontsite) ? $theme->settings->fontsite : 'Moodle';
 
-        $output .= '<link rel="preconnect" href="https://fonts.googleapis.com">
+        if ($sitefont != 'Moodle') {
+            $output .= '<link rel="preconnect" href="https://fonts.googleapis.com">
                        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                        <link href="https://fonts.googleapis.com/css2?family='
-                        . $sitefont .
-                       ':ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">';
+                . $sitefont .
+                ':ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">';
+        }
 
         return $output;
     }
@@ -89,7 +91,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
      *
      * @since Moodle 2.5.1 2.6
      */
-    public function body_attributes($additionalclasses = array()) {
+    public function body_attributes($additionalclasses = []) {
         $hasaccessibilitybar = get_user_preferences('thememoovesettings_enableaccessibilitytoolbar', '');
         if ($hasaccessibilitybar) {
             $additionalclasses[] = 'hasaccessibilitybar';
@@ -195,7 +197,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
         }
 
         $context->hastwocolumns = false;
-        if ($context->hasidentityproviders || $CFG->auth_instructions) {
+        if ($CFG->auth_instructions) {
             $context->hastwocolumns = true;
         }
 
@@ -203,7 +205,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
             foreach ($context->identityproviders as $key => $provider) {
                 $isfacebook = false;
 
-                if (strpos($provider['iconurl'], 'facebook') !== false) {
+                if (!empty($provider['iconurl']) && strpos($provider['iconurl'], 'facebook') !== false) {
                     $isfacebook = true;
                 }
 
@@ -218,27 +220,42 @@ class core_renderer extends \theme_boost\output\core_renderer {
      * Returns the HTML for the site support email link
      *
      * @param array $customattribs Array of custom attributes for the support email anchor tag.
+     * @param bool $embed Set to true if you want to embed the link in other inline content.
      * @return string The html code for the support email link.
      */
-    public function supportemail(array $customattribs = []): string {
+    public function supportemail(array $customattribs = [], bool $embed = false): string {
         global $CFG;
+
+        // Do not provide a link to contact site support if it is unavailable to this user. This would be where the site has
+        // disabled support, or limited it to authenticated users and the current user is a guest or not logged in.
+        if (!isset($CFG->supportavailability) ||
+            $CFG->supportavailability == CONTACT_SUPPORT_DISABLED ||
+            ($CFG->supportavailability == CONTACT_SUPPORT_AUTHENTICATED && (!isloggedin() || isguestuser()))) {
+            return '';
+        }
 
         $label = get_string('contactsitesupport', 'admin');
         $icon = $this->pix_icon('t/life-ring', '', 'moodle', ['class' => 'iconhelp icon-pre']);
         $content = $icon . $label;
 
+        if ($embed) {
+            $content = $label;
+        }
+
         if (!empty($CFG->supportpage)) {
             $attributes = ['href' => $CFG->supportpage, 'target' => 'blank', 'class' => 'btn contactsitesupport btn-outline-info'];
+
+            $content .= $this->pix_icon('i/externallink', '', 'moodle', ['class' => 'ml-1']);
         } else {
             $attributes = [
                 'href' => $CFG->wwwroot . '/user/contactsitesupport.php',
-                'class' => 'btn contactsitesupport btn-outline-info'
+                'class' => 'btn contactsitesupport btn-outline-info',
             ];
         }
 
         $attributes += $customattribs;
 
-        return \html_writer::tag('a', $content, $attributes);
+        return html_writer::tag('a', $content, $attributes);
     }
 
     /**
@@ -296,7 +313,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
             $prefix = html_writer::div($contextheader->prefix, 'text-muted text-uppercase small line-height-3');
             $heading = $prefix . $heading;
         }
-        $html .= html_writer::tag('div', $heading, array('class' => 'page-header-headings'));
+        $html .= html_writer::tag('div', $heading, ['class' => 'page-header-headings']);
 
         // Buttons.
         if (isset($contextheader->additionalbuttons)) {
@@ -310,16 +327,16 @@ class core_renderer extends \theme_boost\output\core_renderer {
                     if ($button['buttontype'] === 'message') {
                         \core_message\helper::messageuser_requirejs();
                     }
-                    $image = $this->pix_icon($button['formattedimage'], $button['title'], 'moodle', array(
+                    $image = $this->pix_icon($button['formattedimage'], $button['title'], 'moodle', [
                         'class' => 'iconsmall',
-                        'role' => 'presentation'
-                    ));
+                        'role' => 'presentation',
+                    ]);
                     $image .= html_writer::span($button['title'], 'header-button-title');
                 } else {
-                    $image = html_writer::empty_tag('img', array(
+                    $image = html_writer::empty_tag('img', [
                         'src' => $button['formattedimage'],
-                        'role' => 'presentation'
-                    ));
+                        'role' => 'presentation',
+                    ]);
                 }
                 $html .= html_writer::link($button['url'], html_writer::tag('span', $image), $button['linkattributes']);
             }
@@ -375,7 +392,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
                 $modname .= ' ' . get_string('hiddenwithbrackets');
             }
             // Module URL.
-            $linkurl = new moodle_url($module->url, array('forceview' => 1));
+            $linkurl = new moodle_url($module->url, ['forceview' => 1]);
             // Add module URL (as key) and name (as value) to the activity list array.
             $activitylist[$linkurl->out(false)] = $modname;
         }
@@ -417,7 +434,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
      * @return string Final html code.
      */
     public function get_navbar_callbacks_data() {
-        $callbacks = get_plugins_with_function('moove_additional_header', 'lib.php');
+        $callbacks = get_plugins_with_function('moove_additional_header', 'lib.php', true, true);
 
         if (!$callbacks) {
             return '';
@@ -436,184 +453,104 @@ class core_renderer extends \theme_boost\output\core_renderer {
         return $output;
     }
 
-    public function render_watson() {
-        global $CFG, $USER, $OUTPUT, $DB;
-        // Early bail out conditions.
+    /**
+     * Returns plugins callback renderable data to be printed on navbar.
+     *
+     * @return string Final html code.
+     */
+    public function get_module_footer_callbacks_data() {
+        $callbacks = get_plugins_with_function('moove_module_footer', 'lib.php', true, true);
 
-        if (!in_array($USER->idnumber,array('102102735','102051899','102109330','102086179','102079620'))){
-            return '';
-        }
-        if (!isloggedin() || isguestuser() || user_not_fully_set_up($USER) || get_user_preferences('auth_forcepasswordchange') || (!$USER->policyagreed && !is_siteadmin() && ($manager = new \core_privacy\local\sitepolicy\manager()) && $manager->is_defined())) {
+        if (!$callbacks) {
             return '';
         }
 
         $output = '';
 
-        // Add the messages popover.
-        //replace with check for faculty
-        if (isset($USER->profile['facultyaffiliaton']) && !empty($USER->profile['facultyaffiliaton'])) {
-            if (in_array($USER->profile['facultyaffiliaton'], explode(",", $CFG->yorktasks_yubiefacs))) {
-                //faculty found, show 'em yubie!
-            } else {
-                //faculty not found in list, so don't show
-                return '';
-            }
-        } elseif (isset($USER->profile['usertypes']) && ((strpos($USER->profile['usertypes'], 'professor') !== false) || (strpos($USER->profile['usertypes'], 'staff')))) {
-            //this is a faculty or staff user, show 'em yubie!
-        }
-        $context = \context_system::instance();
-
-        $theme = \theme_config::load('moove');
-        $current_language = current_language();
-
-        //if Oracle settings have not been set
-        if (!$CFG->yorktasks_sishost || !$CFG->yorktasks_sisport || !$CFG->yorktasks_sissid || !$CFG->yorktasks_sisuser || !$CFG->yorktasks_sispass) {
-            return '';
-        }
-        //If watson seetings have not been set
-       // if (!$CFG->yorktasks_watsonapiendpoint || !$CFG->yorktasks_watsonapikey || !$CFG->yorktasks_watsonchecksrc) {
-       //     return '';
-       // }
-        // EAM - Added watson integration... kinda
-        if ($USER->idnumber) {
-            $watsondata = array();
-
-            if ($coursedata = $DB->get_records('svadata', array('sisid' => $USER->idnumber))){
-                //found course data so set 'registeredactive' to true, then process the courses
-                $watsondata['registeredactive'] = 'true';
-                $courses = array();
-                $subjects = array();
-                foreach ($coursedata as $course){
-                    $userinfo = $course;
-                    $courses[] = array(
-                        'uniqueid' => htmlentities($course->uniqueid) ,
-                        'id' => htmlentities($course->courseid) ,
-                        'title' => htmlentities($course->title) ,
-                        'campus' => htmlentities($course->campus) ,
-                        'period' => htmlentities($course->period) ,
-                        'session' => htmlentities($course->studysession) . htmlentities($course->academicyear) ,
-                        'faculty' => htmlentities($course->faculty)
-                    );
-                    $subjects[$course->seqpersprog] = array(
-                        'desc' => $course->description,
-                        'title1' => $course->subtitle1,
-                        'subject1' => $course->subject1,
-                        'unit1' => $course->unit1,
-                        'subject1facultydesc' => $course->subject1facultydesc,
-                        'subject1faculty' => $course->subject1faculty,
-                        'title2' => $course->subtitle2,
-                        'subject2' => $course->subject2,
-                        'unit2' => $course->unit2,
-                        'subject2facultydesc' => $course->subject2facultydesc,
-                        'subject2faculty' => $course->subject2faculty,
-                    );
-                    // ED Sep 9th, 2020 putting this here on purpose, just care about the last progfaculty to get set, adding progfaculty for the EU faculty name change just until 2021
-                    $watsondata['progfaculty'] = $course->progfaculty;
+        foreach ($callbacks as $plugins) {
+            foreach ($plugins as $pluginfunction) {
+                if (function_exists($pluginfunction)) {
+                    $output .= $pluginfunction();
                 }
-                //sort subjects from most recent to oldest
-                krsort($subjects);
-                if (count($subjects) == 1){
-                    //only one found, don't pass a comma for the json data
-                    $watsondata['onesubject'] = true;
-                    $tempsubjects = array();
-                    foreach ($subjects as $k => $v) {
-                        $tempsubjects[] = $v;
-                    }
-                    $subjects = $tempsubjects;
-                } elseif (count($subjects) > 1) {
-                    //multiple found, make sure you pass a comma for all subjects except the last one
-                    $watsondata['moresubjects'] = true;
-                    $i = 1;
-                    $tempsubjects = array();
-                    foreach ($subjects as $k => $v) {
-                        if ($i == count($subjects)) {
-                            $lastsubject[] = $v;
-                            unset($subjects[$k]);
-                        } else {
-                            $tempsubjects[] = $v;
-                        }
-                        $i++;
-                    }
-                    $subjects = $tempsubjects;
-                    $watsondata['lastsubject'] = $lastsubject;
-                }
-                $watsondata['subjects'] = $subjects;
-                $i = 1;
-                foreach ($courses as $k => $v) {
-                    if ($i == count($courses)) {
-                        $lastcourse[] = $v;
-                        unset($courses[$k]);
-                    }
-                    $i++;
-                }
-            } else {
-                //no course data found in svadata so set 'registeredactive' to false and pass empty subjects data
-                $watsondata['registeredactive'] = 'false';
-                $watsondata['subjects'] = '';
-            }
-            if ($USER->profile['facultyaffiliaton'] === 'GL' && ($current_language == 'fr' || $current_language == 'fr_ca')) {
-                $lang = 'fr';
-                $brand = $CFG->yorktasks_watsonbrandfr;
-                $adabrand = $CFG->yorktasks_adabrandfr;
-                $bigimg = $OUTPUT->image_url('bigsvaiconfr', 'theme');
-            } else {
-                $lang = 'en';
-                $brand = $CFG->yorktasks_watsonbranden;
-                $adabrand = $CFG->yorktasks_adabranden;
-                $bigimg = $OUTPUT->image_url('bigsvaicon', 'theme');
-            }
-            $smallimg = $OUTPUT->image_url('smallsvaicon', 'theme');
-            $endpoint = $CFG->yorktasks_watsonapiendpoint . $CFG->yorktasks_watsonfilepath;
-            $watsondata['userid'] = $USER->id;
-            $watsondata['apikey'] = $CFG->yorktasks_watsonapikey;
-            $watsondata['endpointurl'] = $endpoint;
-            $watsondata['moodleid'] = hash("sha256", $USER->idnumber) ??'';
-            //make this detect automatically?
-            $watsondata['isglendon'] = false;
-            $watsondata['firstname'] = $USER->firstname;
-            $watsondata['commonname'] = $userinfo->commonname ?? ''; //If isset write info otherwise blank
-            $watsondata['idnumber'] = preg_replace("/[^0-9]/","",hash("sha256",$USER->idnumber));
-            $watsondata['isinternational'] = $userinfo->isinternational ?? '';
-            $watsondata['studylevel'] = $userinfo->studylevel ?? '';
-            //$watsondata['language'] = $userinfo->language ?? '';
-            $watsondata['collegeaffiliation'] = $userinfo->collegeaffiliation ?? '';
-            $watsondata['courses'] = $courses ?? '';
-            $watsondata['lastcourse'] = $lastcourse ?? '';
-            $watsondata['language'] = $lang;
-            $watsondata['smallwatsonicon'] = $smallimg;
-            $watsondata['unsupported_browser'] = get_string('unsupported_browser', 'theme_edyucate');
-            $watsondata['popup_enabled_text'] = get_string('popup_enabled_text', 'theme_edyucate');
-            $watsondata['quiz_help'] = get_string('quiz_help', 'theme_edyucate');
-
-            if (isset($USER->profile['usertypes'])){
-                if (strpos($USER->profile['usertypes'], 'student') !== false){
-                    $watsondata['usertype'] = 'student';
-                } elseif (strpos($USER->profile['usertypes'], 'professor') !== false){
-                    $watsondata['usertype'] = 'professor';
-                } elseif (strpos($USER->profile['usertypes'], 'staff') !== false){
-                    $watsondata['usertype'] = 'staff';
-                } else {
-                    $watsondata['usertype'] = 'student';
-                }
-            } else {
-                $watsondata['usertype'] = 'student';
-            }
-            switch ($watsondata['usertype']){
-                case "professor":
-                case "staff":
-//                    $watsondata['brand'] = $adabrand;
-//                    $bigimg = $OUTPUT->image_url('bigadaicon', 'theme');
-//                    $watsondata['bigwatsonicon'] = $bigimg;
-//                    $output .= $this->render_from_template('/need_ada', $watsondata);
-//                    break;
-                case "student":
-                default:
-                    $watsondata['brand'] = $brand;
-                    $watsondata['bigwatsonicon'] = $bigimg;
-                    $output .= $this->render_from_template('/need_watson', $watsondata);
-                    break;
             }
         }
+
         return $output;
+    }
+
+    /**
+     * Redirects the user by any means possible given the current state
+     *
+     * This function should not be called directly, it should always be called using
+     * the redirect function in lib/weblib.php
+     *
+     * The redirect function should really only be called before page output has started
+     * however it will allow itself to be called during the state STATE_IN_BODY
+     *
+     * @param string $encodedurl The URL to send to encoded if required
+     * @param string $message The message to display to the user if any
+     * @param int $delay The delay before redirecting a user, if $message has been
+     *         set this is a requirement and defaults to 3, set to 0 no delay
+     * @param boolean $debugdisableredirect this redirect has been disabled for
+     *         debugging purposes. Display a message that explains, and don't
+     *         trigger the redirect.
+     * @param string $messagetype The type of notification to show the message in.
+     *         See constants on \core\output\notification.
+     * @return string The HTML to display to the user before dying, may contain
+     *         meta refresh, javascript refresh, and may have set header redirects
+     */
+    public function redirect_message($encodedurl, $message, $delay, $debugdisableredirect,
+                                     $messagetype = \core\output\notification::NOTIFY_INFO) {
+        $url = str_replace('&amp;', '&', $encodedurl);
+
+        switch ($this->page->state) {
+            case \moodle_page::STATE_BEFORE_HEADER :
+                // No output yet it is safe to delivery the full arsenal of redirect methods.
+                if (!$debugdisableredirect) {
+                    // Don't use exactly the same time here, it can cause problems when both redirects fire at the same time.
+                    $this->metarefreshtag = '<meta http-equiv="refresh" content="'. $delay .'; url='. $encodedurl .'" />'."\n";
+                    $this->page->requires->js_function_call('document.location.replace', [$url], false, ($delay + 3));
+                }
+                $output = $this->header();
+                break;
+            case \moodle_page::STATE_PRINTING_HEADER :
+                // We should hopefully never get here.
+                throw new coding_exception('You cannot redirect while printing the page header');
+                break;
+            case \moodle_page::STATE_IN_BODY :
+                // We really shouldn't be here but we can deal with this.
+                debugging("You should really redirect before you start page output");
+                if (!$debugdisableredirect) {
+                    $this->page->requires->js_function_call('document.location.replace', [$url], false, $delay);
+                }
+                $output = $this->opencontainers->pop_all_but_last();
+                break;
+            case \moodle_page::STATE_DONE :
+                // Too late to be calling redirect now.
+                throw new \coding_exception('You cannot redirect after the entire page has been generated');
+                break;
+        }
+
+        $output .= $this->notification($message, $messagetype);
+
+        $output .= $this->render_from_template('theme_moove/loading-overlay', ['encodedurl' => $encodedurl]);
+
+        if ($debugdisableredirect) {
+            $output .= '<p><strong>'.get_string('erroroutput', 'error').'</strong></p>';
+        }
+
+        $output .= $this->footer();
+
+        return $output;
+    }
+
+    /**
+     * Renders the "breadcrumb" for all pages in boost.
+     *
+     * @return string the HTML for the navbar.
+     */
+    public function navbar(): string {
+        $newnav = new \theme_moove\output\boostnavbar($this->page);
+        return $this->render_from_template('core/navbar', $newnav);
     }
 }

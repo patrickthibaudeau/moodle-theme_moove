@@ -1,194 +1,117 @@
 .pagelayout-course {
-  .page-context-header {
-    padding: 0;
-  }
+    .page-context-header {
+        padding: 0;
+    }
 }
 
 .pagelayout-incourse {
-  #topofscroll {
-    padding-top: 0 !important;
-  }
+    #topofscroll {
+        padding-top: 0 !important;
+    }
 }
 
 #page-course-view-participants {
-  .tertiary-navigation {
-    .navitem:last-of-type {
-      margin-left: auto;
+    .tertiary-navigation {
+        .navitem:last-of-type {
+            margin-left: auto;
+        }
     }
-  }
 }
 
 .activity-navigation {
-  border-top: none;
+    margin-left: 15px;
+    margin-right: 15px;
+    border-top: none;
 
-  .nav-guide {
-    display: block;
-    letter-spacing: .1em;
-    font-style: normal;
-  }
-
-  #prev-activity,
-  #next-activity {
-    display: flex;
-    align-items: center;
-  }
-
-  #prev-activity-link,
-  #next-activity-link {
-    padding: .375rem 0;
-  }
-
-  #next-activity {
-    justify-content: end;
-  }
-
-  #next-activity .text {
-    text-align: right;
-  }
-
-  #next-activity .text .nav_guide,
-  #prev-activity .text .nav_guide {
-    letter-spacing: .1em;
-    font-style: normal;
-    color: #565656;
-  }
-
-  .larrow,
-  .rarrow {
-    font-size: 2em;
-    padding: .25rem;
-    text-align: center;
-  }
-
-  .larrow .icon-arrow-left,
-  .rarrow .icon-arrow-right {
-    display: block;
-    height: 1em;
-    width: 1em;
-    margin: .1em auto;
-  }
-
-  .larrow {
-    border-right: 1px solid #eee;
-    margin-right: .3em;
-
-    .icon-arrow-left {
-      background: transparent url('[[pix:theme|left-arrow]]') no-repeat 50% 50%;
+    .nav-guide {
+        display: block;
+        letter-spacing: .1em;
+        font-style: normal;
     }
-  }
 
-  .rarrow {
-    border-left: 1px solid #eee;
-    margin-left: .3em;
-
-    .icon-arrow-right {
-      background: transparent url('[[pix:theme|right-arrow]]') no-repeat 50% 50%;
+    #prev-activity,
+    #next-activity {
+        display: flex;
+        align-items: center;
     }
-  }
+
+    #prev-activity-link,
+    #next-activity-link {
+        padding: .375rem 0;
+    }
+
+    #next-activity {
+        justify-content: end;
+    }
+
+    #next-activity .text {
+        text-align: right;
+    }
+
+    #next-activity .text .nav_guide,
+    #prev-activity .text .nav_guide {
+        letter-spacing: .1em;
+        font-style: normal;
+        color: #565656;
+    }
+
+    .larrow,
+    .rarrow {
+        font-size: 2em;
+        padding: .25rem;
+        text-align: center;
+    }
+
+    .larrow .icon-arrow-left,
+    .rarrow .icon-arrow-right {
+        display: block;
+        height: 1em;
+        width: 1em;
+        margin: .1em auto;
+    }
+
+    .larrow {
+        border-right: 1px solid #eee;
+        margin-right: .3em;
+
+        .icon-arrow-left {
+            background: transparent url('[[pix:theme|left-arrow]]') no-repeat 50% 50%;
+        }
+    }
+
+    .rarrow {
+        border-left: 1px solid #eee;
+        margin-left: .3em;
+
+        .icon-arrow-right {
+            background: transparent url('[[pix:theme|right-arrow]]') no-repeat 50% 50%;
+        }
+    }
 }
 
-#course-management {
-  position: relative;
-  /*background-color: #C10828;*/
-  /*Montreal Canadians Red*/
-  /*background-color: #222D32; Dark*/
-  background-color: #ff851b; /*Orange*/
-  width: 100%;
-
-  .boxes li {
-    cursor: pointer;
-    display: inline;
-    float: left;
-    width: 10%;
-    height: 70px;
-    padding: 5px;
-    text-align: center;
-    line-height: 0.7em;
-    vertical-align: middle;
-    font-size: 1.1em;
-    color: #fff;
-
-    &:hover {
-      background-color: #af0d1a;
+.path-grade-report-grader {
+    .gradeparent tr.heading {
+        top: 130px;
     }
 
-    /*        &:hover a {
-                color: #222D32;
-            }*/
-
-    a {
-      color: #fff;
-      text-decoration: none;
+    &.hasaccessibilitybar {
+        .gradeparent tr.heading {
+            top: 160px;
+        }
     }
-  }
-
-  ul {
-    margin-bottom: 0px;
-  }
-
-  .course-menu-text {
-    font-size: 0.8em;
-  }
-
-  .course-menu-icon {
-    font-size: 0.8em;
-  }
-
-  .dropdown-menu {
-    top: 6px !important;
-    left: -5px !important;
-    background-color: #E31837;
-    border-color: #810001;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    -moz-border-radius-topleft: 0px;
-    -moz-border-radius-topright: 0px;
-    -webkit-border-top-left-radius: 0px;
-    -webkit-border-top-right-radius: 0px;
-    width: auto;
-  }
-
-  .dropdown-item {
-    padding: 10px !important;
-    color: #FFFFFF !important;
-  }
-
-  .dropdown-menu.teacher {
-    width: 20rem !important;
-  }
-
-  .theme_moove_bg {
-    background-color: #E31837;
-    color: #ffffff;
-
-    &:hover {
-      background-color: #af0d1a;
-    }
-  }
-
-  @media(max-width: 1279px) {
-    .boxes li {
-      height: 50px;
-    }
-    .course-menu-text {
-      display: none;
-    }
-  }
 }
 
 @include media-breakpoint-down(md) {
-  .activity-navigation {
-    .larrow,
-    .rarrow {
-      display: none;
+    .activity-navigation {
+        .larrow,
+        .rarrow {
+            display: none;
+        }
     }
-  }
 }
 
 @include media-breakpoint-down(sm) {
-  .activity-navigation {
-    display: none;
-  }
+    .activity-navigation {
+        display: none;
+    }
 }

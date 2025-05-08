@@ -1,3 +1,7 @@
+.navbar-nav .popover-region .popover-region-toggle .icon {
+    font-weight: inherit;
+}
+
 .navbar.fixed-top {
     border: none;
     height: 70px;
@@ -17,6 +21,11 @@
                 }
             }
         }
+    }
+
+    .navbarcallbacks {
+        display: flex;
+        flex-direction: row-reverse;
     }
 }
 

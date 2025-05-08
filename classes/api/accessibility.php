@@ -24,10 +24,10 @@
 
 namespace theme_moove\api;
 
-use external_api;
-use external_function_parameters;
-use external_single_structure;
-use external_value;
+use core_external\external_api;
+use core_external\external_function_parameters;
+use core_external\external_single_structure;
+use core_external\external_value;
 
 /**
  * Accessibility API endpoints class
@@ -157,7 +157,7 @@ class accessibility extends external_api {
      */
     public static function fontsize_returns() {
         return new external_single_structure([
-            'newfontsizeclass' => new external_value(PARAM_RAW, 'The new fontsize class')
+            'newfontsizeclass' => new external_value(PARAM_RAW, 'The new fontsize class'),
         ]);
     }
 
@@ -207,7 +207,7 @@ class accessibility extends external_api {
      */
     public static function sitecolor_returns() {
         return new external_single_structure([
-            'success' => new external_value(PARAM_BOOL, 'Operation response')
+            'success' => new external_value(PARAM_BOOL, 'Operation response'),
         ]);
     }
 
@@ -249,7 +249,7 @@ class accessibility extends external_api {
         }
 
         $enableaccessibilitytoolbar = null;
-        if ($data['enableaccessibilitytoolbar']) {
+        if (isset($data['enableaccessibilitytoolbar'])) {
             $enableaccessibilitytoolbar = true;
         }
 
@@ -267,7 +267,7 @@ class accessibility extends external_api {
      */
     public static function savethemesettings_returns() {
         return new external_single_structure([
-            'success' => new external_value(PARAM_BOOL, 'Operation response')
+            'success' => new external_value(PARAM_BOOL, 'Operation response'),
         ]);
     }
 
@@ -290,7 +290,7 @@ class accessibility extends external_api {
     public static function getthemesettings() {
         return [
             'fonttype' => get_user_preferences('thememoovesettings_fonttype', 'default'),
-            'enableaccessibilitytoolbar' => get_user_preferences('thememoovesettings_enableaccessibilitytoolbar', false)
+            'enableaccessibilitytoolbar' => get_user_preferences('thememoovesettings_enableaccessibilitytoolbar', false),
         ];
     }
 
@@ -302,7 +302,7 @@ class accessibility extends external_api {
     public static function getthemesettings_returns() {
         return new external_single_structure([
             'fonttype' => new external_value(PARAM_TEXT, 'the user selected font'),
-            'enableaccessibilitytoolbar' => new external_value(PARAM_BOOL, 'the user selected toolbar option')
+            'enableaccessibilitytoolbar' => new external_value(PARAM_BOOL, 'the user selected toolbar option'),
         ]);
     }
 }

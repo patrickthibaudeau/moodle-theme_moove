@@ -15,26 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * A drawer based layout for the moove theme.
+ * A drawer based layout for the Eskada theme.
  *
  * @package    theme_moove
- * @copyright  2022 Willian Mano {@link https://conecti.me}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  2025 Willian Mano - willianmanoaraujo@gmail.com
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/behat/lib.php');
 require_once($CFG->dirroot . '/course/lib.php');
-require_once($CFG->dirroot . '/theme/moove/lib.php');
 
 // Add block button in editing mode.
 $addblockbutton = $OUTPUT->addblockbutton();
-$PAGE->requires->js_call_amd('theme_moove/visibility', 'init');
-
-user_preference_allow_ajax_update('drawer-open-nav', PARAM_ALPHA);
-user_preference_allow_ajax_update('drawer-open-index', PARAM_BOOL);
-user_preference_allow_ajax_update('drawer-open-block', PARAM_BOOL);
 
 if (isloggedin()) {
     $courseindexopen = (get_user_preferences('drawer-open-index', true) == true);
@@ -44,15 +38,8 @@ if (isloggedin()) {
     $blockdraweropen = false;
 }
 
-if (defined('BEHAT_SITE_RUNNING')) {
+if (defined('BEHAT_SITE_RUNNING') && get_user_preferences('behat_keep_drawer_closed') != 1) {
     $blockdraweropen = true;
-}
-$teachers = theme_moove_get_teachers();
-
-// Is course format menutab?
-$is_menutab_format = false;
-if ($PAGE->course->format == 'menutab') {
-    $is_menutab_format = true;
 }
 
 $extraclasses = ['uses-drawers'];
@@ -65,61 +52,15 @@ $hasblocks = (strpos($blockshtml, 'data-block=') !== false || !empty($addblockbu
 if (!$hasblocks) {
     $blockdraweropen = false;
 }
-
-$themesettings = new \theme_moove\util\settings();
-
-if (!$themesettings->enablecourseindex) {
-    $courseindex = '';
-} else {
-    $courseindex = core_course_drawer();
-}
-
+$courseindex = core_course_drawer();
 if (!$courseindex) {
     $courseindexopen = false;
 }
 
 $forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
 
-$edit_settings = false;
-if (has_capability('moodle/course:update', $PAGE->context)) {
-    $edit_settings = true;
-}
-
-$edit_grades = false;
-if (has_capability('moodle/grade:edit', $PAGE->context)) {
-    $edit_grades = true;
-}
-
-$view_reports = false;
-if (has_capability('moodle/site:viewreports', $PAGE->context)) {
-    $view_reports = true;
-}
-
-$is_site_course = false;
-if ($PAGE->course->id == 1) {
-    $is_site_course = true;
-}
-
-$is_mycourses_page = false;
-if ($PAGE->pagelayout == 'mycourses' || $PAGE->pagelayout == 'mydashboard') {
-    $is_mycourses_page = true;
-}
-
-$is_staff = false;
-if (substr($USER->idnumber,0,1) == 1) {
-    $is_staff = true;
-}
-
-//Does the sandbox plugin exist
-$sandbox_installed = false;
-if (is_dir($CFG->dirroot . '/local/sandbox')) {
-    $sandbox_installed = true;
-}
 $secondarynavigation = false;
 $overflow = '';
-$main_menu = '';
-$more_menu = '';
-$has_more_menu = false;
 if ($PAGE->has_secondary_navigation()) {
     $secondary = $PAGE->secondarynav;
 
@@ -130,25 +71,11 @@ if ($PAGE->has_secondary_navigation()) {
         $extraclasses[] = 'has-secondarynavigation';
     }
 
-    // For course_navbar
-    if (!$is_site_course) {
-        if ($secondary->get_children_key_list()) {
-            $menus = theme_moove_build_secondary_menu($secondary->get_tabs_array());
-            $main_menu = $menus->menu;
-            $more_menu = $menus->more;
-            if ($more_menu) {
-                $has_more_menu = true;
-            }
-        }
-    }
-
     $overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
     if (!is_null($overflowdata)) {
         $overflow = $overflowdata->export_for_template($OUTPUT);
     }
 }
-
-$extraclasses[] = 'has-secondarynavigation';
 
 $primary = new core\navigation\output\primary($PAGE);
 $renderer = $PAGE->get_renderer('core');
@@ -160,15 +87,9 @@ $regionmainsettingsmenu = $buildregionmainsettings ? $OUTPUT->region_main_settin
 $header = $PAGE->activityheader;
 $headercontent = $header->export_for_template($renderer);
 
-$current_url = $_SERVER['REQUEST_URI'];
-$my_dashboard = '';
-if ($current_url === '/my/') {
-    $my_dashboard = 'my_dashboard';
-}
-
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
 $templatecontext = [
-    'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
+    'sitename' => format_string($SITE->shortname, true, ['context' => \core\context\course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
     'sidepreblocks' => $blockshtml,
     'hasblocks' => $hasblocks,
@@ -187,25 +108,9 @@ $templatecontext = [
     'overflow' => $overflow,
     'headercontent' => $headercontent,
     'addblockbutton' => $addblockbutton,
-    'enablecourseindex' => $themesettings->enablecourseindex,
-    'mydashboard' => $my_dashboard,
-    'edit_settings' => $edit_settings,
-    'edit_grades' => $edit_grades,
-    'view_reports' => $view_reports,
-    'visibility' => $PAGE->course->visible,
-    'courseid' => $PAGE->course->id,
-    'is_menutab_format' => $is_menutab_format,
-    'teachers' => $teachers,
-    'course_mods' => get_current_course_mods(),
-    'main_menu' => $main_menu,
-    'more_menu' => $more_menu,
-    'courseid' => $PAGE->course->id,
-    'is_site_course' => $is_site_course,
-    'has_more_menu' => $has_more_menu,
-    'is_mycourses_page' => $is_mycourses_page,
-    'is_staff' => $is_staff,
-    'sandbox_installed' => $sandbox_installed
 ];
+
+$themesettings = new \theme_moove\util\settings();
 
 $templatecontext = array_merge($templatecontext, $themesettings->footer());
 

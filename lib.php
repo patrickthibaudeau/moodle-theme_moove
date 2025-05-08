@@ -28,21 +28,18 @@
  * @param theme_config $theme The theme config object.
  * @return string
  */
-function theme_moove_get_main_scss_content($theme)
-{
+function theme_moove_get_main_scss_content($theme) {
     global $CFG;
 
     $scss = '';
     $filename = !empty($theme->settings->preset) ? $theme->settings->preset : null;
     $fs = get_file_storage();
 
-    $context = context_system::instance();
+    $context = \core\context\system::instance();
     if ($filename == 'default.scss') {
         $scss .= file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/default.scss');
     } else if ($filename == 'plain.scss') {
         $scss .= file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/plain.scss');
-    } else if ($filename && ($presetfile = $fs->get_file($context->id, 'theme_moove', 'preset', 0, '/', $filename))) {
-        $scss .= $presetfile->get_content();
     } else {
         // Safety fallback - maybe new installs etc.
         $scss .= file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/default.scss');
@@ -51,9 +48,15 @@ function theme_moove_get_main_scss_content($theme)
     // Moove scss.
     $moovevariables = file_get_contents($CFG->dirroot . '/theme/moove/scss/moove/_variables.scss');
     $moove = file_get_contents($CFG->dirroot . '/theme/moove/scss/default.scss');
+    $security = file_get_contents($CFG->dirroot . '/theme/moove/scss/moove/_security.scss');
+
+    $lastpreset = '';
+    if ($filename && ($presetfile = $fs->get_file($context->id, 'theme_moove', 'preset', 0, '/', $filename))) {
+        $lastpreset = $presetfile->get_content();
+    }
 
     // Combine them together.
-    $allscss = $moovevariables . "\n" . $scss . "\n" . $moove;
+    $allscss = $moovevariables . "\n" . $scss . "\n" . $moove . "\n" . $lastpreset .    "\n" . $security;
 
     return $allscss;
 }
@@ -64,17 +67,19 @@ function theme_moove_get_main_scss_content($theme)
  * @param theme_config $theme The theme config object.
  * @return string
  */
-function theme_moove_get_extra_scss($theme)
-{
+function theme_moove_get_extra_scss($theme) {
     $content = '';
 
     // Sets the login background image.
     $loginbgimgurl = $theme->setting_file_url('loginbgimg', 'loginbgimg');
-    if (!empty($loginbgimgurl)) {
-        $content .= 'body.pagelayout-login #page { ';
-        $content .= "background-image: url('$loginbgimgurl'); background-size: cover;";
-        $content .= ' }';
+
+    if (empty($loginbgimgurl)) {
+        return '';
     }
+
+    $content .= 'body.pagelayout-login #page { ';
+    $content .= "background-image: url('$loginbgimgurl'); background-size: cover;";
+    $content .= ' }';
 
     // Always return the background image with the scss when we have it.
     return !empty($theme->settings->scss) ? $theme->settings->scss . ' ' . $content : $content;
@@ -86,14 +91,13 @@ function theme_moove_get_extra_scss($theme)
  * @param theme_config $theme The theme config object.
  * @return string
  */
-function theme_moove_get_pre_scss($theme)
-{
+function theme_moove_get_pre_scss($theme) {
     $scss = '';
     $configurable = [
         // Config key => [variableName, ...].
         'brandcolor' => ['brand-primary'],
         'secondarymenucolor' => 'secondary-menu-color',
-        'fontsite' => 'font-family-sans-serif'
+        'fontsite' => 'font-family-sans-serif',
     ];
 
     // Prepend variables first.
@@ -102,13 +106,18 @@ function theme_moove_get_pre_scss($theme)
         if (empty($value)) {
             continue;
         }
-        array_map(function ($target) use (&$scss, $value) {
+
+        if ($configkey == 'fontsite' && $value == 'Moodle') {
+            continue;
+        }
+
+        array_map(function($target) use (&$scss, $value) {
             if ($target == 'fontsite') {
-                $scss .= '$' . $target . ': "' . $value . '", sans-serif !default' . ";\n";
+                $scss .= '$' . $target . ': "' . $value . '", sans-serif !default' .";\n";
             } else {
                 $scss .= '$' . $target . ': ' . $value . ";\n";
             }
-        }, (array)$targets);
+        }, (array) $targets);
     }
 
     // Prepend pre-scss.
@@ -124,8 +133,7 @@ function theme_moove_get_pre_scss($theme)
  *
  * @return string compiled css
  */
-function theme_moove_get_precompiled_css()
-{
+function theme_moove_get_precompiled_css() {
     global $CFG;
 
     return file_get_contents($CFG->dirroot . '/theme/moove/style/moodle.css');
@@ -143,8 +151,7 @@ function theme_moove_get_precompiled_css()
  * @param array $options
  * @return mixed
  */
-function theme_moove_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array())
-{
+function theme_moove_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
     $theme = theme_config::load('moove');
 
     if ($context->contextlevel == CONTEXT_SYSTEM &&
@@ -155,6 +162,10 @@ function theme_moove_pluginfile($course, $cm, $context, $filearea, $args, $force
             $options['cacheability'] = 'public';
         }
         return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
+    }
+
+    if ($filearea === 'hvp') {
+        return theme_moove_serve_hvp_css($args[1], $theme);
     }
 
     if ($context->contextlevel == CONTEXT_SYSTEM && preg_match("/^sliderimage[1-9][0-9]?$/", $filearea) !== false) {
@@ -180,156 +191,57 @@ function theme_moove_pluginfile($course, $cm, $context, $filearea, $args, $force
     send_file_not_found();
 }
 
-function theme_moove_get_teachers()
-{
-    global $CFG, $DB, $PAGE, $OUTPUT;
-    require_once($CFG->libdir . '/accesslib.php');
-    require_once($CFG->libdir . '/filelib.php');
-
-    $role = $DB->get_record('role', ['shortname' => 'editingteacher']);
-    $users = get_role_users($role->id, $PAGE->context);
-
-    $teachers = [];
-    $i = 0;
-    foreach ($users as $u) {
-        $user = $DB->get_record('user', ['id' => $u->id]);
-        $user_picture = new user_picture($user);
-        $moodle_url = $user_picture->get_url($PAGE);
-
-        $teachers[$i] = new stdClass();
-        $teachers[$i]->fullname = fullname($u);
-        $teachers[$i]->email = $u->email;
-        $teachers[$i]->image = $moodle_url->out();
-        $teachers[$i]->id = $u->id;
-        $i++;
-    }
-    return $teachers;
-}
-
-function get_current_course_mods()
-{
-    global $CFG, $DB, $COURSE;
-
-    $context = context_course::instance($COURSE->id);
-    $contextArray = convert_to_array($context);
-    $course_id = $COURSE->id;
-
-    $cmods = get_course_mods($course_id);
-    $mod_names = [];
-    $i = 0;
-    $assign = 0;
-    foreach ($cmods as $m) {
-        if ($m->modname != 'label') {
-            // For a reason I can't understand, array_search does not detect assign
-            // this is a work around
-            if ($assign == 0 || $m->modname != 'assign') {
-                if ($i == 0) {
-                    $mod_names[$i]['name'] = $m->modname;
-                    $mod_names[$i]['fullname'] = get_string('pluginname', "mod_" . $m->modname);
-                    $mod_names[$i]['courseid'] = $m->course;
-                    $i++;
-                } else {
-                    if (!array_search($m->modname, array_column($mod_names, 'name'))) {
-                        $mod_names[$i]['name'] = $m->modname;
-                        $mod_names[$i]['fullname'] = get_string('pluginname', "mod_" . $m->modname);
-                        $mod_names[$i]['courseid'] = $m->course;
-                        $i++;
-                    }
-                }
-            }
-
-            if ($m->modname == 'assign') {
-                $assign = 1;
-            }
-        }
-    }
-
-
-    return $mod_names;
-}
-
 /**
- * Build secondary menu
- * @param $items array Taken from $secondary->get_tabs_array()
- * @return stdClass
+ * Serves the H5P Custom CSS.
+ *
+ * @param string $filename The filename.
+ * @param theme_config $theme The theme config object.
+ *
+ * @throws dml_exception
  */
-function theme_moove_build_secondary_menu($items)
-{
-    global $CFG, $COURSE;
+function theme_moove_serve_hvp_css($filename, $theme) {
+    global $CFG, $PAGE;
 
-    // Put tab items into one variable
-    $tabs = $items[0][0];
-    // Menus is the obkect that will be returned
-    $menus = new stdClass();
-    // Build primary menu
-    $menu = [];
-    $i = 0;
-    for ($a = 0; $a < 5; $a++) {
-        // Do not add course home because it is added on all pages.
-        if (isset($tabs[$a]->id)) {
-                $menu[$i]['id'] = $tabs[$a]->id;
-                $menu[$i]['name'] = $tabs[$a]->title;
-                $menu[$i]['url'] = str_replace('&amp;', '&', $tabs[$a]->link->out());
-                $menu[$i]['format'] = $COURSE->format;
-                $menu[$i]['icon'] = theme_moove_get_menu_icon($tabs[$a]->id);
-                $i++;
+    require_once($CFG->dirroot.'/lib/configonlylib.php'); // For minenable_zlib_compression function.
+
+    $PAGE->set_context(\core\context\system::instance());
+    $themename = $theme->name;
+
+    $settings = new \theme_moove\util\settings();
+    $content = $settings->hvpcss;
+
+    $md5content = md5($content);
+    $md5stored = get_config('theme_moove', 'hvpccssmd5');
+    if ((empty($md5stored)) || ($md5stored != $md5content)) {
+        // Content changed, so the last modified time needs to change.
+        set_config('hvpccssmd5', $md5content, $themename);
+        $lastmodified = time();
+        set_config('hvpccsslm', $lastmodified, $themename);
+    } else {
+        $lastmodified = get_config($themename, 'hvpccsslm');
+        if (empty($lastmodified)) {
+            $lastmodified = time();
         }
     }
-    // Build more menu
-    $more_menu = [];
-    $m = 0;
-    // Start at 5 because more menu begins at element 5
-    for ($b = 5; $b < count($tabs); $b++) {
-        $more_menu[$m]['id'] = $tabs[$b]->id;
-        $more_menu[$m]['name'] = $tabs[$b]->title;
-        $more_menu[$m]['url'] = str_replace('&amp;', '&', $tabs[$b]->link->out());
-        $m++;
-    }
-    // Add both arrays into menus object
-    $menus->menu = $menu;
-    $menus->more = $more_menu;
 
-    return $menus;
-}
+    // Sixty days only - the revision may get incremented quite often.
+    $lifetime = 60 * 60 * 24 * 60;
 
-function theme_moove_get_menu_icon($type)
-{
-    $icon = 'fa fa-circle-o';
-    switch ($type) {
-        case 'coursehome':
-            $icon = 'fa fa-bookmark';
-            break;
-        case 'editsettings':
-        case 'modedit':
-            $icon = 'fa fa-sliders';
-            break;
-        case 'participants':
-            $icon = 'fa fa-users';
-            break;
-        case 'grades':
-        case 'advgrading':
-            $icon = 'fa fa-font';
-            break;
-        case 'coursereports':
-            $icon = 'fa fa-bar-chart';
-            break;
-        case 'filtermanage':
-            $icon = 'fa fa-filter';
-            break;
-        case 'roleoverride':
-        case 'mod_assign_useroverrides':
-            $icon = 'fa fa-check-square-o';
-            break;
-        case 'backup':
-            $icon = 'fa fa-download';
-            break;
-        case 'competencies':
-            $icon = 'fa fa-lightbulb-o';
-            break;
-        default:
-            $icon = 'fa fa-circle-o';
-            break;
+    header('HTTP/1.1 200 OK');
+
+    header('Etag: "'.$md5content.'"');
+    header('Content-Disposition: inline; filename="'.$filename.'"');
+    header('Last-Modified: '.gmdate('D, d M Y H:i:s', $lastmodified).' GMT');
+    header('Expires: '.gmdate('D, d M Y H:i:s', time() + $lifetime).' GMT');
+    header('Pragma: ');
+    header('Cache-Control: public, max-age='.$lifetime);
+    header('Accept-Ranges: none');
+    header('Content-Type: text/css; charset=utf-8');
+    if (!min_enable_zlib_compression()) {
+        header('Content-Length: '.strlen($content));
     }
 
-    return $icon;
+    echo $content;
+
+    die;
 }
